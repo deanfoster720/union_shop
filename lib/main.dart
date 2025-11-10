@@ -326,6 +326,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool onSale = salePrice != null &&
+        salePrice!.isNotEmpty &&
+        salePrice != price; // Check if the product is on sale
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/product');
