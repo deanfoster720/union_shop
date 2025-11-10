@@ -312,14 +312,16 @@ class HomeScreen extends StatelessWidget {
 
 class ProductCard extends StatelessWidget {
   final String title;
-  final String price;
+  final String price; // Normal price
   final String imageUrl;
+  final String? salePrice; // Discounted price
 
   const ProductCard({
     super.key,
     required this.title,
     required this.price,
     required this.imageUrl,
+    this.salePrice,
   });
 
   @override
