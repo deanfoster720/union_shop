@@ -278,6 +278,33 @@ class ProductPage extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 16),
+                  // Quantity selector
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: placeholderCallbackForButtons,
+                            tooltip: 'Decrease quantity',
+                          ),
+                          const Text(
+                            '1',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: placeholderCallbackForButtons,
+                            tooltip: 'Increase quantity',
+                          ),
+                        ],
+                      ))
                 ],
               ),
             ),
