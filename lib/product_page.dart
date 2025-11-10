@@ -313,7 +313,16 @@ class ProductPage extends StatelessWidget {
                     child: ElevatedButton(
                         onPressed: placeholderCallbackForButtons,
                         child: const Text('Add to Cart')),
-                  )
+                  ),
+
+                  const SizedBox(height: 12),
+                  // Buy now button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: placeholderCallbackForButtons,
+                        child: const Text('Buy Now')),
+                  ),
                 ],
               ),
             ),
