@@ -261,12 +261,14 @@ class HomeScreen extends StatelessWidget {
                         ProductCard(
                           title: 'Limited Edition Essential Zip Hoodies',
                           price: '£20.00',
+                          salePrice: '£14.99',
                           imageUrl:
                               'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                         ),
                         ProductCard(
                           title: 'Essential T-Shirt',
                           price: '£10.00',
+                          salePrice: '£6.99',
                           imageUrl:
                               'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                         ),
