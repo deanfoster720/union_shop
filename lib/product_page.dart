@@ -220,6 +220,22 @@ class ProductPage extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
+
+                  // Options section scaffold
+                  const SizedBox(height: 24),
+                  const Divider(
+                    height: 1,
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Options',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
