@@ -242,20 +242,21 @@ class ProductPage extends StatelessWidget {
                   // Size dropdown
                   SizedBox(
                     width: 220,
-                    child: DropdownButtonFormField<String>,
+                    child: DropdownButtonFormField<String>(
                       value: _sizes[2], // default size is M
-                      items: _sizes .map((s) => DropdownMenuItem<String>(
-                            value: s,
-                            child: Text(s),
-                          ))
+                      items: _sizes
+                          .map((s) => DropdownMenuItem<String>(
+                                value: s,
+                                child: Text(s),
+                              ))
                           .toList(),
-                          onChanged: (val) => placeholderCallbackForButtons(),
-                          decoration: const InputDecoration(
-                            labelText: 'Size',
-                            border: OutlineInputBorder(),
-                          ),
+                      onChanged: (val) => placeholderCallbackForButtons(),
+                      decoration: const InputDecoration(
+                        labelText: 'Size',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   )
-              )
                 ],
               ),
             ),
