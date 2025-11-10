@@ -200,6 +200,7 @@ class HomeScreen extends StatelessWidget {
                             color: Colors.white,
                             height: 1.2,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
                         const Text(
