@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
 
+  static const List<String> _sizes = {'S', 'M', 'L', 'XL'};
+
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -236,6 +238,24 @@ class ProductPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
+
+                  // Size dropdown
+                  SizedBox(
+                    width: 220,
+                    child: DropdownButtonFormField<String>,
+                      value: _sizes[2], // default size is M
+                      items: _sizes .map((s) => DropdownMenuItem<String>(
+                            value: s,
+                            child: Text(s),
+                          ))
+                          .toList(),
+                          onChanged: (val) => placeholderCallbackForButtons(),
+                          decoration: const InputDecoration(
+                            labelText: 'Size',
+                            border: OutlineInputBorder(),
+                          ),
+                  )
+              )
                 ],
               ),
             ),
