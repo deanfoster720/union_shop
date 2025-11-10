@@ -4,6 +4,7 @@ class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
 
   static const List<String> _sizes = ['S', 'M', 'L', 'XL'];
+  static const List<String> _colours = ['Red', 'Blue', 'Green', 'Black'];
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -256,7 +257,27 @@ class ProductPage extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                  )
+                  ),
+
+                  const SizedBox(height: 16),
+                  // Colour dropdown
+                  SizedBox(
+                    width: 220,
+                    child: DropdownButtonFormField<String>(
+                      value: _colours[0], // default colour is Red
+                      items: _colours
+                          .map((c) => DropdownMenuItem<String>(
+                                value: c,
+                                child: Text(c),
+                              ))
+                          .toList(),
+                      onChanged: (val) => placeholderCallbackForButtons(),
+                      decoration: const InputDecoration(
+                        labelText: 'Colour',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
