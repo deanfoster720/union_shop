@@ -304,7 +304,16 @@ class ProductPage extends StatelessWidget {
                             tooltip: 'Increase quantity',
                           ),
                         ],
-                      ))
+                      )),
+
+                  const SizedBox(height: 24),
+                  // Add to cart button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: placeholderCallbackForButtons,
+                        child: const Text('Add to Cart')),
+                  )
                 ],
               ),
             ),
