@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
+import 'package:union_shop/models/product.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key});
+  final Product product;
+
+  const ProductPage({
+    super.key,
+    required this.product,
+  });
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -41,40 +47,60 @@ class ProductPage extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.image_not_supported,
-                                  color: Colors.grey,
+                    child: product.imageUrl != null
+                        ? Image.network(
+                            product.imageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[300],
+                                child: const Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.image_not_supported,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Image unavailable',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Image unavailable',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                              );
+                            },
+                          )
+                        : Container(
+                            color: Colors.grey[300],
+                            child: const Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Image unavailable',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ),
 
                 const SizedBox(height: 24),
 
                 // Product name
-                const Text(
-                  'Placeholder Product Name',
-                  style: TextStyle(
+                Text(
+                  product.name,
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -84,9 +110,9 @@ class ProductPage extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 // Product price
-                const Text(
-                  '£15.00',
-                  style: TextStyle(
+                Text(
+                  product.displayPrice,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF4d2963),
@@ -105,9 +131,9 @@ class ProductPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
-                  style: TextStyle(
+                Text(
+                  product.description,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                     height: 1.5,

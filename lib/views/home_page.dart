@@ -112,11 +112,7 @@ class HomeScreen extends StatelessWidget {
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
               children: products.take(6).map((Product product) {
-                return ProductCard(
-                  title: product.name,
-                  price: product.displayPrice,
-                  imageUrl: product.imageUrl,
-                );
+                return ProductCard(product: product);
               }).toList(),
             ),
           ],
@@ -141,30 +137,29 @@ class HomeScreen extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  final String title;
-  final String price;
-  final String? imageUrl;
+  final Product product;
 
   const ProductCard({
     super.key,
-    required this.title,
-    required this.price,
-    this.imageUrl,
+    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ProductPage(product: product)),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: imageUrl != null
+            child: product.imageUrl != null
                 ? Image.network(
-                    imageUrl!,
+                    product.imageUrl!,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
@@ -189,13 +184,13 @@ class ProductCard extends StatelessWidget {
             children: [
               const SizedBox(height: 4),
               Text(
-                title,
+                product.name,
                 style: const TextStyle(fontSize: 14, color: Colors.black),
                 maxLines: 2,
               ),
               const SizedBox(height: 4),
               Text(
-                price,
+                product.displayPrice,
                 style: const TextStyle(fontSize: 13, color: Colors.grey),
               ),
             ],
