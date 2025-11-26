@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Placeholder Hero Title',
+                  'Essential Range - Over 20% OFF!',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  "This is placeholder text for the hero section.",
+                  "Over 20% off of our Essential Range. Come and grab yours while stock lasts!",
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
