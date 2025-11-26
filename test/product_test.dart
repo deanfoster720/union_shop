@@ -47,12 +47,9 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that footer is present
-      expect(find.text('Placeholder Footer'), findsOneWidget);
-      expect(
-        find.text('Students should customise this footer section'),
-        findsOneWidget,
-      );
+      // Check that footer is present (updated content)
+      expect(find.text('Opening Hours:'), findsOneWidget);
+      expect(find.text('Latest Offers:'), findsOneWidget);
     });
   });
 }
