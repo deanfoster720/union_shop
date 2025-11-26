@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/product_page.dart';
+import 'package:union_shop/repositories/product_repository.dart';
+import 'package:union_shop/models/product.dart';
 
 void main() {
   group('Product Page Tests', () {
     Widget createTestWidget() {
-      return const MaterialApp(home: ProductPage());
+      final Product sample = ProductRepository.instance.fetchAll().first;
+      return MaterialApp(home: ProductPage(product: sample));
     }
 
     testWidgets('should display product page with basic elements', (
@@ -14,13 +17,10 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that basic UI elements are present
-      expect(
-        find.text('PLACEHOLDER HEADER TEXT - STUDENTS TO UPDATE!'),
-        findsOneWidget,
-      );
-      expect(find.text('Placeholder Product Name'), findsOneWidget);
-      expect(find.text('£15.00'), findsOneWidget);
+      // Check that product UI elements are present
+      final Product sample = ProductRepository.instance.fetchAll().first;
+      expect(find.text(sample.name), findsOneWidget);
+      expect(find.text(sample.displayPrice), findsOneWidget);
       expect(find.text('Description'), findsOneWidget);
     });
 
@@ -28,13 +28,9 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that student instruction is present
-      expect(
-        find.text(
-          'Students should add size options, colour options, quantity selector, add to cart button, and buy now button here.',
-        ),
-        findsOneWidget,
-      );
+      // The product description should be visible
+      final Product sample2 = ProductRepository.instance.fetchAll().first;
+      expect(find.text(sample2.description), findsOneWidget);
     });
 
     testWidgets('should display header icons', (tester) async {
