@@ -85,6 +85,52 @@ class _CartPageState extends State<CartPage> {
                                   'Unit: £${item.unitPrice.toStringAsFixed(2)}',
                                   style: const TextStyle(color: Colors.grey),
                                 ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.remove_circle_outline,
+                                      ),
+                                      onPressed: () {
+                                        final newQty = item.qty - 1;
+                                        if (newQty >= 1) {
+                                          CartService.instance.updateQty(
+                                            item.product.id,
+                                            newQty,
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    Text('${item.qty}'),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.add_circle_outline,
+                                      ),
+                                      onPressed: () {
+                                        CartService.instance.updateQty(
+                                          item.product.id,
+                                          item.qty + 1,
+                                        );
+                                      },
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      '£${item.subtotal.toStringAsFixed(2)}',
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () {
+                                        CartService.instance.removeItem(
+                                          item.product.id,
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
