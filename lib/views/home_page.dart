@@ -3,6 +3,8 @@ import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/views/product_page.dart';
+import '../repositories/product_repository.dart';
+import '../models/product.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -85,6 +87,9 @@ class HomeScreen extends StatelessWidget {
       ),
     );
 
+    final products = ProductRepository.instance.fetchAll();
+
+    // Only show the first 6 products on the home page (same as previous hardcoded view)
     final productsSection = Container(
       color: Colors.white,
       child: Padding(
@@ -106,44 +111,13 @@ class HomeScreen extends StatelessWidget {
               crossAxisCount: MediaQuery.of(context).size.width > 600 ? 2 : 1,
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
-              children: const [
-                ProductCard(
-                  title: 'Limited Edition Essential Zip Hoodie',
-                  price: '£14.99', // On sale from £20.00
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-                ProductCard(
-                  title: 'Essential T-shirt',
-                  price: '£6.99', // On sale from £10.00
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-                ProductCard(
-                  title: 'Signature Hoodie',
-                  price: '£32.99',
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-                ProductCard(
-                  title: 'Signature T-shirt',
-                  price: '£14.99',
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-                ProductCard(
-                  title: 'Portsmouth City Postcard',
-                  price: '£1.00',
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-                ProductCard(
-                  title: 'Portsmouth City Magnet',
-                  price: '£4.50',
-                  imageUrl:
-                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                ),
-              ],
+              children: products.take(6).map((Product product) {
+                return ProductCard(
+                  title: product.name,
+                  price: product.displayPrice,
+                  imageUrl: product.imageUrl,
+                );
+              }).toList(),
             ),
           ],
         ),
@@ -169,13 +143,13 @@ class HomeScreen extends StatelessWidget {
 class ProductCard extends StatelessWidget {
   final String title;
   final String price;
-  final String imageUrl;
+  final String? imageUrl;
 
   const ProductCard({
     super.key,
     required this.title,
     required this.price,
-    required this.imageUrl,
+    this.imageUrl,
   });
 
   @override
@@ -188,18 +162,27 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Icon(Icons.image_not_supported, color: Colors.grey),
+            child: imageUrl != null
+                ? Image.network(
+                    imageUrl!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[300],
+                        child: const Center(
+                          child: Icon(Icons.image_not_supported,
+                              color: Colors.grey),
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    color: Colors.grey[300],
+                    child: const Center(
+                      child:
+                          Icon(Icons.image_not_supported, color: Colors.grey),
+                    ),
                   ),
-                );
-              },
-            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
