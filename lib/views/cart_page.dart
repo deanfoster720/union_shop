@@ -80,10 +80,29 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
-                                  'Unit: £${item.unitPrice.toStringAsFixed(2)}',
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
+                                item.product.discountedPrice != null
+                                    ? Row(
+                                        children: [
+                                          Text(
+                                            '£${item.product.price.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            '£${item.product.discountedPrice!.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.grey),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        'Unit: £${item.unitPrice.toStringAsFixed(2)}',
+                                        style: const TextStyle(
+                                            color: Colors.grey)),
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
