@@ -41,6 +41,7 @@ class HomeScreen extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
+                  // ignore: deprecated_member_use
                   color: Colors.black.withOpacity(0.7),
                 ),
               ),
@@ -189,10 +190,32 @@ class ProductCard extends StatelessWidget {
                 maxLines: 2,
               ),
               const SizedBox(height: 4),
-              Text(
-                product.displayPrice,
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
-              ),
+              product.discountedPrice != null
+                  ? Row(
+                      children: [
+                        Text(
+                          '£${product.price.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '£${product.discountedPrice!.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      product.displayPrice,
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
             ],
           ),
         ],
