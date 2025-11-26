@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
+import '../services/cart_service.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -24,11 +25,24 @@ class _CartPageState extends State<CartPage> {
         onLogoTap: () => navigateToHome(context),
         onPlaceholderPressed: placeholderCallbackForButtons,
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(24.0),
-        child: Text(
-          'Your cart',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: AnimatedBuilder(
+          animation: CartService.instance,
+          builder: (context, _) {
+            final items = CartService.instance.items;
+
+            if (items.isEmpty) {
+              return const Center(
+                child: Text('Your cart is empty'),
+              );
+            }
+
+            return const Text(
+              'Your Cart',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            );
+          },
         ),
       ),
       footer: const Footer(),
