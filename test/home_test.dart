@@ -9,31 +9,26 @@ void main() {
       await tester.pump();
 
       // Check that basic UI elements are present
-      expect(
-        find.text('PLACEHOLDER HEADER TEXT - STUDENTS TO UPDATE!'),
-        findsOneWidget,
-      );
-      expect(find.text('Placeholder Hero Title'), findsOneWidget);
-      expect(find.text('PLACEHOLDER PRODUCTS SECTION'), findsOneWidget);
+      expect(find.text('Essential Range - Over 20% OFF!'), findsOneWidget);
+      expect(find.text('PRODUCTS SECTION'), findsOneWidget);
       expect(find.text('BROWSE PRODUCTS'), findsOneWidget);
-      expect(find.text('VIEW ALL PRODUCTS'), findsOneWidget);
     });
 
     testWidgets('should display product cards', (tester) async {
       await tester.pumpWidget(const UnionShopApp());
       await tester.pump();
 
-      // Check that product cards are displayed
-      expect(find.text('Placeholder Product 1'), findsOneWidget);
-      expect(find.text('Placeholder Product 2'), findsOneWidget);
-      expect(find.text('Placeholder Product 3'), findsOneWidget);
-      expect(find.text('Placeholder Product 4'), findsOneWidget);
+      // Check that product cards are displayed (using sample repository data)
+      expect(find.text('Limited Edition Essential Zip Hoodie'), findsOneWidget);
+      expect(find.text('Essential T-shirt'), findsOneWidget);
+      expect(find.text('Signature Hoodie'), findsOneWidget);
+      expect(find.text('Signature T-shirt'), findsOneWidget);
 
       // Check prices are displayed
-      expect(find.text('£10.00'), findsOneWidget);
-      expect(find.text('£15.00'), findsOneWidget);
-      expect(find.text('£20.00'), findsOneWidget);
-      expect(find.text('£25.00'), findsOneWidget);
+      expect(find.text('£34.99'), findsOneWidget);
+      expect(find.text('£8.99'), findsOneWidget);
+      expect(find.text('£39.99'), findsOneWidget);
+      expect(find.text('£14.99'), findsOneWidget);
     });
 
     testWidgets('should display header icons', (tester) async {
@@ -52,10 +47,6 @@ void main() {
 
       // Check that footer is present
       expect(find.text('Placeholder Footer'), findsOneWidget);
-      expect(
-        find.text('Students should customise this footer section'),
-        findsOneWidget,
-      );
     });
   });
 }
