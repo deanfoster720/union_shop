@@ -108,26 +108,38 @@ class HomeScreen extends StatelessWidget {
               mainAxisSpacing: 48,
               children: const [
                 ProductCard(
-                  title: 'Placeholder Product 1',
-                  price: '£10.00',
+                  title: 'Limited Edition Essential Zip Hoodie',
+                  price: '£14.99', // On sale from £20.00
                   imageUrl:
                       'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                 ),
                 ProductCard(
-                  title: 'Placeholder Product 2',
-                  price: '£15.00',
+                  title: 'Essential T-shirt',
+                  price: '£6.99', // On sale from £10.00
                   imageUrl:
                       'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                 ),
                 ProductCard(
-                  title: 'Placeholder Product 3',
-                  price: '£20.00',
+                  title: 'Signature Hoodie',
+                  price: '£32.99',
                   imageUrl:
                       'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                 ),
                 ProductCard(
-                  title: 'Placeholder Product 4',
-                  price: '£25.00',
+                  title: 'Signature T-shirt',
+                  price: '£14.99',
+                  imageUrl:
+                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                ),
+                ProductCard(
+                  title: 'Portsmouth City Postcard',
+                  price: '£1.00',
+                  imageUrl:
+                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+                ),
+                ProductCard(
+                  title: 'Portsmouth City Magnet',
+                  price: '£4.50',
                   imageUrl:
                       'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
                 ),
