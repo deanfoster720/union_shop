@@ -38,9 +38,62 @@ class _CartPageState extends State<CartPage> {
               );
             }
 
-            return const Text(
-              'Your Cart',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Your Cart',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: items.length,
+                    separatorBuilder: (_, __) => const Divider(),
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            color: Colors.grey[200],
+                            child: item.product.imageUrl != null
+                                ? Image.network(
+                                    item.product.imageUrl!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : const Center(
+                                    child: Icon(Icons.image_not_supported),
+                                  ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.product.name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Unit: £${item.unitPrice.toStringAsFixed(2)}',
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         ),
