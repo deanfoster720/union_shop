@@ -31,7 +31,6 @@ class _CartPageState extends State<CartPage> {
           animation: CartService.instance,
           builder: (context, _) {
             final items = CartService.instance.items;
-
             if (items.isEmpty) {
               return const Center(
                 child: Text('Your cart is empty'),
@@ -138,6 +137,44 @@ class _CartPageState extends State<CartPage> {
                       );
                     },
                   ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '£${CartService.instance.totalPrice.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // no-op checkout
+                      },
+                      child: const Text('Checkout'),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton(
+                      onPressed: () {
+                        CartService.instance.clear();
+                      },
+                      child: const Text('Clear Cart'),
+                    ),
+                  ],
                 ),
               ],
             );
