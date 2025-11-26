@@ -13,13 +13,13 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
       color: Colors.white,
       child: Column(
         children: [
+          // Top banner: dynamic height based on content
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             color: const Color(0xFF4d2963),
             child: const Text(
               'PLACEHOLDER HEADER TEXT',
@@ -27,7 +27,9 @@ class Header extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
-          Expanded(
+          // Main header row: fixed height so it never shrinks
+          SizedBox(
+            height: 72,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
