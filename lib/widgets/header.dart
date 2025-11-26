@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/cart_service.dart';
 import '../views/cart_page.dart';
 
 class Header extends StatelessWidget {
