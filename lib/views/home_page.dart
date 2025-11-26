@@ -60,6 +60,7 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.white,
                     height: 1.2,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 16),
                 Text(
