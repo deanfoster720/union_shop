@@ -3,8 +3,9 @@ import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 import 'package:union_shop/models/product.dart';
+import '../services/cart_service.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   final Product product;
 
   const ProductPage({
@@ -12,16 +13,30 @@ class ProductPage extends StatelessWidget {
     required this.product,
   });
 
+  @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  int _qty = 1;
+
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
 
-  void placeholderCallbackForButtons() {
-    // This is the event handler for buttons that don't work yet
+  void placeholderCallbackForButtons() {}
+
+  void _addToCart() {
+    CartService.instance.addItem(widget.product, _qty);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('${widget.product.name} added to cart ($_qty)'),
+      duration: const Duration(seconds: 2),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
     return BaseScaffold(
       header: Header(
         onLogoTap: () => navigateToHome(context),
@@ -140,6 +155,46 @@ class ProductPage extends StatelessWidget {
                           color: Color(0xFF4d2963),
                         ),
                       ),
+
+                const SizedBox(height: 24),
+
+                // Quantity selector and Add to cart
+                Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () {
+                              setState(() {
+                                if (_qty > 1) _qty--;
+                              });
+                            },
+                          ),
+                          Text('$_qty'),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              setState(() {
+                                _qty++;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    ElevatedButton(
+                      onPressed: _addToCart,
+                      child: const Text('Add to cart'),
+                    ),
+                  ],
+                ),
 
                 const SizedBox(height: 24),
 
