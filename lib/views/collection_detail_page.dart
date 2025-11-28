@@ -24,18 +24,59 @@ class CollectionDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              collectionName,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      collectionName,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'A selection of items in this collection',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  ],
+                ),
+
+                // Dummy filter controls
+                Row(
+                  children: [
+                    DropdownButton<String>(
+                      value: 'Size',
+                      items: const [
+                        DropdownMenuItem(value: 'Size', child: Text('Size')),
+                        DropdownMenuItem(value: 'S', child: Text('S')),
+                        DropdownMenuItem(value: 'M', child: Text('M')),
+                        DropdownMenuItem(value: 'L', child: Text('L')),
+                      ],
+                      onChanged: (_) {},
+                    ),
+                    const SizedBox(width: 12),
+                    DropdownButton<String>(
+                      value: 'Sort',
+                      items: const [
+                        DropdownMenuItem(value: 'Sort', child: Text('Sort')),
+                        DropdownMenuItem(
+                            value: 'Newest', child: Text('Newest')),
+                        DropdownMenuItem(
+                            value: 'PriceLow', child: Text('Price: Low')),
+                        DropdownMenuItem(
+                            value: 'PriceHigh', child: Text('Price: High')),
+                      ],
+                      onChanged: (_) {},
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'A selection of items in this collection',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
