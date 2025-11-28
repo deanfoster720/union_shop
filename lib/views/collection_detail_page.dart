@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
+import 'package:union_shop/repositories/product_repository.dart';
+import 'package:union_shop/widgets/product_card.dart';
 
 class CollectionDetailPage extends StatelessWidget {
   final String collectionName;
@@ -14,6 +16,11 @@ class CollectionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // For this basic implementation we'll simply show all products
+    // and treat this page as the detail view for the selected collection.
+    // In a fuller implementation you might filter by collection membership.
+    final products = ProductRepository.instance.fetchAll();
+
     return BaseScaffold(
       header: Header(
         onLogoTap: () => navigateToHome(context),
@@ -76,7 +83,18 @@ class CollectionDetailPage extends StatelessWidget {
                 ),
               ],
             ),
+
             const SizedBox(height: 24),
+
+            // Product grid
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                children: products.map((p) => ProductCard(product: p)).toList(),
+              ),
+            ),
           ],
         ),
       ),
