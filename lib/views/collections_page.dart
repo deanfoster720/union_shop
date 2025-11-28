@@ -21,10 +21,10 @@ class CollectionsScreen extends StatelessWidget {
 
     final collectionNames = [
       'Autumn Favourites',
-      'black friday clothing',
-      'clothig - original',
-      'elections discounts',
-      'essential range',
+      'Black Friday Clothing',
+      'Clothing - Original',
+      'Elections Discounts',
+      'Essential Range',
     ];
 
     final productsSection = Container(
@@ -120,8 +120,8 @@ class CollectionCard extends StatelessWidget {
                       ),
               ),
               Positioned.fill(
-                // Light overlay so black text is readable on top of image
-                child: Container(color: Colors.white.withOpacity(0.55)),
+                // Dark overlay so white text is readable on top of image
+                child: Container(color: Colors.black.withOpacity(0.35)),
               ),
               Center(
                 child: Text(
@@ -130,7 +130,7 @@ class CollectionCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),
