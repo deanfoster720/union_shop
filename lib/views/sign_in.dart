@@ -43,8 +43,11 @@ class _SignInPageState extends State<SignInPage>
 
   @override
   Widget build(BuildContext context) {
+    final tabViewHeight =
+        (MediaQuery.of(context).size.height * 0.55).clamp(360.0, 520.0);
+
     return BaseScaffold(
-      scrollable: false,
+      scrollable: true,
       header: Header(
           onLogoTap: () => navigateToHome(context),
           onPlaceholderPressed: () {}),
@@ -65,7 +68,8 @@ class _SignInPageState extends State<SignInPage>
               tabs: const [Tab(text: 'Sign In'), Tab(text: 'Sign Up')],
             ),
             const SizedBox(height: 12),
-            Expanded(
+            SizedBox(
+              height: tabViewHeight,
               child: TabBarView(
                 controller: _tabController,
                 children: [
