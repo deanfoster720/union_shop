@@ -45,9 +45,8 @@ class _SignInPageState extends State<SignInPage>
   Widget build(BuildContext context) {
     return BaseScaffold(
       header: Header(
-        onLogoTap: () => navigateToHome(context),
-        onPlaceholderPressed: () {},
-      ),
+          onLogoTap: () => navigateToHome(context),
+          onPlaceholderPressed: () {}),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -62,10 +61,7 @@ class _SignInPageState extends State<SignInPage>
               controller: _tabController,
               labelColor: Theme.of(context).colorScheme.primary,
               unselectedLabelColor: Colors.grey,
-              tabs: const [
-                Tab(text: 'Sign In'),
-                Tab(text: 'Sign Up'),
-              ],
+              tabs: const [Tab(text: 'Sign In'), Tab(text: 'Sign Up')],
             ),
             const SizedBox(height: 12),
             Expanded(
@@ -93,10 +89,8 @@ class _SignInPageState extends State<SignInPage>
                           onPressed: () {
                             // non-functional placeholder
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Sign In (non-functional)'),
-                              ),
-                            );
+                                const SnackBar(
+                                    content: Text('Sign In (non-functional)')));
                           },
                           child: const Text('Sign In'),
                         ),
@@ -104,8 +98,41 @@ class _SignInPageState extends State<SignInPage>
                     ),
                   ),
 
-                  // Placeholder for Sign Up for now
-                  const Center(child: Text('Sign Up tab')),
+                  // Sign Up form (non-functional)
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          controller: _signupNameController,
+                          decoration:
+                              const InputDecoration(labelText: 'Full name'),
+                        ),
+                        const SizedBox(height: 12),
+                        TextFormField(
+                          controller: _signupEmailController,
+                          decoration: const InputDecoration(labelText: 'Email'),
+                        ),
+                        const SizedBox(height: 12),
+                        TextFormField(
+                          controller: _signupPasswordController,
+                          decoration:
+                              const InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            // non-functional placeholder
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Sign Up (non-functional)')));
+                          },
+                          child: const Text('Create account'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
