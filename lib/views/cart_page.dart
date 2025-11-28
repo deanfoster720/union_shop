@@ -45,117 +45,115 @@ class _CartPageState extends State<CartPage> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: items.length,
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 80,
-                            color: Colors.grey[200],
-                            child: item.product.imageUrl != null
-                                ? Image.network(
-                                    item.product.imageUrl!,
-                                    fit: BoxFit.cover,
-                                  )
-                                : const Center(
-                                    child: Icon(Icons.image_not_supported),
-                                  ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.product.name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: items.length,
+                  separatorBuilder: (_, __) => const Divider(),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey[200],
+                          child: item.product.imageUrl != null
+                              ? Image.network(
+                                  item.product.imageUrl!,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Center(
+                                  child: Icon(Icons.image_not_supported),
                                 ),
-                                const SizedBox(height: 8),
-                                item.product.discountedPrice != null
-                                    ? Row(
-                                        children: [
-                                          Text(
-                                            '£${item.product.price.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                            ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.product.name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              item.product.discountedPrice != null
+                                  ? Row(
+                                      children: [
+                                        Text(
+                                          '£${item.product.price.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            color: Colors.grey,
+                                            decoration: TextDecoration.lineThrough,
                                           ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            '£${item.product.discountedPrice!.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.grey),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        'Unit: £${item.unitPrice.toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                            color: Colors.grey)),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.remove_circle_outline,
-                                      ),
-                                      onPressed: () {
-                                        final newQty = item.qty - 1;
-                                        if (newQty >= 1) {
-                                          CartService.instance.updateQty(
-                                            item.product.id,
-                                            newQty,
-                                          );
-                                        }
-                                      },
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          '£${item.product.discountedPrice!.toStringAsFixed(2)}',
+                                          style:
+                                              const TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
+                                    )
+                                  : Text(
+                                      'Unit: £${item.unitPrice.toStringAsFixed(2)}',
+                                      style: const TextStyle(color: Colors.grey)),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline,
                                     ),
-                                    Text('${item.qty}'),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.add_circle_outline,
-                                      ),
-                                      onPressed: () {
+                                    onPressed: () {
+                                      final newQty = item.qty - 1;
+                                      if (newQty >= 1) {
                                         CartService.instance.updateQty(
                                           item.product.id,
-                                          item.qty + 1,
+                                          newQty,
                                         );
-                                      },
+                                      }
+                                    },
+                                  ),
+                                  Text('${item.qty}'),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.add_circle_outline,
                                     ),
-                                    const Spacer(),
-                                    Text(
-                                      '£${item.subtotal.toStringAsFixed(2)}',
+                                    onPressed: () {
+                                      CartService.instance.updateQty(
+                                        item.product.id,
+                                        item.qty + 1,
+                                      );
+                                    },
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    '£${item.subtotal.toStringAsFixed(2)}',
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
                                     ),
-                                    IconButton(
-                                      icon: const Icon(
-                                        Icons.delete_outline,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () {
-                                        CartService.instance.removeItem(
-                                          item.product.id,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    onPressed: () {
+                                      CartService.instance.removeItem(
+                                        item.product.id,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 Row(
