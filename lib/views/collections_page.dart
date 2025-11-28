@@ -3,6 +3,7 @@ import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 import '../repositories/product_repository.dart';
+import '../models/product.dart';
 
 class CollectionsScreen extends StatelessWidget {
   const CollectionsScreen({super.key});
@@ -45,17 +46,21 @@ class CollectionsScreen extends StatelessWidget {
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: MediaQuery.of(context).size.width > 600 ? 2 : 1,
+              crossAxisCount: 2,
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
-              children: List.generate(collectionNames.length, (index) {
+              // Render 12 tiles (2 columns x 6 rows)
+              children: List.generate(12, (index) {
                 final items = products.toList();
-                final imageUrl =
-                    index < items.length ? items[index].imageUrl : null;
-                return CollectionCard(
-                  name: collectionNames[index],
-                  imageUrl: imageUrl,
-                );
+                final productForImage =
+                    items.isNotEmpty ? items[index % items.length] : null;
+                final imageUrl = productForImage?.imageUrl;
+                final name = index < collectionNames.length
+                    ? collectionNames[index]
+                    : (productForImage != null
+                        ? productForImage.name
+                        : 'Collection ${index + 1}');
+                return CollectionCard(name: name, imageUrl: imageUrl);
               }),
             ),
           ],
