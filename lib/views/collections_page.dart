@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/widgets/base_scaffold.dart';
 import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
-import '../repositories/product_repository.dart';
-import '../models/product.dart';
+// Collections page does not use products; show collections only
 
 class CollectionsScreen extends StatelessWidget {
   const CollectionsScreen({super.key});
@@ -18,8 +17,6 @@ class CollectionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = ProductRepository.instance.fetchAll();
-
     final collectionNames = [
       'Autumn Favourites',
       'Black Friday Clothing',
@@ -49,18 +46,10 @@ class CollectionsScreen extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
-              // Render 12 tiles (2 columns x 6 rows)
-              children: List.generate(12, (index) {
-                final items = products.toList();
-                final productForImage =
-                    items.isNotEmpty ? items[index % items.length] : null;
-                final imageUrl = productForImage?.imageUrl;
-                final name = index < collectionNames.length
-                    ? collectionNames[index]
-                    : (productForImage != null
-                        ? productForImage.name
-                        : 'Collection ${index + 1}');
-                return CollectionCard(name: name, imageUrl: imageUrl);
+              // Render tiles for the provided collection names only
+              children: List.generate(collectionNames.length, (index) {
+                return CollectionCard(
+                    name: collectionNames[index], imageUrl: null);
               }),
             ),
           ],
@@ -133,7 +122,7 @@ class CollectionCard extends StatelessWidget {
                   name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
