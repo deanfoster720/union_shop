@@ -71,10 +71,41 @@ class _SignInPageState extends State<SignInPage>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
-                  // Placeholder content for now
-                  Center(child: Text('Sign In tab')),
-                  Center(child: Text('Sign Up tab')),
+                children: [
+                  // Sign In form (non-functional)
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          controller: _loginEmailController,
+                          decoration: const InputDecoration(labelText: 'Email'),
+                        ),
+                        const SizedBox(height: 12),
+                        TextFormField(
+                          controller: _loginPasswordController,
+                          decoration:
+                              const InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            // non-functional placeholder
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Sign In (non-functional)'),
+                              ),
+                            );
+                          },
+                          child: const Text('Sign In'),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Placeholder for Sign Up for now
+                  const Center(child: Text('Sign Up tab')),
                 ],
               ),
             ),
