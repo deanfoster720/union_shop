@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/home_page.dart';
+import 'package:union_shop/views/about_page.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -16,8 +17,11 @@ class UnionShopApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
       ),
-      home: const HomeScreen(),
-      // By default, the app starts at the '/' route, which is the HomeScreen
+      // Register app routes so pages like About are reachable by name
+      routes: {
+        '/': (ctx) => const HomeScreen(),
+        '/about': (ctx) => const AboutPage(),
+      },
       initialRoute: '/',
     );
   }
