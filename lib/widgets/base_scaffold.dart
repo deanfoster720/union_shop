@@ -4,12 +4,14 @@ class BaseScaffold extends StatelessWidget {
   final Widget body;
   final Widget? header;
   final Widget? footer;
+  final bool scrollable;
 
   const BaseScaffold({
     Key? key,
     required this.body,
     this.header,
     this.footer,
+    this.scrollable = true,
   }) : super(key: key);
 
   @override
@@ -22,20 +24,28 @@ class BaseScaffold extends StatelessWidget {
             children: [
               if (header != null) header!,
               Expanded(
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        body,
-                        if (footer != null) footer!,
-                      ],
-                    ),
-                  ),
-                ),
+                child: scrollable
+                    ? SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              body,
+                              if (footer != null) footer!,
+                            ],
+                          ),
+                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(child: body),
+                          if (footer != null) footer!,
+                        ],
+                      ),
               ),
             ],
           );
