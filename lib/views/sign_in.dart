@@ -52,10 +52,31 @@ class _SignInPageState extends State<SignInPage>
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
+          children: [
+            const Text(
               'Account',
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            TabBar(
+              controller: _tabController,
+              labelColor: Theme.of(context).colorScheme.primary,
+              unselectedLabelColor: Colors.grey,
+              tabs: const [
+                Tab(text: 'Sign In'),
+                Tab(text: 'Sign Up'),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [
+                  // Placeholder content for now
+                  Center(child: Text('Sign In tab')),
+                  Center(child: Text('Sign Up tab')),
+                ],
+              ),
             ),
           ],
         ),

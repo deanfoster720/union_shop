@@ -81,7 +81,9 @@ class Header extends StatelessWidget {
                             minWidth: 32,
                             minHeight: 32,
                           ),
-                          onPressed: onPlaceholderPressed,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/sign_in');
+                          },
                         ),
                         IconButton(
                           icon: const Icon(
