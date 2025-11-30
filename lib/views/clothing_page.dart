@@ -23,9 +23,8 @@ class _ClothingPageState extends State<ClothingPage> {
 
   String _categoryOf(Product p) {
     final name = p.name.toLowerCase();
-    if (p.discountedPrice != null || name.contains('best seller')) {
+    if (p.discountedPrice != null || name.contains('best seller'))
       return 'Popular';
-    }
     const clothingKeywords = [
       'hoodie',
       't-shirt',
@@ -56,11 +55,48 @@ class _ClothingPageState extends State<ClothingPage> {
 
   double _priceOf(Product p) => p.discountedPrice ?? p.price;
 
+  // We delegate filtering/sorting to ShopSkeleton via an applyFilterSort callback.
+  List<dynamic> _applyFilterSort(
+      Iterable<dynamic> items, String filter, String sort) {
+    final list = items.cast<Product>().toList();
+
+    final filtered = filter == 'All'
+        ? List<Product>.from(list)
+        : list.where((p) => _categoryOf(p) == filter).toList();
+
+    if (sort == 'Price: Low to High') {
+      filtered.sort((a, b) => _priceOf(a).compareTo(_priceOf(b)));
+    } else if (sort == 'Price: High to Low') {
+      filtered.sort((a, b) => _priceOf(b).compareTo(_priceOf(a)));
+    }
+
+    return filtered;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Provide options and the apply function to ShopSkeleton
+    final filterOptions = const [
+      DropdownMenuItem(value: 'All', child: Text('All')),
+      DropdownMenuItem(value: 'Clothing', child: Text('Clothing')),
+      DropdownMenuItem(value: 'Merchandise', child: Text('Merch')),
+      DropdownMenuItem(value: 'Popular', child: Text('Popular')),
+    ];
+
+    final sortOptions = const [
+      DropdownMenuItem(value: 'None', child: Text('None')),
+      DropdownMenuItem(value: 'Price: Low to High', child: Text('Low → High')),
+      DropdownMenuItem(value: 'Price: High to Low', child: Text('High → Low')),
+    ];
+
     return ShopSkeleton(
       title: 'Clothing',
       items: _allProducts,
+      enableFilterSort: true,
+      filterOptions: filterOptions,
+      sortOptions: sortOptions,
+      applyFilterSort: (items, filter, sort) =>
+          _applyFilterSort(items, filter, sort),
     );
   }
 }
