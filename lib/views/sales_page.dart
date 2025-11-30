@@ -47,9 +47,74 @@ class _SalesScreenState extends State<SalesScreen> {
     final all = ProductRepository.instance.fetchAll();
     final filtered = productsForDisplay(all);
 
+    final filterWidget = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Wrap(
+        spacing: 16,
+        runSpacing: 8,
+        alignment: WrapAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('FILTER BY: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(width: 8),
+              DropdownButton<String>(
+                value: _filter,
+                items: const [
+                  DropdownMenuItem(value: 'All', child: Text('All')),
+                  DropdownMenuItem(value: 'Under £5', child: Text('Under £5')),
+                  DropdownMenuItem(value: '£5 - £20', child: Text('£5 - £20')),
+                  DropdownMenuItem(value: 'Over £20', child: Text('Over £20')),
+                ],
+                onChanged: (v) {
+                  if (v == null) return;
+                  setState(() {
+                    _filter = v;
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('SORT BY: ',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(width: 8),
+              DropdownButton<String>(
+                value: _sort,
+                items: const [
+                  DropdownMenuItem(value: 'Default', child: Text('Default')),
+                  DropdownMenuItem(
+                      value: 'Price: Low → High',
+                      child: Text('Price: Low → High')),
+                  DropdownMenuItem(
+                      value: 'Price: High → Low',
+                      child: Text('Price: High → Low')),
+                  DropdownMenuItem(
+                      value: 'Name: A → Z', child: Text('Name: A → Z')),
+                  DropdownMenuItem(
+                      value: 'Name: Z → A', child: Text('Name: Z → A')),
+                ],
+                onChanged: (v) {
+                  if (v == null) return;
+                  setState(() {
+                    _sort = v;
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
     return ShopSkeleton(
       title: 'Sale Items',
       items: filtered,
+      filterWidget: filterWidget,
     );
   }
 }
