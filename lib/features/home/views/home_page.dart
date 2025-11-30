@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/features/products/models/product.dart';
 import 'package:union_shop/features/products/repositories/product_repository.dart';
-import 'package:union_shop/features/products/views/product_page.dart';
 import 'package:union_shop/features/products/widgets/product_card.dart';
 import 'package:union_shop/core/widgets/base_scaffold.dart';
 import 'package:union_shop/core/widgets/footer.dart';

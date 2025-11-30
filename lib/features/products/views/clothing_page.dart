@@ -24,8 +24,9 @@ class _ClothingPageState extends State<ClothingPage> {
 
   String _categoryOf(Product p) {
     final name = p.name.toLowerCase();
-    if (p.discountedPrice != null || name.contains('best seller'))
+    if (p.discountedPrice != null || name.contains('best seller')) {
       return 'Popular';
+    }
     const clothingKeywords = [
       'hoodie',
       't-shirt',

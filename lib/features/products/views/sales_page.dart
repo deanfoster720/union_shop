@@ -67,9 +67,9 @@ class _SalesScreenState extends State<SalesScreen> {
 
     return ShopSkeleton(
       title: 'Sale Items',
-      subtitle: Column(
+      subtitle: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text("Don’t miss out! Get yours before they’re all gone!"),
           SizedBox(height: 6),
           Text("All prices shown are inclusive of the discount"),
