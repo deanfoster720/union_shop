@@ -22,7 +22,14 @@ class _HeaderState extends State<Header> {
   bool? _printOpen = false;
 
   void _toggleMenu() {
-    setState(() => _menuOpen = !(_menuOpen ?? false));
+    setState(() {
+      final newVal = !(_menuOpen ?? false);
+      _menuOpen = newVal;
+      if (!newVal) {
+        _shopOpen = false;
+        _printOpen = false;
+      }
+    });
   }
 
   @override
@@ -347,8 +354,11 @@ class _HeaderState extends State<Header> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextButton(
-                          onPressed: () =>
-                              setState(() => _shopOpen = !(_shopOpen ?? false)),
+                          onPressed: () => setState(() {
+                            final newVal = !(_shopOpen ?? false);
+                            _shopOpen = newVal;
+                            if (newVal) _printOpen = false;
+                          }),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -366,52 +376,73 @@ class _HeaderState extends State<Header> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Clothing')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Merchandise')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Halloween')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child:
                                           Text('Signature & Essential Range')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child:
                                           Text('Portsmouth City Collection')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Pride Collection')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Graduation')),
@@ -427,8 +458,11 @@ class _HeaderState extends State<Header> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextButton(
-                          onPressed: () => setState(
-                              () => _printOpen = !(_printOpen ?? false)),
+                          onPressed: () => setState(() {
+                            final newVal = !(_printOpen ?? false);
+                            _printOpen = newVal;
+                            if (newVal) _shopOpen = false;
+                          }),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -447,7 +481,11 @@ class _HeaderState extends State<Header> {
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    setState(() => _menuOpen = false);
+                                    setState(() {
+                                      _menuOpen = false;
+                                      _shopOpen = false;
+                                      _printOpen = false;
+                                    });
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -459,8 +497,11 @@ class _HeaderState extends State<Header> {
                                       child: Text('About')),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      setState(() => _menuOpen = false),
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Personalisation')),
@@ -472,14 +513,22 @@ class _HeaderState extends State<Header> {
                       ],
                     ),
                     TextButton(
-                      onPressed: () => setState(() => _menuOpen = false),
+                      onPressed: () => setState(() {
+                        _menuOpen = false;
+                        _shopOpen = false;
+                        _printOpen = false;
+                      }),
                       child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text('SALE!'),
                       ),
                     ),
                     TextButton(
-                      onPressed: () => setState(() => _menuOpen = false),
+                      onPressed: () => setState(() {
+                        _menuOpen = false;
+                        _shopOpen = false;
+                        _printOpen = false;
+                      }),
                       child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text('About'),
