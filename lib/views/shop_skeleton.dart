@@ -11,6 +11,9 @@ class ShopSkeleton extends StatefulWidget {
   final String title;
   // Accept either list of names (String) or list of Product objects.
   final Iterable<dynamic> items;
+  // Optional subtitle widget displayed directly under the title.
+  final Widget? subtitle;
+
   // If provided, ShopSkeleton will render its own filter/sort UI and apply the
   // provided callback to produce the displayed list. If not provided, the
   // caller can supply a custom `filterWidget` instead.
@@ -29,6 +32,7 @@ class ShopSkeleton extends StatefulWidget {
     required this.title,
     required this.items,
     this.filterWidget,
+    this.subtitle,
     this.enableFilterSort = false,
     this.filterOptions,
     this.sortOptions,
@@ -149,6 +153,11 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
               ),
             ),
             const SizedBox(height: 12),
+            // Optional subtitle/message under the title (e.g. sale note)
+            if (widget.subtitle != null) ...[
+              widget.subtitle!,
+              const SizedBox(height: 8),
+            ],
             // Either caller's filter widget, or built-in filter controls
             if (widget.filterWidget != null || widget.enableFilterSort) ...[
               _buildFilterWidget(),
