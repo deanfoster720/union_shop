@@ -19,6 +19,7 @@ class Header extends StatefulWidget {
 class _HeaderState extends State<Header> {
   bool? _menuOpen = false;
   bool? _shopOpen = false;
+  bool? _printOpen = false;
 
   void _toggleMenu() {
     setState(() => _menuOpen = !(_menuOpen ?? false));
@@ -132,7 +133,7 @@ class _HeaderState extends State<Header> {
                                           builder: (_) => const AboutPage()),
                                     );
                                   }
-                                  // value == 1 does nothing for now
+                                  // value == 1 (Personalisation) intentionally does nothing
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -324,8 +325,9 @@ class _HeaderState extends State<Header> {
           LayoutBuilder(
             builder: (context, constraints) {
               final isDesktop = constraints.maxWidth >= 600;
-              if (isDesktop || !(_menuOpen ?? false))
+              if (isDesktop || !(_menuOpen ?? false)) {
                 return const SizedBox.shrink();
+              }
 
               return Container(
                 width: double.infinity,
@@ -420,12 +422,54 @@ class _HeaderState extends State<Header> {
                         ],
                       ],
                     ),
-                    TextButton(
-                      onPressed: () => setState(() => _menuOpen = false),
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('The Print Shack'),
-                      ),
+                    // Mobile: Print Shack entry with expandable submenu
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextButton(
+                          onPressed: () => setState(
+                              () => _printOpen = !(_printOpen ?? false)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('The Print Shack'),
+                              Icon((_printOpen ?? false)
+                                  ? Icons.expand_less
+                                  : Icons.expand_more),
+                            ],
+                          ),
+                        ),
+                        if ((_printOpen ?? false)) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    setState(() => _menuOpen = false);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => const AboutPage()),
+                                    );
+                                  },
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('About')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Personalisation')),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     TextButton(
                       onPressed: () => setState(() => _menuOpen = false),
