@@ -27,9 +27,21 @@ class _ProductPageState extends State<ProductPage> {
   void placeholderCallbackForButtons() {}
 
   void _addToCart() {
-    CartService.instance.addItem(widget.product, _qty);
+    final existing = CartService.instance.qtyFor(widget.product.id);
+    final allowed = CartService.maxPerItem - existing;
+    if (allowed <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'You already have the maximum (${CartService.maxPerItem}) of ${widget.product.name} in your cart.'),
+        duration: const Duration(seconds: 2),
+      ));
+      return;
+    }
+
+    final toAdd = _qty > allowed ? allowed : _qty;
+    CartService.instance.addItem(widget.product, toAdd);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('${widget.product.name} added to cart ($_qty)'),
+      content: Text('${widget.product.name} added to cart ($toAdd)'),
       duration: const Duration(seconds: 2),
     ));
   }
@@ -181,7 +193,30 @@ class _ProductPageState extends State<ProductPage> {
                             icon: const Icon(Icons.add),
                             onPressed: () {
                               setState(() {
-                                _qty++;
+                                final inCart =
+                                    CartService.instance.qtyFor(product.id);
+                                final remaining =
+                                    CartService.maxPerItem - inCart;
+                                if (remaining <= 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Maximum ${CartService.maxPerItem} per item'),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else if (_qty < remaining) {
+                                  _qty++;
+                                } else if (_qty >= remaining) {
+                                  // trying to select more than remaining allowed
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'You can only add $remaining more of this item'),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
                               });
                             },
                           ),
