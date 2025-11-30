@@ -59,20 +59,19 @@ class _ClothingPageState extends State<ClothingPage> {
   double _priceOf(Product p) => p.discountedPrice ?? p.price;
 
   // Returns the filtered list of products (not sorted)
+  // Returns the filtered list of products with the selected sort applied
   List<Product> get _filteredProducts {
-    if (_filter == 'All') return List.from(_allProducts);
-    return _allProducts.where((p) => _categoryOf(p) == _filter).toList();
-  }
+    final list = _filter == 'All'
+        ? List<Product>.from(_allProducts)
+        : _allProducts.where((p) => _categoryOf(p) == _filter).toList();
 
-  // Returns the filtered product names after applying the selected sort
-  List<String> get _filteredNames {
-    final list = _filteredProducts;
     if (_sort == 'Price: Low to High') {
       list.sort((a, b) => _priceOf(a).compareTo(_priceOf(b)));
     } else if (_sort == 'Price: High to Low') {
       list.sort((a, b) => _priceOf(b).compareTo(_priceOf(a)));
     }
-    return list.map((p) => p.name).toList();
+
+    return list;
   }
 
   @override
@@ -161,6 +160,8 @@ class _ClothingPageState extends State<ClothingPage> {
     );
 
     return ShopSkeleton(
-        title: 'Clothing', items: _filteredNames, filterWidget: filterWidget);
+        title: 'Clothing',
+        items: _filteredProducts,
+        filterWidget: filterWidget);
   }
 }
