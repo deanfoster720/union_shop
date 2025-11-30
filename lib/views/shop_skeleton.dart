@@ -8,8 +8,10 @@ import 'package:union_shop/widgets/footer.dart';
 class ShopSkeleton extends StatelessWidget {
   final String title;
   final List<String> items;
+  final Widget? filterWidget;
 
-  const ShopSkeleton({Key? key, required this.title, required this.items})
+  const ShopSkeleton(
+      {Key? key, required this.title, required this.items, this.filterWidget})
       : super(key: key);
 
   void _navigateToHome(BuildContext context) {
@@ -34,7 +36,14 @@ class ShopSkeleton extends StatelessWidget {
                 letterSpacing: 1,
               ),
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 12),
+            // Optional filter widget (e.g. dropdown) placed under title
+            if (filterWidget != null) ...[
+              filterWidget!,
+              const SizedBox(height: 24),
+            ] else ...[
+              const SizedBox(height: 36),
+            ],
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
