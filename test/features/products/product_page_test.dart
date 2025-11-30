@@ -5,51 +5,47 @@ import 'package:union_shop/features/products/repositories/product_repository.dar
 import 'package:union_shop/features/products/views/product_page.dart';
 
 void main() {
-  group('Product Page Tests', () {
+  group('Product Page', () {
     Widget createTestWidget() {
       final Product sample = ProductRepository.instance.fetchAll().first;
       return MaterialApp(home: ProductPage(product: sample));
     }
 
-    testWidgets('should display product page with basic elements', (
-      tester,
-    ) async {
+    testWidgets('shows product details and price', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that product UI elements are present
       final Product sample = ProductRepository.instance.fetchAll().first;
       expect(find.text(sample.name), findsOneWidget);
       expect(find.text(sample.displayPrice), findsOneWidget);
       expect(find.text('Description'), findsOneWidget);
+      expect(find.text(sample.description), findsOneWidget);
     });
 
-    testWidgets('should display student instruction text', (tester) async {
+    testWidgets('renders header icons and footer', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // The product description should be visible
-      final Product sample2 = ProductRepository.instance.fetchAll().first;
-      expect(find.text(sample2.description), findsOneWidget);
-    });
-
-    testWidgets('should display header icons', (tester) async {
-      await tester.pumpWidget(createTestWidget());
-      await tester.pump();
-
-      // Check that header icons are present
       expect(find.byIcon(Icons.search), findsOneWidget);
       expect(find.byIcon(Icons.shopping_bag_outlined), findsOneWidget);
       expect(find.byIcon(Icons.menu), findsOneWidget);
+      expect(find.text('Opening Hours:'), findsOneWidget);
+      expect(find.text('Latest Offers:'), findsOneWidget);
     });
 
-    testWidgets('should display footer', (tester) async {
+    testWidgets('adds items to cart with custom quantities', (tester) async {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that footer is present (updated content)
-      expect(find.text('Opening Hours:'), findsOneWidget);
-      expect(find.text('Latest Offers:'), findsOneWidget);
+      expect(find.text('1'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pump();
+      expect(find.text('2'), findsOneWidget);
+
+      await tester.tap(find.text('Add to cart'));
+      await tester.pump();
+
+      expect(find.byType(SnackBar), findsOneWidget);
     });
   });
 }
