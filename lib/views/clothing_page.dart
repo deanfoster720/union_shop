@@ -36,7 +36,8 @@ class _ClothingPageState extends State<ClothingPage> {
     final filterWidget = Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Text('FILTER BY: ', style: TextStyle(fontWeight: FontWeight.w600)),
+        const Text('FILTER BY: ',
+            style: TextStyle(fontWeight: FontWeight.w600)),
         const SizedBox(width: 8),
         DropdownButton<String>(
           value: _filter,
@@ -54,6 +55,7 @@ class _ClothingPageState extends State<ClothingPage> {
       ],
     );
 
-    return ShopSkeleton(title: 'Clothing', items: _filteredNames, filterWidget: filterWidget);
+    return ShopSkeleton(
+        title: 'Clothing', items: _filteredNames, filterWidget: filterWidget);
   }
 }
