@@ -19,11 +19,11 @@ class SalesScreen extends StatelessWidget {
     final all = ProductRepository.instance.fetchAll();
     final saleProducts = all.where((p) => p.discountedPrice != null).toList();
 
-    final headerSection = Padding(
-      padding: const EdgeInsets.all(24.0),
+    const headerSection = Padding(
+      padding: EdgeInsets.all(24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             'Sale Items',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

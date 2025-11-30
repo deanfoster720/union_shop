@@ -115,7 +115,7 @@ class CollectionCard extends StatelessWidget {
               ),
               Positioned.fill(
                 // Dark overlay so white text is readable on top of image
-                child: Container(color: Colors.black.withOpacity(0.7)),
+                child: Container(color: const Color.fromRGBO(0, 0, 0, 0.7)),
               ),
               Center(
                 child: Text(
