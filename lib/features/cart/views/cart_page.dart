@@ -4,6 +4,7 @@ import 'package:union_shop/core/widgets/footer.dart';
 import 'package:union_shop/core/widgets/header.dart';
 
 import '../services/cart_service.dart';
+import '../services/checkout_service.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  bool _isPlacingOrder = false;
+
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
