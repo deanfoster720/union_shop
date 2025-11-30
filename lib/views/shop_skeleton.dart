@@ -7,13 +7,13 @@ import 'package:union_shop/views/product_page.dart';
 
 /// A generic skeleton used as the base for shop category pages.
 
-class ShopSkeleton extends StatelessWidget {
+class ShopSkeleton extends StatefulWidget {
   final String title;
   // Accept either list of names (String) or list of Product objects.
   final Iterable<dynamic> items;
   final Widget? filterWidget;
 
-  // New configuration for future built-in filter/sort support
+  // Configuration for built-in filter/sort support
   final bool enableFilterSort;
   final List<DropdownMenuItem<String>>? filterOptions;
   final List<DropdownMenuItem<String>>? sortOptions;
@@ -31,11 +31,31 @@ class ShopSkeleton extends StatelessWidget {
     this.applyFilterSort,
   }) : super(key: key);
 
+  @override
+  State<ShopSkeleton> createState() => _ShopSkeletonState();
+}
+
+class _ShopSkeletonState extends State<ShopSkeleton> {
+  String _selectedFilter = 'All';
+  String _selectedSort = 'Default';
+
   void _navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
 
   void _placeholder() {}
+
+  List<dynamic> _computeDisplayItems() {
+    if (widget.enableFilterSort && widget.applyFilterSort != null) {
+      return widget.applyFilterSort!(
+        widget.items,
+        _selectedFilter,
+        _selectedSort,
+      );
+    }
+    // Fallback: just return items as list
+    return widget.items.toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +66,7 @@ class ShopSkeleton extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              title.toUpperCase(),
+              widget.title.toUpperCase(),
               style: const TextStyle(
                 fontSize: 20,
                 color: Colors.black,
@@ -55,8 +75,8 @@ class ShopSkeleton extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             // Optional filter widget (e.g. dropdown) placed under title
-            if (filterWidget != null) ...[
-              filterWidget!,
+            if (widget.filterWidget != null) ...[
+              widget.filterWidget!,
               const SizedBox(height: 24),
             ] else ...[
               const SizedBox(height: 36),
@@ -68,7 +88,8 @@ class ShopSkeleton extends StatelessWidget {
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
               children: () {
-                final itemList = items.toList();
+                final display = _computeDisplayItems();
+                final itemList = display.toList();
                 return List.generate(itemList.length, (index) {
                   final item = itemList[index];
                   if (item is Product) {
