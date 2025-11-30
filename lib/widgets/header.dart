@@ -16,6 +16,12 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
+  bool _menuOpen = false;
+
+  void _toggleMenu() {
+    setState(() => _menuOpen = !_menuOpen);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -230,8 +236,11 @@ class _HeaderState extends State<Header> {
                       ),
                       const SizedBox(width: 6),
                       IconButton(
-                        icon: const Icon(Icons.menu, color: Colors.grey),
-                        onPressed: widget.onPlaceholderPressed,
+                        icon: Icon(
+                          _menuOpen ? Icons.close : Icons.menu,
+                          color: Colors.grey,
+                        ),
+                        onPressed: _toggleMenu,
                         padding: const EdgeInsets.all(8),
                         constraints: const BoxConstraints(
                           minWidth: 32,
