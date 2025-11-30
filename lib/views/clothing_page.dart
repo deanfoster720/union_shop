@@ -14,9 +14,6 @@ class _ClothingPageState extends State<ClothingPage> {
   // Products sourced from the repository
   List<Product> _allProducts = [];
 
-  String _filter = 'All';
-  String _sort = 'None';
-
   @override
   void initState() {
     super.initState();
@@ -26,8 +23,9 @@ class _ClothingPageState extends State<ClothingPage> {
 
   String _categoryOf(Product p) {
     final name = p.name.toLowerCase();
-    if (p.discountedPrice != null || name.contains('best seller'))
+    if (p.discountedPrice != null || name.contains('best seller')) {
       return 'Popular';
+    }
     const clothingKeywords = [
       'hoodie',
       't-shirt',
@@ -58,110 +56,11 @@ class _ClothingPageState extends State<ClothingPage> {
 
   double _priceOf(Product p) => p.discountedPrice ?? p.price;
 
-  // Returns the filtered list of products (not sorted)
-  // Returns the filtered list of products with the selected sort applied
-  List<Product> get _filteredProducts {
-    final list = _filter == 'All'
-        ? List<Product>.from(_allProducts)
-        : _allProducts.where((p) => _categoryOf(p) == _filter).toList();
-
-    if (_sort == 'Price: Low to High') {
-      list.sort((a, b) => _priceOf(a).compareTo(_priceOf(b)));
-    } else if (_sort == 'Price: High to Low') {
-      list.sort((a, b) => _priceOf(b).compareTo(_priceOf(a)));
-    }
-
-    return list;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Compact, centered filter + sort widget to avoid overflowing on small screens
-    final filterWidget = Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 420),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 12,
-          runSpacing: 8,
-          children: [
-            // FILTER (compact)
-            SizedBox(
-              width: 120,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('FILTER BY',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
-                  const SizedBox(height: 6),
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: _filter,
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                      items: const [
-                        DropdownMenuItem(value: 'All', child: Text('All')),
-                        DropdownMenuItem(
-                            value: 'Clothing', child: Text('Clothing')),
-                        DropdownMenuItem(
-                            value: 'Merchandise', child: Text('Merch')),
-                        DropdownMenuItem(
-                            value: 'Popular', child: Text('Popular')),
-                      ],
-                      onChanged: (v) {
-                        if (v == null) return;
-                        setState(() => _filter = v);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // SORT (compact)
-            SizedBox(
-              width: 140,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('SORT BY',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
-                  const SizedBox(height: 6),
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: _sort,
-                      style: const TextStyle(fontSize: 12, color: Colors.black),
-                      items: const [
-                        DropdownMenuItem(value: 'None', child: Text('None')),
-                        DropdownMenuItem(
-                            value: 'Price: Low to High',
-                            child: Text('Low → High')),
-                        DropdownMenuItem(
-                            value: 'Price: High to Low',
-                            child: Text('High → Low')),
-                      ],
-                      onChanged: (v) {
-                        if (v == null) return;
-                        setState(() => _sort = v);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-
     return ShopSkeleton(
-        title: 'Clothing',
-        items: _filteredProducts,
-        filterWidget: filterWidget);
+      title: 'Clothing',
+      items: _allProducts,
+    );
   }
 }
