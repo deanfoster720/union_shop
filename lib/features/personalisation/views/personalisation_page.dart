@@ -93,9 +93,8 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   final _formKey = GlobalKey<FormState>();
 
   int _qty = 1;
-  static const _price = 3.0;
-
   _PersonalisationOption _selectedOption = _options.first;
+  bool _includeUpload = false;
 
   @override
   void dispose() {
@@ -103,6 +102,37 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
       controller.dispose();
     }
     super.dispose();
+  }
+
+  List<TextEditingController> get _activeLineControllers =>
+      _lineControllers.take(_selectedOption.textLines).toList();
+
+  double get _optionPrice {
+    final extraLineCount =
+        _selectedOption.textLines > 1 ? _selectedOption.textLines - 1 : 0;
+    final lineCost = extraLineCount * _selectedOption.extraLineCost;
+    final uploadCost = _selectedOption.supportsUpload && _includeUpload
+        ? _selectedOption.uploadSurcharge
+        : 0;
+    return _selectedOption.basePrice + lineCost + uploadCost;
+  }
+
+  double get _totalPrice => _optionPrice * _qty;
+
+  String _priceBreakdown() {
+    final parts = <String>[
+      'Base £${_selectedOption.basePrice.toStringAsFixed(2)}'
+    ];
+    if (_selectedOption.textLines > 1 && _selectedOption.extraLineCost > 0) {
+      final count = _selectedOption.textLines - 1;
+      final total = count * _selectedOption.extraLineCost;
+      parts.add('$count extra line(s) +£${total.toStringAsFixed(2)}');
+    }
+    if (_selectedOption.supportsUpload && _includeUpload) {
+      parts.add(
+          'Artwork upload +£${_selectedOption.uploadSurcharge.toStringAsFixed(2)}');
+    }
+    return parts.join(' • ');
   }
 
   bool _validateSelection() {
@@ -122,7 +152,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     const product = Product(
       id: 'personalisation',
       name: 'Personalisation',
-      price: _price,
+      price: 3.0,
       description: 'Personalisation option',
     );
 
@@ -138,9 +168,13 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     }
 
     final toAdd = _qty > allowed ? allowed : _qty;
-    CartService.instance.addItem(product, toAdd);
+    CartService.instance.addItem(
+      product.copyWith(price: _optionPrice),
+      toAdd,
+    );
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Personalisation added to cart ($toAdd)'),
+      content: Text(
+          'Personalisation added to cart ($toAdd) at £${_optionPrice.toStringAsFixed(2)} each'),
       duration: const Duration(seconds: 2),
     ));
   }
@@ -178,8 +212,15 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 ),
               ),
               const SizedBox(height: 12),
-              const Text('£3.00 tax included',
-                  style: TextStyle(color: Colors.grey)),
+              Text(
+                '£${_optionPrice.toStringAsFixed(2)} tax included',
+                style: const TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                _priceBreakdown(),
+                style: const TextStyle(color: Colors.black54, fontSize: 12),
+              ),
               const SizedBox(height: 18),
               const Text('Per Line',
                   style: TextStyle(fontWeight: FontWeight.w600)),
@@ -214,6 +255,8 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                       },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
+                        helperText:
+                            'Options change required fields and pricing automatically.',
                       ),
                     ),
                   ),
