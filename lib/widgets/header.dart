@@ -32,6 +32,15 @@ class _HeaderState extends State<Header> {
     });
   }
 
+  void _navigateToHome() {
+    setState(() {
+      _menuOpen = false;
+      _shopOpen = false;
+      _printOpen = false;
+    });
+    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +93,9 @@ class _HeaderState extends State<Header> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _NavButton(label: 'Home', onPressed: () {}),
+                              _NavButton(
+                                  label: 'Home',
+                                  onPressed: () => _navigateToHome()),
                               const SizedBox(width: 8),
                               // Shop with desktop popup submenu
                               PopupMenuButton<int>(
@@ -111,12 +122,12 @@ class _HeaderState extends State<Header> {
                                       value: 6, child: Text('Graduation')),
                                 ],
                                 onSelected: (_) {},
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 8),
                                   child: Text(
                                     'Shop',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Color(0xFF4d2963),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
@@ -142,12 +153,12 @@ class _HeaderState extends State<Header> {
                                   }
                                   // value == 1 (Personalisation) intentionally does nothing
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 8),
                                   child: Text(
                                     'The Print Shack',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Color(0xFF4d2963),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
@@ -343,7 +354,7 @@ class _HeaderState extends State<Header> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextButton(
-                      onPressed: () => setState(() => _menuOpen = false),
+                      onPressed: () => _navigateToHome(),
                       child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text('Home'),
