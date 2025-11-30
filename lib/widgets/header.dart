@@ -16,11 +16,11 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  bool _menuOpen = false;
-  bool _shopOpen = false;
+  bool? _menuOpen = false;
+  bool? _shopOpen = false;
 
   void _toggleMenu() {
-    setState(() => _menuOpen = !_menuOpen);
+    setState(() => _menuOpen = !(_menuOpen ?? false));
   }
 
   @override
@@ -102,17 +102,16 @@ class _HeaderState extends State<Header> {
                                       value: 6, child: Text('Graduation')),
                                 ],
                                 onSelected: (_) {},
-                                child: TextButton(
-                                  onPressed: null,
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: const Color(0xFF4d2963),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
-                                    textStyle: const TextStyle(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  child: Text(
+                                    'Shop',
+                                    style: const TextStyle(
+                                        color: Color(0xFF4d2963),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  child: const Text('Shop'),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -275,7 +274,7 @@ class _HeaderState extends State<Header> {
                       const SizedBox(width: 6),
                       IconButton(
                         icon: Icon(
-                          _menuOpen ? Icons.close : Icons.menu,
+                          (_menuOpen ?? false) ? Icons.close : Icons.menu,
                           color: Colors.grey,
                         ),
                         onPressed: _toggleMenu,
@@ -296,7 +295,8 @@ class _HeaderState extends State<Header> {
           LayoutBuilder(
             builder: (context, constraints) {
               final isDesktop = constraints.maxWidth >= 600;
-              if (isDesktop || !_menuOpen) return const SizedBox.shrink();
+              if (isDesktop || !(_menuOpen ?? false))
+                return const SizedBox.shrink();
 
               return Container(
                 width: double.infinity,
@@ -317,18 +317,18 @@ class _HeaderState extends State<Header> {
                       children: [
                         TextButton(
                           onPressed: () =>
-                              setState(() => _shopOpen = !_shopOpen),
+                              setState(() => _shopOpen = !(_shopOpen ?? false)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text('Shop'),
-                              Icon(_shopOpen
+                              Icon((_shopOpen ?? false)
                                   ? Icons.expand_less
                                   : Icons.expand_more),
                             ],
                           ),
                         ),
-                        if (_shopOpen) ...[
+                        if ((_shopOpen ?? false)) ...[
                           Padding(
                             padding: const EdgeInsets.only(left: 12.0),
                             child: Column(
