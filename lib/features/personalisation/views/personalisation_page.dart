@@ -88,7 +88,6 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     ),
   ];
 
-  // Now using a fixed set of controllers for up to 4 lines
   final _lineControllers =
       List.generate(4, (_) => TextEditingController(), growable: false);
 
@@ -170,11 +169,16 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Expanded(child: Text('One Line of Text')),
+                Expanded(
+                    child: Text(
+                  _selectedOption.helper,
+                  style: const TextStyle(color: Colors.black54),
+                )),
                 const SizedBox(width: 12),
                 SizedBox(
-                  width: 220,
+                  width: 240,
                   child: DropdownButtonFormField<String>(
                     value: _selectedOption.id,
                     items: _options
@@ -196,15 +200,25 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            const Text('Personalisation Line 1',
-                style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _lineControllers[0],
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), hintText: 'Enter text'),
-            ),
+            if (_selectedOption.textLines > 0) ...[
+              const SizedBox(height: 12),
+              const Text('Personalisation Text',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              ...List.generate(_selectedOption.textLines, (index) {
+                final label = 'Line ${index + 1}';
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: TextFormField(
+                    controller: _lineControllers[index],
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Enter $label',
+                    ),
+                  ),
+                );
+              }),
+            ],
             const SizedBox(height: 12),
             Row(
               children: [
