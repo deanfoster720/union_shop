@@ -182,11 +182,13 @@ class _ProductPageState extends State<ProductPage> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.remove),
-                            onPressed: () {
-                              setState(() {
-                                if (_qty > 1) _qty--;
-                              });
-                            },
+                            onPressed: _qty > 1
+                                ? () {
+                                    setState(() {
+                                      _qty--;
+                                    });
+                                  }
+                                : null,
                           ),
                           Text('$_qty'),
                           IconButton(
