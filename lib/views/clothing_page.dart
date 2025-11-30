@@ -45,56 +45,80 @@ class _ClothingPageState extends State<ClothingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filterWidget = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
+    // Compact, centered filter + sort widget to avoid overflowing on small screens
+    final filterWidget = Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 520),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('FILTER BY: ',
-                style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(width: 8),
-            DropdownButton<String>(
-              value: _filter,
-              items: const [
-                DropdownMenuItem(value: 'All', child: Text('All Products')),
-                DropdownMenuItem(value: 'Clothing', child: Text('Clothing')),
-                DropdownMenuItem(
-                    value: 'Merchandise', child: Text('Merchandise')),
-                DropdownMenuItem(value: 'Popular', child: Text('Popular')),
+            // FILTER
+            Row(
+              children: [
+                const Text('FILTER BY: ',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+                const SizedBox(width: 6),
+                SizedBox(
+                  width: 160,
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _filter,
+                    style: const TextStyle(fontSize: 13, color: Colors.black),
+                    items: const [
+                      DropdownMenuItem(
+                          value: 'All', child: Text('All Products')),
+                      DropdownMenuItem(
+                          value: 'Clothing', child: Text('Clothing')),
+                      DropdownMenuItem(
+                          value: 'Merchandise', child: Text('Merchandise')),
+                      DropdownMenuItem(
+                          value: 'Popular', child: Text('Popular')),
+                    ],
+                    onChanged: (v) {
+                      if (v == null) return;
+                      setState(() => _filter = v);
+                    },
+                  ),
+                ),
               ],
-              onChanged: (v) {
-                if (v == null) return;
-                setState(() => _filter = v);
-              },
             ),
-          ],
-        ),
 
-        // Sort control on the right
-        Row(
-          children: [
-            const Text('SORT BY: ',
-                style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(width: 8),
-            DropdownButton<String>(
-              value: _sort,
-              items: const [
-                DropdownMenuItem(value: 'None', child: Text('None')),
-                DropdownMenuItem(
-                    value: 'Price: Low to High',
-                    child: Text('Price: Low → High')),
-                DropdownMenuItem(
-                    value: 'Price: High to Low',
-                    child: Text('Price: High → Low')),
+            const SizedBox(width: 16),
+
+            // SORT
+            Row(
+              children: [
+                const Text('SORT BY: ',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+                const SizedBox(width: 6),
+                SizedBox(
+                  width: 160,
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _sort,
+                    style: const TextStyle(fontSize: 13, color: Colors.black),
+                    items: const [
+                      DropdownMenuItem(value: 'None', child: Text('None')),
+                      DropdownMenuItem(
+                          value: 'Price: Low to High',
+                          child: Text('Price: Low → High')),
+                      DropdownMenuItem(
+                          value: 'Price: High to Low',
+                          child: Text('Price: High → Low')),
+                    ],
+                    onChanged: (v) {
+                      if (v == null) return;
+                      setState(() => _sort = v);
+                    },
+                  ),
+                ),
               ],
-              onChanged: (v) {
-                if (v == null) return;
-                setState(() => _sort = v);
-              },
             ),
           ],
         ),
-      ],
+      ),
     );
 
     return ShopSkeleton(
