@@ -91,95 +91,101 @@ class _HeaderState extends State<Header> {
                         ),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _NavButton(
-                                  label: 'Home',
-                                  onPressed: () => _navigateToHome()),
-                              const SizedBox(width: 8),
-                              // Shop with desktop popup submenu
-                              PopupMenuButton<int>(
-                                offset: const Offset(0, 40),
-                                itemBuilder: (ctx) => const [
-                                  PopupMenuItem(
-                                      value: 0, child: Text('Clothing')),
-                                  PopupMenuItem(
-                                      value: 1, child: Text('Merchandise')),
-                                  PopupMenuItem(
-                                      value: 2, child: Text('Halloween')),
-                                  PopupMenuItem(
-                                      value: 3,
-                                      child:
-                                          Text('Signature & Essential Range')),
-                                  PopupMenuItem(
-                                      value: 4,
-                                      child:
-                                          Text('Portsmouth City Collection')),
-                                  PopupMenuItem(
-                                      value: 5,
-                                      child: Text('Pride Collection')),
-                                  PopupMenuItem(
-                                      value: 6, child: Text('Graduation')),
-                                ],
-                                onSelected: (value) {
-                                  // Only Clothing is wired for now; other values close the menu.
-                                  if (value == 0) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const ClothingPage()),
-                                    );
-                                  }
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  child: Text(
-                                    'Shop',
-                                    style: TextStyle(
-                                        color: Color(0xFF4d2963),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _NavButton(
+                                    label: 'Home',
+                                    onPressed: () => _navigateToHome()),
+                                const SizedBox(width: 8),
+                                // Shop with desktop popup submenu
+                                PopupMenuButton<int>(
+                                  offset: const Offset(0, 40),
+                                  itemBuilder: (ctx) => const [
+                                    PopupMenuItem(
+                                        value: 0, child: Text('Clothing')),
+                                    PopupMenuItem(
+                                        value: 1, child: Text('Merchandise')),
+                                    PopupMenuItem(
+                                        value: 2, child: Text('Halloween')),
+                                    PopupMenuItem(
+                                        value: 3,
+                                        child: Text(
+                                            'Signature & Essential Range')),
+                                    PopupMenuItem(
+                                        value: 4,
+                                        child:
+                                            Text('Portsmouth City Collection')),
+                                    PopupMenuItem(
+                                        value: 5,
+                                        child: Text('Pride Collection')),
+                                    PopupMenuItem(
+                                        value: 6, child: Text('Graduation')),
+                                  ],
+                                  onSelected: (value) {
+                                    // Only Clothing is wired for now; other values close the menu.
+                                    if (value == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const ClothingPage()),
+                                      );
+                                    }
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    child: Text(
+                                      'Shop',
+                                      style: TextStyle(
+                                          color: Color(0xFF4d2963),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              // The Print Shack: desktop popup submenu
-                              PopupMenuButton<int>(
-                                offset: const Offset(0, 40),
-                                itemBuilder: (ctx) => const [
-                                  PopupMenuItem(value: 0, child: Text('About')),
-                                  PopupMenuItem(
-                                      value: 1, child: Text('Personalisation')),
-                                ],
-                                onSelected: (value) {
-                                  if (value == 0) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const AboutPage()),
-                                    );
-                                  }
-                                  // value == 1 (Personalisation) intentionally does nothing
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 8),
-                                  child: Text(
-                                    'The Print Shack',
-                                    style: TextStyle(
-                                        color: Color(0xFF4d2963),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                const SizedBox(width: 8),
+                                // The Print Shack: desktop popup submenu
+                                PopupMenuButton<int>(
+                                  offset: const Offset(0, 40),
+                                  itemBuilder: (ctx) => const [
+                                    PopupMenuItem(
+                                        value: 0, child: Text('About')),
+                                    PopupMenuItem(
+                                        value: 1,
+                                        child: Text('Personalisation')),
+                                  ],
+                                  onSelected: (value) {
+                                    if (value == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const AboutPage()),
+                                      );
+                                    }
+                                    // value == 1 (Personalisation) intentionally does nothing
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    child: Text(
+                                      'The Print Shack',
+                                      style: TextStyle(
+                                          color: Color(0xFF4d2963),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              _NavButton(label: 'SALE!', onPressed: () {}),
-                              const SizedBox(width: 8),
-                              _NavButton(label: 'About', onPressed: () {}),
-                            ],
+                                const SizedBox(width: 8),
+                                _NavButton(label: 'SALE!', onPressed: () {}),
+                                const SizedBox(width: 8),
+                                _NavButton(label: 'About', onPressed: () {}),
+                              ],
+                            ),
                           ),
                         ),
                         ConstrainedBox(

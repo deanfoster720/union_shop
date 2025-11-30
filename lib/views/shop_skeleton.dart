@@ -7,7 +7,7 @@ import 'package:union_shop/widgets/footer.dart';
 
 class ShopSkeleton extends StatelessWidget {
   final String title;
-  final List<String> items;
+  final Iterable<String> items;
   final Widget? filterWidget;
 
   const ShopSkeleton(
@@ -50,9 +50,14 @@ class ShopSkeleton extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 24,
               mainAxisSpacing: 48,
-              children: List.generate(items.length, (index) {
-                return _ProductCard(name: items[index]);
-              }),
+              children: () {
+                final itemList = items is List<String>
+                    ? items as List<String>
+                    : items.toList();
+                return List.generate(itemList.length, (index) {
+                  return _ProductCard(name: itemList[index]);
+                });
+              }(),
             ),
           ],
         ),
