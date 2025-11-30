@@ -4,6 +4,7 @@ import 'package:union_shop/widgets/header.dart';
 import 'package:union_shop/widgets/footer.dart';
 
 /// A generic skeleton used as the base for shop category pages.
+
 class ShopSkeleton extends StatelessWidget {
   final String title;
   final List<String> items;
@@ -34,15 +35,15 @@ class ShopSkeleton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 48),
-            Column(
-              children: items
-                  .map(
-                    (name) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(name),
-                    ),
-                  )
-                  .toList(),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 24,
+              mainAxisSpacing: 48,
+              children: List.generate(items.length, (index) {
+                return _ProductCard(name: items[index]);
+              }),
             ),
           ],
         ),
@@ -56,6 +57,42 @@ class ShopSkeleton extends StatelessWidget {
       ),
       body: Column(children: [section]),
       footer: const Footer(),
+    );
+  }
+}
+
+class _ProductCard extends StatelessWidget {
+  final String name;
+
+  const _ProductCard({Key? key, required this.name}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              color: Colors.grey[200],
+            ),
+          ),
+          Positioned.fill(
+            child: Container(color: const Color.fromRGBO(0, 0, 0, 0.35)),
+          ),
+          Center(
+            child: Text(
+              name,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
