@@ -148,19 +148,9 @@ class Header extends StatelessWidget {
                     );
                   }
 
-                  // Mobile: menu button + logo on left, icons on right
+                  // Mobile: logo on left, icons centered-right, menu button far right
                   return Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.menu, color: Colors.grey),
-                        onPressed: onPlaceholderPressed,
-                        padding: const EdgeInsets.all(8),
-                        constraints: const BoxConstraints(
-                          minWidth: 32,
-                          minHeight: 32,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
                       GestureDetector(
                         onTap: onLogoTap,
                         child: Image.network(
@@ -231,6 +221,16 @@ class Header extends StatelessWidget {
                               },
                             ),
                           ],
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.grey),
+                        onPressed: onPlaceholderPressed,
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(
+                          minWidth: 32,
+                          minHeight: 32,
                         ),
                       ),
                     ],
