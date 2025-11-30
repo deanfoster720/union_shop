@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/features/about/views/about_page.dart';
 import 'package:union_shop/features/cart/views/cart_page.dart';
 import 'package:union_shop/features/products/views/clothing_page.dart';
+import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
 
 class Header extends StatefulWidget {
   final VoidCallback onLogoTap;
@@ -165,8 +166,14 @@ class _HeaderState extends State<Header> {
                                         MaterialPageRoute(
                                             builder: (_) => const AboutPage()),
                                       );
+                                    } else if (value == 1) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const PersonalisationPage()),
+                                      );
                                     }
-                                    // value == 1 (Personalisation) intentionally does nothing
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.symmetric(
@@ -535,11 +542,19 @@ class _HeaderState extends State<Header> {
                                       child: Text('About')),
                                 ),
                                 TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
+                                  onPressed: () {
+                                    setState(() {
+                                      _menuOpen = false;
+                                      _shopOpen = false;
+                                      _printOpen = false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const PersonalisationPage()),
+                                    );
+                                  },
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Personalisation')),
