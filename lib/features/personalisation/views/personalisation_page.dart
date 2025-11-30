@@ -35,7 +35,6 @@ class _PersonalisationOption {
 }
 
 class _PersonalisationPageState extends State<PersonalisationPage> {
-  // We’ll use this later as we upgrade the page
   static const _options = [
     _PersonalisationOption(
       id: 'one-line',
@@ -89,11 +88,13 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     ),
   ];
 
-  String _option = 'One Lines of Text';
   final _line1Controller = TextEditingController();
   int _qty = 1;
 
   static const _price = 3.0;
+
+  // New: typed selected option
+  _PersonalisationOption _selectedOption = _options.first;
 
   @override
   void dispose() {
@@ -102,7 +103,6 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   }
 
   void _addToCart() {
-    // We use a single static product id for personalisation so cart limits apply
     const product = Product(
       id: 'personalisation',
       name: 'Personalisation',
@@ -144,7 +144,6 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            // Personalised image preview
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Container(
@@ -164,8 +163,6 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
             const Text('£3.00 tax included',
                 style: TextStyle(color: Colors.grey)),
             const SizedBox(height: 18),
-
-            // Per line block
             const Text('Per Line',
                 style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
@@ -176,35 +173,26 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 SizedBox(
                   width: 220,
                   child: DropdownButtonFormField<String>(
-                    initialValue: _option,
-                    items: const [
-                      DropdownMenuItem(
-                          value: 'One Lines of Text',
-                          child: Text('One Lines of Text')),
-                      DropdownMenuItem(
-                          value: 'Two Lines of Text',
-                          child: Text('Two Lines of Text')),
-                      DropdownMenuItem(
-                          value: 'Three Lines of Text',
-                          child: Text('Three Lines of Text')),
-                      DropdownMenuItem(
-                          value: 'Four Lines of Text',
-                          child: Text('Four Lines of Text')),
-                      DropdownMenuItem(
-                          value: 'Small Logo (Chest)',
-                          child: Text('Small Logo (Chest)')),
-                      DropdownMenuItem(
-                          value: 'Large Logo (Back)',
-                          child: Text('Large Logo (Back)')),
-                    ],
+                    value: _selectedOption.id,
+                    items: _options
+                        .map(
+                          (option) => DropdownMenuItem(
+                            value: option.id,
+                            child: Text(option.label),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (v) {
-                      if (v != null) setState(() => _option = v);
+                      if (v == null) return;
+                      setState(() {
+                        _selectedOption =
+                            _options.firstWhere((option) => option.id == v);
+                      });
                     },
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 12),
             const Text('Personalisation Line 1',
                 style: TextStyle(fontWeight: FontWeight.w600)),
@@ -214,7 +202,6 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: 'Enter text'),
             ),
-
             const SizedBox(height: 12),
             Row(
               children: [
