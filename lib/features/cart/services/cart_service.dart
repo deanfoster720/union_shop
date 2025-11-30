@@ -7,6 +7,9 @@ class CartService extends ChangeNotifier {
   CartService._();
   static final CartService instance = CartService._();
 
+  /// Maximum quantity allowed per individual product
+  static const int maxPerItem = 5;
+
   final Map<String, CartItem> _items = {};
 
   List<CartItem> get items => _items.values.toList();
@@ -19,10 +22,14 @@ class CartService extends ChangeNotifier {
   void addItem(Product product, [int qty = 1]) {
     final id = product.id;
     final unit = product.discountedPrice ?? product.price;
+    final existing = _items[id]?.qty ?? 0;
+    final allowed = maxPerItem - existing;
+    if (allowed <= 0) return; // already at or above max
+    final toAdd = qty > allowed ? allowed : qty;
     if (_items.containsKey(id)) {
-      _items[id]!.qty += qty;
+      _items[id]!.qty += toAdd;
     } else {
-      _items[id] = CartItem(product: product, unitPrice: unit, qty: qty);
+      _items[id] = CartItem(product: product, unitPrice: unit, qty: toAdd);
     }
     notifyListeners();
   }
@@ -31,7 +38,8 @@ class CartService extends ChangeNotifier {
     if (qty < 1) return;
     final item = _items[productId];
     if (item != null) {
-      item.qty = qty;
+      final clamped = qty > maxPerItem ? maxPerItem : qty;
+      item.qty = clamped;
       notifyListeners();
     }
   }
@@ -53,4 +61,7 @@ class CartService extends ChangeNotifier {
     final item = _items[productId];
     return item?.subtotal ?? 0.0;
   }
+
+  /// Return current quantity in cart for a product id
+  int qtyFor(String productId) => _items[productId]?.qty ?? 0;
 }

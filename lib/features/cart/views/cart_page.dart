@@ -89,20 +89,22 @@ class _CartPageState extends State<CartPage> {
                                           '£${item.product.price.toStringAsFixed(2)}',
                                           style: const TextStyle(
                                             color: Colors.grey,
-                                            decoration: TextDecoration.lineThrough,
+                                            decoration:
+                                                TextDecoration.lineThrough,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
                                         Text(
                                           '£${item.product.discountedPrice!.toStringAsFixed(2)}',
-                                          style:
-                                              const TextStyle(color: Colors.grey),
+                                          style: const TextStyle(
+                                              color: Colors.grey),
                                         ),
                                       ],
                                     )
                                   : Text(
                                       'Unit: £${item.unitPrice.toStringAsFixed(2)}',
-                                      style: const TextStyle(color: Colors.grey)),
+                                      style:
+                                          const TextStyle(color: Colors.grey)),
                               const SizedBox(height: 8),
                               Row(
                                 children: [
@@ -126,10 +128,18 @@ class _CartPageState extends State<CartPage> {
                                       Icons.add_circle_outline,
                                     ),
                                     onPressed: () {
-                                      CartService.instance.updateQty(
-                                        item.product.id,
-                                        item.qty + 1,
-                                      );
+                                      if (item.qty < CartService.maxPerItem) {
+                                        CartService.instance.updateQty(
+                                          item.product.id,
+                                          item.qty + 1,
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: Text('Maximum 5 per item'),
+                                          duration: Duration(seconds: 2),
+                                        ));
+                                      }
                                     },
                                   ),
                                   const Spacer(),
