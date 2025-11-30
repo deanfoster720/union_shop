@@ -90,6 +90,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
 
   final _lineControllers =
       List.generate(4, (_) => TextEditingController(), growable: false);
+  final _formKey = GlobalKey<FormState>();
 
   int _qty = 1;
   static const _price = 3.0;
@@ -104,7 +105,20 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     super.dispose();
   }
 
+  bool _validateSelection() {
+    final valid = _formKey.currentState?.validate() ?? false;
+    if (!valid) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Please complete the highlighted fields.'),
+        duration: Duration(seconds: 2),
+      ));
+    }
+    return valid;
+  }
+
   void _addToCart() {
+    if (!_validateSelection()) return;
+
     const product = Product(
       id: 'personalisation',
       name: 'Personalisation',
@@ -138,132 +152,145 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
           onLogoTap: () => Navigator.pop(context), onPlaceholderPressed: () {}),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Personalisation',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                height: 200,
-                width: double.infinity,
-                color: Colors.grey[200],
-                child: Image.asset(
-                  'Assets/personalised_image.png',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => const Center(
-                      child: Icon(Icons.broken_image,
-                          size: 48, color: Colors.grey)),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Personalisation',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  color: Colors.grey[200],
+                  child: Image.asset(
+                    'Assets/personalised_image.png',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const Center(
+                        child: Icon(Icons.broken_image,
+                            size: 48, color: Colors.grey)),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-            const Text('£3.00 tax included',
-                style: TextStyle(color: Colors.grey)),
-            const SizedBox(height: 18),
-            const Text('Per Line',
-                style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: Text(
-                  _selectedOption.helper,
-                  style: const TextStyle(color: Colors.black54),
-                )),
-                const SizedBox(width: 12),
-                SizedBox(
-                  width: 240,
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedOption.id,
-                    items: _options
-                        .map(
-                          (option) => DropdownMenuItem(
-                            value: option.id,
-                            child: Text(option.label),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (v) {
-                      if (v == null) return;
-                      setState(() {
-                        _selectedOption =
-                            _options.firstWhere((option) => option.id == v);
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            if (_selectedOption.textLines > 0) ...[
               const SizedBox(height: 12),
-              const Text('Personalisation Text',
+              const Text('£3.00 tax included',
+                  style: TextStyle(color: Colors.grey)),
+              const SizedBox(height: 18),
+              const Text('Per Line',
                   style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
-              ...List.generate(_selectedOption.textLines, (index) {
-                final label = 'Line ${index + 1}';
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: TextFormField(
-                    controller: _lineControllers[index],
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintText: 'Enter $label',
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Text(
+                    _selectedOption.helper,
+                    style: const TextStyle(color: Colors.black54),
+                  )),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 240,
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedOption.id,
+                      items: _options
+                          .map(
+                            (option) => DropdownMenuItem(
+                              value: option.id,
+                              child: Text(option.label),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (v) {
+                        if (v == null) return;
+                        setState(() {
+                          _selectedOption =
+                              _options.firstWhere((option) => option.id == v);
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                );
-              }),
-            ],
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const Text('Quantity',
+                ],
+              ),
+              if (_selectedOption.textLines > 0) ...[
+                const SizedBox(height: 12),
+                const Text('Personalisation Text',
                     style: TextStyle(fontWeight: FontWeight.w600)),
-                const SizedBox(width: 12),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade300),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove),
-                        onPressed: _qty > 1
-                            ? () {
-                                setState(() => _qty--);
-                              }
-                            : null,
+                const SizedBox(height: 8),
+                ...List.generate(_selectedOption.textLines, (index) {
+                  final label = 'Line ${index + 1}';
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: TextFormField(
+                      controller: _lineControllers[index],
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintText: 'Enter $label',
                       ),
-                      Text('$_qty'),
-                      Builder(builder: (context) {
-                        final inCart =
-                            CartService.instance.qtyFor('personalisation');
-                        final remaining = CartService.maxPerItem - inCart;
-                        final canIncrement = remaining > 0 && _qty < remaining;
-                        return IconButton(
-                          icon: const Icon(Icons.add),
-                          onPressed: canIncrement
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return '$label is required';
+                        }
+                        return null;
+                      },
+                    ),
+                  );
+                }),
+              ],
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Text('Quantity',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 12),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: _qty > 1
                               ? () {
-                                  setState(() => _qty++);
+                                  setState(() => _qty--);
                                 }
                               : null,
-                        );
-                      }),
-                    ],
+                        ),
+                        Text('$_qty'),
+                        Builder(builder: (context) {
+                          final inCart =
+                              CartService.instance.qtyFor('personalisation');
+                          final remaining = CartService.maxPerItem - inCart;
+                          final canIncrement =
+                              remaining > 0 && _qty < remaining;
+                          return IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: canIncrement
+                                ? () {
+                                    setState(() => _qty++);
+                                  }
+                                : null,
+                          );
+                        }),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                    onPressed: _addToCart, child: const Text('ADD TO CART')),
-              ],
-            ),
-          ],
+                  const SizedBox(width: 16),
+                  ElevatedButton(
+                      onPressed: _addToCart, child: const Text('ADD TO CART')),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       footer: const Footer(),
