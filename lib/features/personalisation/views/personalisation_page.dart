@@ -65,6 +65,69 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               '£3.00 tax included',
               style: TextStyle(color: Colors.grey),
             ),
+            const SizedBox(height: 18),
+
+            // Per line block
+            const Text(
+              'Per Line',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const Expanded(child: Text('One Line of Text')),
+                const SizedBox(width: 12),
+                SizedBox(
+                  width: 220,
+                  child: DropdownButtonFormField<String>(
+                    value: _option,
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'One Lines of Text',
+                        child: Text('One Lines of Text'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Two Lines of Text',
+                        child: Text('Two Lines of Text'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Three Lines of Text',
+                        child: Text('Three Lines of Text'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Four Lines of Text',
+                        child: Text('Four Lines of Text'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Small Logo (Chest)',
+                        child: Text('Small Logo (Chest)'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Large Logo (Back)',
+                        child: Text('Large Logo (Back)'),
+                      ),
+                    ],
+                    onChanged: (v) {
+                      if (v != null) setState(() => _option = v);
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+            const Text(
+              'Personalisation Line 1',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _line1Controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter text',
+              ),
+            ),
           ],
         ),
       ),
