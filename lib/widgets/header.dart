@@ -38,7 +38,7 @@ class Header extends StatelessWidget {
                   final isDesktop = constraints.maxWidth >= 600;
 
                   if (isDesktop) {
-                    // Desktop version: currently same as original layout
+                    // Desktop: logo (left), nav links (center), icons (right)
                     return Row(
                       children: [
                         GestureDetector(
@@ -57,7 +57,24 @@ class Header extends StatelessWidget {
                             },
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _NavButton(label: 'Home', onPressed: () {}),
+                              const SizedBox(width: 8),
+                              _NavButton(label: 'Shop', onPressed: () {}),
+                              const SizedBox(width: 8),
+                              _NavButton(
+                                  label: 'The Print Shack', onPressed: () {}),
+                              const SizedBox(width: 8),
+                              _NavButton(label: 'SALE!', onPressed: () {}),
+                              const SizedBox(width: 8),
+                              _NavButton(label: 'About', onPressed: () {}),
+                            ],
+                          ),
+                        ),
                         ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 600),
                           child: Row(
@@ -130,7 +147,7 @@ class Header extends StatelessWidget {
                     );
                   }
 
-                  // Mobile version: currently same as original layout
+                  // Mobile version: still old layout for now
                   return Row(
                     children: [
                       GestureDetector(
