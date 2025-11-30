@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/features/shared/widgets/base_scaffold.dart';
-import 'package:union_shop/features/shared/widgets/footer.dart';
-import 'package:union_shop/features/shared/widgets/header.dart';
+import 'package:union_shop/core/widgets/base_scaffold.dart';
+import 'package:union_shop/core/widgets/footer.dart';
+import 'package:union_shop/core/widgets/header.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
