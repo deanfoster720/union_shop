@@ -45,7 +45,7 @@ class ProductRepository {
         price: 1.50,
         description:
             'High-quality postcard featuring a scenic shot of Portsmouth — perfect as a keepsake or gift.',
-        imageUrl: 'Assets/portsmouth_bookmark.png'),
+        imageUrl: 'Assets/portsmouth_postcard.png'),
     Product(
         id: '6',
         name: 'Portsmouth City Magnet',
@@ -66,6 +66,6 @@ class ProductRepository {
         price: 6.99,
         description:
             'A5 notebook with lined pages and a Portsmouth cover design — great for notes and sketches.',
-        imageUrl: 'Assets/portsmouth_bookmark.png'),
+        imageUrl: 'Assets/portsmouth_city_notebook.png'),
   ];
 }
