@@ -25,9 +25,9 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
 
   void _addToCart() {
     // Placeholder implementation for now
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Personalisation added to cart (placeholder)'),
-      duration: Duration(seconds: 2),
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Personalisation added to cart ($_qty)'),
+      duration: const Duration(seconds: 2),
     ));
   }
 
@@ -127,6 +127,47 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 border: OutlineInputBorder(),
                 hintText: 'Enter text',
               ),
+            ),
+
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Text(
+                  'Quantity',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: _qty > 1
+                            ? () {
+                                setState(() => _qty--);
+                              }
+                            : null,
+                      ),
+                      Text('$_qty'),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          setState(() => _qty++);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: _addToCart,
+                  child: const Text('ADD TO CART'),
+                ),
+              ],
             ),
           ],
         ),
