@@ -76,14 +76,14 @@ class _ClothingPageState extends State<ClothingPage> {
   @override
   Widget build(BuildContext context) {
     // Provide options and the apply function to ShopSkeleton
-    final filterOptions = const [
+    const filterOptions = [
       DropdownMenuItem(value: 'All', child: Text('All')),
       DropdownMenuItem(value: 'Clothing', child: Text('Clothing')),
       DropdownMenuItem(value: 'Merchandise', child: Text('Merch')),
       DropdownMenuItem(value: 'Popular', child: Text('Popular')),
     ];
 
-    final sortOptions = const [
+    const sortOptions = [
       DropdownMenuItem(value: 'None', child: Text('None')),
       DropdownMenuItem(value: 'Price: Low to High', child: Text('Low → High')),
       DropdownMenuItem(value: 'Price: High to Low', child: Text('High → Low')),
