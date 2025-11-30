@@ -77,7 +77,44 @@ class _HeaderState extends State<Header> {
                             children: [
                               _NavButton(label: 'Home', onPressed: () {}),
                               const SizedBox(width: 8),
-                              _NavButton(label: 'Shop', onPressed: () {}),
+                              // Shop with desktop popup submenu
+                              PopupMenuButton<int>(
+                                offset: const Offset(0, 40),
+                                itemBuilder: (ctx) => const [
+                                  PopupMenuItem(
+                                      value: 0, child: Text('Clothing')),
+                                  PopupMenuItem(
+                                      value: 1, child: Text('Merchandise')),
+                                  PopupMenuItem(
+                                      value: 2, child: Text('Halloween')),
+                                  PopupMenuItem(
+                                      value: 3,
+                                      child:
+                                          Text('Signature & Essential Range')),
+                                  PopupMenuItem(
+                                      value: 4,
+                                      child:
+                                          Text('Portsmouth City Collection')),
+                                  PopupMenuItem(
+                                      value: 5,
+                                      child: Text('Pride Collection')),
+                                  PopupMenuItem(
+                                      value: 6, child: Text('Graduation')),
+                                ],
+                                onSelected: (_) {},
+                                child: TextButton(
+                                  onPressed: null,
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: const Color(0xFF4d2963),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    textStyle: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  child: const Text('Shop'),
+                                ),
+                              ),
                               const SizedBox(width: 8),
                               _NavButton(
                                   label: 'The Print Shack', onPressed: () {}),
