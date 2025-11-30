@@ -11,9 +11,13 @@ class ShopSkeleton extends StatefulWidget {
   final String title;
   // Accept either list of names (String) or list of Product objects.
   final Iterable<dynamic> items;
+  // If provided, ShopSkeleton will render its own filter/sort UI and apply the
+  // provided callback to produce the displayed list. If not provided, the
+  // caller can supply a custom `filterWidget` instead.
   final Widget? filterWidget;
 
-  // Configuration for built-in filter/sort support
+  // Enable the built-in filter/sort UI (ShopSkeleton will manage selected
+  // values and call `applyFilterSort` to obtain the display list).
   final bool enableFilterSort;
   final List<DropdownMenuItem<String>>? filterOptions;
   final List<DropdownMenuItem<String>>? sortOptions;
@@ -48,13 +52,84 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
   List<dynamic> _computeDisplayItems() {
     if (widget.enableFilterSort && widget.applyFilterSort != null) {
       return widget.applyFilterSort!(
-        widget.items,
-        _selectedFilter,
-        _selectedSort,
-      );
+          widget.items, _selectedFilter, _selectedSort);
     }
     // Fallback: just return items as list
     return widget.items.toList();
+  }
+
+  Widget _buildFilterWidget() {
+    // If caller provided a custom widget, prefer it.
+    if (widget.filterWidget != null) return widget.filterWidget!;
+
+    // If built-in filter/sort is enabled, build default controls.
+    if (widget.enableFilterSort) {
+      final filterItems = widget.filterOptions ??
+          const [
+            DropdownMenuItem(value: 'All', child: Text('All')),
+          ];
+      final sortItems = widget.sortOptions ??
+          const [
+            DropdownMenuItem(value: 'Default', child: Text('Default')),
+          ];
+
+      // Ensure selected values are valid (in case options differ)
+      if (!filterItems.any((it) => it.value == _selectedFilter)) {
+        _selectedFilter = filterItems.first.value ?? 'All';
+      }
+      if (!sortItems.any((it) => it.value == _selectedSort)) {
+        _selectedSort = sortItems.first.value ?? 'Default';
+      }
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Wrap(
+          spacing: 16,
+          runSpacing: 8,
+          alignment: WrapAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('FILTER BY: ',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(width: 8),
+                DropdownButton<String>(
+                  value: _selectedFilter,
+                  items: filterItems,
+                  onChanged: (v) {
+                    if (v == null) return;
+                    setState(() {
+                      _selectedFilter = v;
+                    });
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('SORT BY: ',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(width: 8),
+                DropdownButton<String>(
+                  value: _selectedSort,
+                  items: sortItems,
+                  onChanged: (v) {
+                    if (v == null) return;
+                    setState(() {
+                      _selectedSort = v;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   @override
@@ -74,9 +149,9 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
               ),
             ),
             const SizedBox(height: 12),
-            // Optional filter widget (e.g. dropdown) placed under title
-            if (widget.filterWidget != null) ...[
-              widget.filterWidget!,
+            // Either caller's filter widget, or built-in filter controls
+            if (widget.filterWidget != null || widget.enableFilterSort) ...[
+              _buildFilterWidget(),
               const SizedBox(height: 24),
             ] else ...[
               const SizedBox(height: 36),
