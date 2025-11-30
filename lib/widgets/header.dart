@@ -28,7 +28,8 @@ class Header extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
-          // Main header row: use LayoutBuilder for desktop/mobile variants
+
+          // Main header row: single responsive bar
           SizedBox(
             height: 72,
             child: Container(
@@ -147,9 +148,19 @@ class Header extends StatelessWidget {
                     );
                   }
 
-                  // Mobile version: still old layout for now
+                  // Mobile: menu button + logo on left, icons on right
                   return Row(
                     children: [
+                      IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.grey),
+                        onPressed: onPlaceholderPressed,
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(
+                          minWidth: 32,
+                          minHeight: 32,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
                       GestureDetector(
                         onTap: onLogoTap,
                         child: Image.network(
@@ -218,19 +229,6 @@ class Header extends StatelessWidget {
                                       builder: (_) => const CartPage()),
                                 );
                               },
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.menu,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(
-                                minWidth: 32,
-                                minHeight: 32,
-                              ),
-                              onPressed: onPlaceholderPressed,
                             ),
                           ],
                         ),
