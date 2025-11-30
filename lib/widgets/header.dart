@@ -253,6 +253,59 @@ class _HeaderState extends State<Header> {
               ),
             ),
           ),
+
+          // Dropdown menu for mobile when open
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isDesktop = constraints.maxWidth >= 600;
+              if (isDesktop || !_menuOpen) return const SizedBox.shrink();
+
+              return Container(
+                width: double.infinity,
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextButton(
+                      onPressed: () => setState(() => _menuOpen = false),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Home'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => setState(() => _menuOpen = false),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('Shop'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => setState(() => _menuOpen = false),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('The Print Shack'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => setState(() => _menuOpen = false),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('SALE!'),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => setState(() => _menuOpen = false),
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('About'),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
