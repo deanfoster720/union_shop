@@ -17,7 +17,8 @@ void main() {
   });
 
   testWidgets('decrement button disabled at qty 1', (tester) async {
-    await tester.pumpWidget(MaterialApp(home: ProductPage(product: product)));
+    await tester
+        .pumpWidget(const MaterialApp(home: ProductPage(product: product)));
 
     // find the remove IconButton
     final removeFinder = find.widgetWithIcon(IconButton, Icons.remove);
@@ -32,7 +33,8 @@ void main() {
     // put 3 in cart so remaining = 2
     CartService.instance.addItem(product, 3);
 
-    await tester.pumpWidget(MaterialApp(home: ProductPage(product: product)));
+    await tester
+        .pumpWidget(const MaterialApp(home: ProductPage(product: product)));
 
     final addFinder = find.widgetWithIcon(IconButton, Icons.add);
     expect(addFinder, findsOneWidget);

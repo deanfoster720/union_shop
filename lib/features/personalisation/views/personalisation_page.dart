@@ -95,7 +95,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 SizedBox(
                   width: 220,
                   child: DropdownButtonFormField<String>(
-                    value: _option,
+                    initialValue: _option,
                     items: const [
                       DropdownMenuItem(
                           value: 'One Lines of Text',
