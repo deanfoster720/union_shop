@@ -129,3 +129,24 @@ class Header extends StatelessWidget {
     );
   }
 }
+
+class _NavButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  const _NavButton({Key? key, required this.label, required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        foregroundColor: const Color(0xFF4d2963),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
+      child: Text(label),
+    );
+  }
+}
