@@ -80,73 +80,80 @@ class _ClothingPageState extends State<ClothingPage> {
     // Compact, centered filter + sort widget to avoid overflowing on small screens
     final filterWidget = Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 520),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        constraints: const BoxConstraints(maxWidth: 420),
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 12,
+          runSpacing: 8,
           children: [
-            // FILTER
-            Row(
-              children: [
-                const Text('FILTER BY: ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-                const SizedBox(width: 6),
-                SizedBox(
-                  width: 160,
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: _filter,
-                    style: const TextStyle(fontSize: 13, color: Colors.black),
-                    items: const [
-                      DropdownMenuItem(
-                          value: 'All', child: Text('All Products')),
-                      DropdownMenuItem(
-                          value: 'Clothing', child: Text('Clothing')),
-                      DropdownMenuItem(
-                          value: 'Merchandise', child: Text('Merchandise')),
-                      DropdownMenuItem(
-                          value: 'Popular', child: Text('Popular')),
-                    ],
-                    onChanged: (v) {
-                      if (v == null) return;
-                      setState(() => _filter = v);
-                    },
+            // FILTER (compact)
+            SizedBox(
+              width: 120,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('FILTER BY',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+                  const SizedBox(height: 6),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: _filter,
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      items: const [
+                        DropdownMenuItem(value: 'All', child: Text('All')),
+                        DropdownMenuItem(
+                            value: 'Clothing', child: Text('Clothing')),
+                        DropdownMenuItem(
+                            value: 'Merchandise', child: Text('Merch')),
+                        DropdownMenuItem(
+                            value: 'Popular', child: Text('Popular')),
+                      ],
+                      onChanged: (v) {
+                        if (v == null) return;
+                        setState(() => _filter = v);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
-            const SizedBox(width: 16),
-
-            // SORT
-            Row(
-              children: [
-                const Text('SORT BY: ',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-                const SizedBox(width: 6),
-                SizedBox(
-                  width: 160,
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: _sort,
-                    style: const TextStyle(fontSize: 13, color: Colors.black),
-                    items: const [
-                      DropdownMenuItem(value: 'None', child: Text('None')),
-                      DropdownMenuItem(
-                          value: 'Price: Low to High',
-                          child: Text('Price: Low → High')),
-                      DropdownMenuItem(
-                          value: 'Price: High to Low',
-                          child: Text('Price: High → Low')),
-                    ],
-                    onChanged: (v) {
-                      if (v == null) return;
-                      setState(() => _sort = v);
-                    },
+            // SORT (compact)
+            SizedBox(
+              width: 140,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('SORT BY',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+                  const SizedBox(height: 6),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: _sort,
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
+                      items: const [
+                        DropdownMenuItem(value: 'None', child: Text('None')),
+                        DropdownMenuItem(
+                            value: 'Price: Low to High',
+                            child: Text('Low → High')),
+                        DropdownMenuItem(
+                            value: 'Price: High to Low',
+                            child: Text('High → Low')),
+                      ],
+                      onChanged: (v) {
+                        if (v == null) return;
+                        setState(() => _sort = v);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
