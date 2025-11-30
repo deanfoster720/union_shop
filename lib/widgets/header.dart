@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../views/cart_page.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   final VoidCallback onLogoTap;
   final VoidCallback onPlaceholderPressed;
 
@@ -11,6 +11,11 @@ class Header extends StatelessWidget {
     required this.onPlaceholderPressed,
   }) : super(key: key);
 
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +48,7 @@ class Header extends StatelessWidget {
                     return Row(
                       children: [
                         GestureDetector(
-                          onTap: onLogoTap,
+                          onTap: widget.onLogoTap,
                           child: Image.network(
                             'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
                             height: 18,
@@ -92,7 +97,7 @@ class Header extends StatelessWidget {
                                   minWidth: 32,
                                   minHeight: 32,
                                 ),
-                                onPressed: onPlaceholderPressed,
+                                onPressed: widget.onPlaceholderPressed,
                               ),
                               IconButton(
                                 icon: const Icon(
@@ -139,7 +144,7 @@ class Header extends StatelessWidget {
                                   minWidth: 32,
                                   minHeight: 32,
                                 ),
-                                onPressed: onPlaceholderPressed,
+                                onPressed: widget.onPlaceholderPressed,
                               ),
                             ],
                           ),
@@ -152,7 +157,7 @@ class Header extends StatelessWidget {
                   return Row(
                     children: [
                       GestureDetector(
-                        onTap: onLogoTap,
+                        onTap: widget.onLogoTap,
                         child: Image.network(
                           'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
                           height: 18,
@@ -184,7 +189,7 @@ class Header extends StatelessWidget {
                                 minWidth: 32,
                                 minHeight: 32,
                               ),
-                              onPressed: onPlaceholderPressed,
+                              onPressed: widget.onPlaceholderPressed,
                             ),
                             IconButton(
                               icon: const Icon(
@@ -226,7 +231,7 @@ class Header extends StatelessWidget {
                       const SizedBox(width: 6),
                       IconButton(
                         icon: const Icon(Icons.menu, color: Colors.grey),
-                        onPressed: onPlaceholderPressed,
+                        onPressed: widget.onPlaceholderPressed,
                         padding: const EdgeInsets.all(8),
                         constraints: const BoxConstraints(
                           minWidth: 32,
