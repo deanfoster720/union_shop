@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../views/cart_page.dart';
+import '../views/about_page.dart';
 
 class Header extends StatefulWidget {
   final VoidCallback onLogoTap;
@@ -115,8 +116,36 @@ class _HeaderState extends State<Header> {
                                 ),
                               ),
                               const SizedBox(width: 8),
-                              _NavButton(
-                                  label: 'The Print Shack', onPressed: () {}),
+                              // The Print Shack: desktop popup submenu
+                              PopupMenuButton<int>(
+                                offset: const Offset(0, 40),
+                                itemBuilder: (ctx) => const [
+                                  PopupMenuItem(value: 0, child: Text('About')),
+                                  PopupMenuItem(
+                                      value: 1, child: Text('Personalisation')),
+                                ],
+                                onSelected: (value) {
+                                  if (value == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => const AboutPage()),
+                                    );
+                                  }
+                                  // value == 1 does nothing for now
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  child: Text(
+                                    'The Print Shack',
+                                    style: const TextStyle(
+                                        color: Color(0xFF4d2963),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
                               const SizedBox(width: 8),
                               _NavButton(label: 'SALE!', onPressed: () {}),
                               const SizedBox(width: 8),
