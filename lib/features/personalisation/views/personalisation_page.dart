@@ -68,16 +68,21 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            // Placeholder image box
-            Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+            // Personalised image preview
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                height: 200,
+                width: double.infinity,
                 color: Colors.grey[200],
+                child: Image.asset(
+                  'Assets/personalised_image.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => const Center(
+                      child: Icon(Icons.broken_image,
+                          size: 48, color: Colors.grey)),
+                ),
               ),
-              child: const Center(
-                  child: Icon(Icons.image, size: 48, color: Colors.grey)),
             ),
             const SizedBox(height: 12),
             const Text('£3.00 tax included',
