@@ -14,6 +14,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  bool _isPlacingOrder = false;
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -237,8 +238,15 @@ class _CartPageState extends State<CartPage> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: _handleCheckout,
-                      child: const Text('Checkout'),
+                      onPressed: _isPlacingOrder ? null : _handleCheckout,
+                      child: _isPlacingOrder
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                  strokeWidth: 2, color: Colors.white),
+                            )
+                          : const Text('Checkout'),
                     ),
                     const SizedBox(width: 12),
                     OutlinedButton(
