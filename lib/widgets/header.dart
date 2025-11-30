@@ -181,7 +181,11 @@ class _HeaderState extends State<Header> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                _NavButton(label: 'SALE!', onPressed: () {}),
+                                _NavButton(
+                                    label: 'SALE!',
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/sale');
+                                    }),
                                 const SizedBox(width: 8),
                                 _NavButton(label: 'About', onPressed: () {}),
                               ],
@@ -547,11 +551,14 @@ class _HeaderState extends State<Header> {
                       ],
                     ),
                     TextButton(
-                      onPressed: () => setState(() {
-                        _menuOpen = false;
-                        _shopOpen = false;
-                        _printOpen = false;
-                      }),
+                      onPressed: () {
+                        setState(() {
+                          _menuOpen = false;
+                          _shopOpen = false;
+                          _printOpen = false;
+                        });
+                        Navigator.pushNamed(context, '/sale');
+                      },
                       child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text('SALE!'),
