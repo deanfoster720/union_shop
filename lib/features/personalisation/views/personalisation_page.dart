@@ -12,7 +12,83 @@ class PersonalisationPage extends StatefulWidget {
   State<PersonalisationPage> createState() => _PersonalisationPageState();
 }
 
+class _PersonalisationOption {
+  final String id;
+  final String label;
+  final double basePrice;
+  final int textLines;
+  final double extraLineCost;
+  final bool supportsUpload;
+  final double uploadSurcharge;
+  final String helper;
+
+  const _PersonalisationOption({
+    required this.id,
+    required this.label,
+    required this.basePrice,
+    required this.textLines,
+    this.extraLineCost = 0,
+    this.supportsUpload = false,
+    this.uploadSurcharge = 0,
+    this.helper = '',
+  });
+}
+
 class _PersonalisationPageState extends State<PersonalisationPage> {
+  // We’ll use this later as we upgrade the page
+  static const _options = [
+    _PersonalisationOption(
+      id: 'one-line',
+      label: 'One Line of Text',
+      basePrice: 3.0,
+      textLines: 1,
+      helper: 'One stitched line included.',
+    ),
+    _PersonalisationOption(
+      id: 'two-lines',
+      label: 'Two Lines of Text',
+      basePrice: 3.0,
+      textLines: 2,
+      extraLineCost: 1.25,
+      helper: 'Adds a second line (+£1.25) for job titles or teams.',
+    ),
+    _PersonalisationOption(
+      id: 'three-lines',
+      label: 'Three Lines of Text',
+      basePrice: 3.0,
+      textLines: 3,
+      extraLineCost: 1.25,
+      helper: 'Three stitched lines (+£1.25 per extra line).',
+    ),
+    _PersonalisationOption(
+      id: 'four-lines',
+      label: 'Four Lines of Text',
+      basePrice: 3.0,
+      textLines: 4,
+      extraLineCost: 1.25,
+      helper: 'Maximum coverage (+£1.25 per extra line).',
+    ),
+    _PersonalisationOption(
+      id: 'small-logo',
+      label: 'Small Logo (Chest)',
+      basePrice: 5.0,
+      textLines: 0,
+      supportsUpload: true,
+      uploadSurcharge: 2.0,
+      helper:
+          'Upload-ready artwork with a small stitch area (+£2 for upload prep).',
+    ),
+    _PersonalisationOption(
+      id: 'large-logo',
+      label: 'Large Logo (Back)',
+      basePrice: 7.0,
+      textLines: 0,
+      supportsUpload: true,
+      uploadSurcharge: 3.0,
+      helper: 'Best for high-impact branding (+£3 for upload prep).',
+    ),
+  ];
+
   String _option = 'One Lines of Text';
   final _line1Controller = TextEditingController();
   int _qty = 1;
