@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../views/cart_page.dart';
 import '../views/about_page.dart';
+import '../views/clothing_page.dart';
 
 class Header extends StatefulWidget {
   final VoidCallback onLogoTap;
@@ -121,7 +122,16 @@ class _HeaderState extends State<Header> {
                                   PopupMenuItem(
                                       value: 6, child: Text('Graduation')),
                                 ],
-                                onSelected: (_) {},
+                                onSelected: (value) {
+                                  // Only Clothing is wired for now; other values close the menu.
+                                  if (value == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => const ClothingPage()),
+                                    );
+                                  }
+                                },
                                 child: const Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 8),
@@ -387,11 +397,18 @@ class _HeaderState extends State<Header> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
+                                  onPressed: () {
+                                    setState(() {
+                                      _menuOpen = false;
+                                      _shopOpen = false;
+                                      _printOpen = false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => const ClothingPage()),
+                                    );
+                                  },
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('Clothing')),
