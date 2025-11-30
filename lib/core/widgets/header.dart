@@ -160,13 +160,10 @@ class _HeaderState extends State<Header> {
                                         child: Text('Personalisation')),
                                   ],
                                   onSelected: (value) {
-                                    if (value == 0) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const AboutPage()),
-                                      );
-                                    } else if (value == 1) {
+                                    // The Print Shack -> About is not implemented yet.
+                                    // Keep the About entry as a no-op so it behaves
+                                    // like the other unimplemented menu items.
+                                    if (value == 1) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -194,7 +191,15 @@ class _HeaderState extends State<Header> {
                                       Navigator.pushNamed(context, '/sale');
                                     }),
                                 const SizedBox(width: 8),
-                                _NavButton(label: 'About', onPressed: () {}),
+                                _NavButton(
+                                    label: 'About',
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => const AboutPage()),
+                                      );
+                                    }),
                               ],
                             ),
                           ),
@@ -525,18 +530,11 @@ class _HeaderState extends State<Header> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _menuOpen = false;
-                                      _shopOpen = false;
-                                      _printOpen = false;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => const AboutPage()),
-                                    );
-                                  },
+                                  onPressed: () => setState(() {
+                                    _menuOpen = false;
+                                    _shopOpen = false;
+                                    _printOpen = false;
+                                  }),
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('About')),
@@ -580,11 +578,17 @@ class _HeaderState extends State<Header> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => setState(() {
-                        _menuOpen = false;
-                        _shopOpen = false;
-                        _printOpen = false;
-                      }),
+                      onPressed: () {
+                        setState(() {
+                          _menuOpen = false;
+                          _shopOpen = false;
+                          _printOpen = false;
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const AboutPage()),
+                        );
+                      },
                       child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text('About'),
