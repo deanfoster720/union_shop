@@ -22,6 +22,52 @@ class _CartPageState extends State<CartPage> {
 
   void placeholderCallbackForButtons() {}
 
+  Future<void> _handleCheckout() async {
+    final items = CartService.instance.items;
+    if (items.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add items to cart before checkout')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isPlacingOrder = true;
+    });
+
+    try {
+      final success = await CheckoutService.instance.placeOrder(items);
+      if (!mounted) return;
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Order placed successfully!')),
+        );
+        CartService.instance.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Something went wrong placing your order. Try again.'),
+          ),
+        );
+      }
+    } catch (err) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Checkout failed. Please try again later.'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isPlacingOrder = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
@@ -193,9 +239,7 @@ class _CartPageState extends State<CartPage> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // no-op checkout
-                      },
+                      onPressed: _handleCheckout,
                       child: const Text('Checkout'),
                     ),
                     const SizedBox(width: 12),
