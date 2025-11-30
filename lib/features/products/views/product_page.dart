@@ -191,37 +191,23 @@ class _ProductPageState extends State<ProductPage> {
                                 : null,
                           ),
                           Text('$_qty'),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () {
-                              setState(() {
-                                final inCart =
-                                    CartService.instance.qtyFor(product.id);
-                                final remaining =
-                                    CartService.maxPerItem - inCart;
-                                if (remaining <= 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Maximum ${CartService.maxPerItem} per item'),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                } else if (_qty < remaining) {
-                                  _qty++;
-                                } else if (_qty >= remaining) {
-                                  // trying to select more than remaining allowed
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'You can only add $remaining more of this item'),
-                                      duration: const Duration(seconds: 2),
-                                    ),
-                                  );
-                                }
-                              });
-                            },
-                          ),
+                          Builder(builder: (context) {
+                            final inCart =
+                                CartService.instance.qtyFor(product.id);
+                            final remaining = CartService.maxPerItem - inCart;
+                            final canIncrement =
+                                remaining > 0 && _qty < remaining;
+                            return IconButton(
+                              icon: const Icon(Icons.add),
+                              onPressed: canIncrement
+                                  ? () {
+                                      setState(() {
+                                        _qty++;
+                                      });
+                                    }
+                                  : null,
+                            );
+                          }),
                         ],
                       ),
                     ),
