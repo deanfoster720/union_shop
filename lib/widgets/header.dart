@@ -17,6 +17,7 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> {
   bool _menuOpen = false;
+  bool _shopOpen = false;
 
   void _toggleMenu() {
     setState(() => _menuOpen = !_menuOpen);
@@ -273,12 +274,85 @@ class _HeaderState extends State<Header> {
                         child: Text('Home'),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () => setState(() => _menuOpen = false),
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Shop'),
-                      ),
+                    // Shop entry with expandable submenu on mobile
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TextButton(
+                          onPressed: () =>
+                              setState(() => _shopOpen = !_shopOpen),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Shop'),
+                              Icon(_shopOpen
+                                  ? Icons.expand_less
+                                  : Icons.expand_more),
+                            ],
+                          ),
+                        ),
+                        if (_shopOpen) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Clothing')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Merchandise')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Halloween')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child:
+                                          Text('Signature & Essential Range')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child:
+                                          Text('Portsmouth City Collection')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Pride Collection')),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      setState(() => _menuOpen = false),
+                                  child: const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('Graduation')),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     TextButton(
                       onPressed: () => setState(() => _menuOpen = false),
