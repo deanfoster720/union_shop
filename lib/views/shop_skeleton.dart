@@ -6,8 +6,10 @@ import 'package:union_shop/widgets/footer.dart';
 /// A generic skeleton used as the base for shop category pages.
 class ShopSkeleton extends StatelessWidget {
   final String title;
+  final List<String> items;
 
-  const ShopSkeleton({Key? key, required this.title}) : super(key: key);
+  const ShopSkeleton({Key? key, required this.title, required this.items})
+      : super(key: key);
 
   void _navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -30,6 +32,17 @@ class ShopSkeleton extends StatelessWidget {
                 color: Colors.black,
                 letterSpacing: 1,
               ),
+            ),
+            const SizedBox(height: 48),
+            Column(
+              children: items
+                  .map(
+                    (name) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(name),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
         ),
