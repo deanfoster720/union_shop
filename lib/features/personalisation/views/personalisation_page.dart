@@ -88,17 +88,20 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
     ),
   ];
 
-  final _line1Controller = TextEditingController();
-  int _qty = 1;
+  // Now using a fixed set of controllers for up to 4 lines
+  final _lineControllers =
+      List.generate(4, (_) => TextEditingController(), growable: false);
 
+  int _qty = 1;
   static const _price = 3.0;
 
-  // New: typed selected option
   _PersonalisationOption _selectedOption = _options.first;
 
   @override
   void dispose() {
-    _line1Controller.dispose();
+    for (final controller in _lineControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -198,7 +201,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                 style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             TextFormField(
-              controller: _line1Controller,
+              controller: _lineControllers[0],
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: 'Enter text'),
             ),
