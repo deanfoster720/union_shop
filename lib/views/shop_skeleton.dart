@@ -13,9 +13,23 @@ class ShopSkeleton extends StatelessWidget {
   final Iterable<dynamic> items;
   final Widget? filterWidget;
 
-  const ShopSkeleton(
-      {Key? key, required this.title, required this.items, this.filterWidget})
-      : super(key: key);
+  // New configuration for future built-in filter/sort support
+  final bool enableFilterSort;
+  final List<DropdownMenuItem<String>>? filterOptions;
+  final List<DropdownMenuItem<String>>? sortOptions;
+  final List<dynamic> Function(
+      Iterable<dynamic> items, String filter, String sort)? applyFilterSort;
+
+  const ShopSkeleton({
+    Key? key,
+    required this.title,
+    required this.items,
+    this.filterWidget,
+    this.enableFilterSort = false,
+    this.filterOptions,
+    this.sortOptions,
+    this.applyFilterSort,
+  }) : super(key: key);
 
   void _navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
