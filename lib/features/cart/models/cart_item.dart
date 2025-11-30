@@ -1,4 +1,4 @@
-import 'product.dart';
+import 'package:union_shop/features/products/models/product.dart';
 
 class CartItem {
   final Product product;

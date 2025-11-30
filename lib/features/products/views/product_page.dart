@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/widgets/base_scaffold.dart';
-import 'package:union_shop/widgets/header.dart';
-import 'package:union_shop/widgets/footer.dart';
-import 'package:union_shop/models/product.dart';
-import '../services/cart_service.dart';
+import 'package:union_shop/features/cart/services/cart_service.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/shared/widgets/base_scaffold.dart';
+import 'package:union_shop/features/shared/widgets/footer.dart';
+import 'package:union_shop/features/shared/widgets/header.dart';
 
 class ProductPage extends StatefulWidget {
   final Product product;

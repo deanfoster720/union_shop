@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/views/product_page.dart';
-import 'package:union_shop/repositories/product_repository.dart';
-import 'package:union_shop/models/product.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/repositories/product_repository.dart';
+import 'package:union_shop/features/products/views/product_page.dart';
 
 void main() {
   group('Product Page Tests', () {

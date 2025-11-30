@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/repositories/product_repository.dart';
+
 import 'shop_skeleton.dart';
-import '../repositories/product_repository.dart';
-import '../models/product.dart';
 
 class ClothingPage extends StatefulWidget {
   const ClothingPage({Key? key}) : super(key: key);

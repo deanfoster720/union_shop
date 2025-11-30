@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../views/cart_page.dart';
-import '../views/about_page.dart';
-import '../views/clothing_page.dart';
+import 'package:union_shop/features/about/views/about_page.dart';
+import 'package:union_shop/features/cart/views/cart_page.dart';
+import 'package:union_shop/features/products/views/clothing_page.dart';
 
 class Header extends StatefulWidget {
   final VoidCallback onLogoTap;

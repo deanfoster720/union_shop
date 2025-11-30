@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:union_shop/widgets/base_scaffold.dart';
-import 'package:union_shop/widgets/header.dart';
-import 'package:union_shop/widgets/footer.dart';
+import 'package:flutter/material.dart';
+import 'package:union_shop/features/shared/widgets/base_scaffold.dart';
+import 'package:union_shop/features/shared/widgets/footer.dart';
+import 'package:union_shop/features/shared/widgets/header.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);

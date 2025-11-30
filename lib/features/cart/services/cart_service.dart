@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:union_shop/features/products/models/product.dart';
+
 import '../models/cart_item.dart';
-import '../models/product.dart';
 
 class CartService extends ChangeNotifier {
   CartService._();

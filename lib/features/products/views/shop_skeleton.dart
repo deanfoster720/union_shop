@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/widgets/base_scaffold.dart';
-import 'package:union_shop/widgets/header.dart';
-import 'package:union_shop/widgets/footer.dart';
-import 'package:union_shop/models/product.dart';
-import 'package:union_shop/views/product_page.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/shared/widgets/base_scaffold.dart';
+import 'package:union_shop/features/shared/widgets/footer.dart';
+import 'package:union_shop/features/shared/widgets/header.dart';
+
+import 'product_page.dart';
 
 /// A generic skeleton used as the base for shop category pages.
 

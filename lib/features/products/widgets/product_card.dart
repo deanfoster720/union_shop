@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/models/product.dart';
-import 'package:union_shop/views/product_page.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/views/product_page.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;

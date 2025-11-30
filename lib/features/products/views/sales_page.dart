@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/shop_skeleton.dart';
-import 'package:union_shop/repositories/product_repository.dart';
+import 'package:union_shop/features/products/repositories/product_repository.dart';
+
+import 'shop_skeleton.dart';
 
 class SalesScreen extends StatefulWidget {
   const SalesScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/shop_skeleton.dart';
+import 'package:union_shop/features/products/views/shop_skeleton.dart';
 
 // Collections page reuses the ShopSkeleton so content and layout remain consistent.
 class CollectionsScreen extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/home_page.dart';
-import 'package:union_shop/views/about_page.dart';
-import 'package:union_shop/views/collections_page.dart';
-import 'package:union_shop/views/sign_in.dart';
-import 'package:union_shop/views/sales_page.dart';
+import 'package:union_shop/features/about/views/about_page.dart';
+import 'package:union_shop/features/auth/views/sign_in.dart';
+import 'package:union_shop/features/collections/views/collections_page.dart';
+import 'package:union_shop/features/home/views/home_page.dart';
+import 'package:union_shop/features/products/views/sales_page.dart';
 
 void main() {
   runApp(const UnionShopApp());
