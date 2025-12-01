@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/core/widgets/base_scaffold.dart';
 import 'package:union_shop/core/widgets/footer.dart';
 import 'package:union_shop/core/widgets/header.dart';
+import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -44,7 +45,12 @@ class AboutPage extends StatelessWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        // Clickable but intentionally does nothing for now.
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const PersonalisationPage(),
+                          ),
+                        );
                       },
                   ),
                 ],
