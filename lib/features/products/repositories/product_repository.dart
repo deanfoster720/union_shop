@@ -17,7 +17,7 @@ class ProductRepository {
         description:
             'Limited edition zip-up hoodie with embroidered Union logo. Midweight fleece for warmth and durability.',
         imageUrl: 'Assets/limited_edition_hoodie.png',
-        categories: ['Popular']),
+        categories: ['Popular', 'Clothing']),
     Product(
         id: '2',
         name: 'Essential T-shirt',
@@ -26,7 +26,7 @@ class ProductRepository {
         description:
             'Soft 100% cotton essential tee with a subtle Union print. Breathable and easy to wear every day.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Popular']),
+        categories: ['Popular', 'Clothing']),
     Product(
         id: '3',
         name: 'Signature Hoodie',
@@ -159,7 +159,7 @@ class ProductRepository {
         discountedPrice: 29.99,
         description: 'Unisex campus hoodie with screen-printed Union artwork.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Popular']),
+        categories: ['Popular', 'Clothing']),
     Product(
         id: '20',
         name: 'Water Bottle',
