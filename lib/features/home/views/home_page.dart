@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: null,
                           style: ButtonStyle(
-                            padding: MaterialStatePropertyAll(
+                            padding: WidgetStatePropertyAll(
                               EdgeInsets.symmetric(
                                 horizontal: isCompact ? 20 : 24,
                                 vertical: isCompact ? 12 : 14,
@@ -177,4 +177,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
