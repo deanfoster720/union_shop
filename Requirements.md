@@ -1,0 +1,2 @@
+Reduce Duplication in Header caused by Mobile View and Desktop View:
+Define a single list/model of navigation items (including shop/print submenus) in `lib/core/widgets/header.dart` and have both the desktop row and mobile dropdown build from it. Extract shared menu-building helpers to avoid duplicating the same popup/submenu entries and navigation handlers in the desktop (`_NavButton`/`PopupMenuButton` at lines ~96-206) and mobile sections (TextButtons at lines ~400-507).
