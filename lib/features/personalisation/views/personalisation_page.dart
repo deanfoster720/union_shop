@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/core/widgets/base_scaffold.dart';
 import 'package:union_shop/core/widgets/footer.dart';
 import 'package:union_shop/core/widgets/header.dart';
-import 'package:union_shop/features/cart/services/cart_service.dart';
-import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/personalisation/services/personalisation_service.dart';
 
 class PersonalisationPage extends StatefulWidget {
   const PersonalisationPage({Key? key}) : super(key: key);
@@ -12,86 +11,12 @@ class PersonalisationPage extends StatefulWidget {
   State<PersonalisationPage> createState() => _PersonalisationPageState();
 }
 
-class _PersonalisationOption {
-  final String id;
-  final String label;
-  final double basePrice;
-  final int textLines;
-  final double extraLineCost;
-  final bool supportsUpload;
-  final double uploadSurcharge;
-  final String helper;
-
-  const _PersonalisationOption({
-    required this.id,
-    required this.label,
-    required this.basePrice,
-    required this.textLines,
-    this.extraLineCost = 0,
-    this.supportsUpload = false,
-    this.uploadSurcharge = 0,
-    this.helper = '',
-  });
-}
-
 class _PersonalisationPageState extends State<PersonalisationPage> {
-  static const _options = [
-    _PersonalisationOption(
-      id: 'one-line',
-      label: 'One Line of Text',
-      basePrice: 3.0,
-      textLines: 1,
-      helper: 'One stitched line included.',
-    ),
-    _PersonalisationOption(
-      id: 'two-lines',
-      label: 'Two Lines of Text',
-      basePrice: 3.0,
-      textLines: 2,
-      extraLineCost: 1.25,
-      helper: 'Adds a second line (+£1.25) for job titles or teams.',
-    ),
-    _PersonalisationOption(
-      id: 'three-lines',
-      label: 'Three Lines of Text',
-      basePrice: 3.0,
-      textLines: 3,
-      extraLineCost: 1.25,
-      helper: 'Three stitched lines (+£1.25 per extra line).',
-    ),
-    _PersonalisationOption(
-      id: 'four-lines',
-      label: 'Four Lines of Text',
-      basePrice: 3.0,
-      textLines: 4,
-      extraLineCost: 1.25,
-      helper: 'Maximum coverage (+£1.25 per extra line).',
-    ),
-    _PersonalisationOption(
-      id: 'small-logo',
-      label: 'Small Logo (Chest)',
-      basePrice: 5.0,
-      textLines: 0,
-      supportsUpload: true,
-      uploadSurcharge: 2.0,
-      helper:
-          'Upload-ready artwork with a small stitch area (+£2 for upload prep).',
-    ),
-    _PersonalisationOption(
-      id: 'large-logo',
-      label: 'Large Logo (Back)',
-      basePrice: 7.0,
-      textLines: 0,
-      supportsUpload: true,
-      uploadSurcharge: 3.0,
-      helper: 'Best for high-impact branding (+£3 for upload prep).',
-    ),
-  ];
-
+  final _service = PersonalisationService();
   final _lineControllers =
       List.generate(4, (_) => TextEditingController(), growable: false);
   final _formKey = GlobalKey<FormState>();
-  _PersonalisationOption _selectedOption = _options.first;
+  PersonalisationOption _selectedOption = PersonalisationService.options.first;
   bool _includeUpload = false;
   int _qty = 1;
 
@@ -106,58 +31,31 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   List<TextEditingController> get _activeLineControllers =>
       _lineControllers.take(_selectedOption.textLines).toList();
 
-  double get _optionPrice {
-    final extraLineCount =
-        _selectedOption.textLines > 1 ? _selectedOption.textLines - 1 : 0;
-    final lineCost = extraLineCount * _selectedOption.extraLineCost;
-    final uploadCost = _selectedOption.supportsUpload && _includeUpload
-        ? _selectedOption.uploadSurcharge
-        : 0;
-    return _selectedOption.basePrice + lineCost + uploadCost;
-  }
+  PersonalisationSelection _currentSelection({int? qty}) => PersonalisationSelection(
+        option: _selectedOption,
+        includeUpload: _includeUpload,
+        lines: _currentLines(),
+        qty: qty ?? _qty,
+      );
+
+  double get _optionPrice => _service.optionPrice(
+        _selectedOption,
+        includeUpload: _includeUpload,
+      );
 
   double get _totalPrice => _optionPrice * _qty;
 
   List<String> _currentLines() =>
       _activeLineControllers.map((c) => c.text.trim()).toList();
 
-  String _productConfigKey() {
-    final lines = _currentLines();
-    final parts = [
-      _selectedOption.id,
-      _includeUpload ? 'upload' : 'no-upload',
-      ...lines.map((line) => line.isEmpty ? '-' : line.replaceAll(':', '-')),
-    ];
-    return parts.join(':');
-  }
-
-  String _productId() => 'personalisation-${_productConfigKey()}';
-
-  String _productDescription(List<String> lines) => [
-        'Option: ${_selectedOption.label}',
-        'Upload: ${_includeUpload ? 'yes' : 'no'}',
-        if (lines.isNotEmpty)
-          'Lines: ${lines.where((l) => l.isNotEmpty).join(' / ')}',
-      ].join(' • ');
-
-  String _priceBreakdown() {
-    final parts = <String>[
-      'Base £${_selectedOption.basePrice.toStringAsFixed(2)}'
-    ];
-    if (_selectedOption.textLines > 1 && _selectedOption.extraLineCost > 0) {
-      final count = _selectedOption.textLines - 1;
-      final total = count * _selectedOption.extraLineCost;
-      parts.add('$count extra line(s) +£${total.toStringAsFixed(2)}');
-    }
-    if (_selectedOption.supportsUpload && _includeUpload) {
-      parts.add(
-          'Artwork upload +£${_selectedOption.uploadSurcharge.toStringAsFixed(2)}');
-    }
-    return parts.join(' • ');
-  }
+  String _priceBreakdown() => _service.priceBreakdown(
+        _selectedOption,
+        includeUpload: _includeUpload,
+      );
 
   void _onOptionChanged(String optionId) {
-    final option = _options.firstWhere((it) => it.id == optionId);
+    final option =
+        PersonalisationService.options.firstWhere((it) => it.id == optionId);
     setState(() {
       _selectedOption = option;
       _includeUpload = option.supportsUpload;
@@ -165,51 +63,38 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   }
 
   bool _validateSelection() {
-    final valid = _formKey.currentState?.validate() ?? false;
-    if (!valid) {
+    final formValid = _formKey.currentState?.validate() ?? false;
+    if (!formValid) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please complete the highlighted fields.'),
         duration: Duration(seconds: 2),
       ));
       return false;
     }
-    if (_selectedOption.supportsUpload && !_includeUpload) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Enable artwork upload to proceed with logo options.'),
-        duration: Duration(seconds: 2),
+    final validation = _service.validateSelection(_currentSelection());
+    if (!validation.isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(validation.message ?? 'Please check your selection.'),
+        duration: const Duration(seconds: 2),
       ));
       return false;
     }
-    return valid;
+    return formValid;
   }
 
   void _addToCart() {
     if (!_validateSelection()) return;
 
-    final textLines = _currentLines();
-    final product = Product(
-      id: _productId(),
-      name: 'Personalisation - ${_selectedOption.label}',
-      price: _optionPrice,
-      description: _productDescription(textLines),
-    );
-
-    final existing = CartService.instance.qtyFor(product.id);
-    final allowed = CartService.maxPerItem - existing;
-    if (allowed <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-            'You already have the maximum personalisation items in your cart.'),
-        duration: Duration(seconds: 2),
+    final result = _service.addToCart(_currentSelection());
+    if (!result.success) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(result.message),
+        duration: const Duration(seconds: 2),
       ));
       return;
     }
-
-    final toAdd = _qty > allowed ? allowed : _qty;
-    CartService.instance.addItem(product, toAdd);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-          'Personalisation added to cart ($toAdd) at £${_optionPrice.toStringAsFixed(2)} each'),
+      content: Text(result.message),
       duration: const Duration(seconds: 2),
     ));
   }
@@ -276,7 +161,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                     width: 240,
                     child: DropdownButtonFormField<String>(
                       value: _selectedOption.id,
-                      items: _options
+                      items: PersonalisationService.options
                           .map((option) => DropdownMenuItem(
                                 value: option.id,
                                 child: Text(option.label),
@@ -360,11 +245,9 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                         ),
                         Text('$_qty'),
                         Builder(builder: (context) {
-                          final inCart =
-                              CartService.instance.qtyFor(_productId());
-                          final remaining = CartService.maxPerItem - inCart;
-                          final canIncrement =
-                              remaining > 0 && _qty < remaining;
+                          final remaining = _service
+                              .remainingQtyForSelection(_currentSelection());
+                          final canIncrement = remaining > 0 && _qty < remaining;
                           return IconButton(
                             icon: const Icon(Icons.add),
                             onPressed: canIncrement
