@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/features/about/views/about_page.dart';
+import 'package:union_shop/features/about/views/about_print_shack_page.dart';
 import 'package:union_shop/features/cart/views/cart_page.dart';
 import 'package:union_shop/features/products/views/clothing_page.dart';
 import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
@@ -160,10 +161,14 @@ class _HeaderState extends State<Header> {
                                         child: Text('Personalisation')),
                                   ],
                                   onSelected: (value) {
-                                    // The Print Shack -> About is not implemented yet.
-                                    // Keep the About entry as a no-op so it behaves
-                                    // like the other unimplemented menu items.
-                                    if (value == 1) {
+                                    if (value == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const PrintShackPage()),
+                                      );
+                                    } else if (value == 1) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -530,11 +535,19 @@ class _HeaderState extends State<Header> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
+                                  onPressed: () {
+                                    setState(() {
+                                      _menuOpen = false;
+                                      _shopOpen = false;
+                                      _printOpen = false;
+                                    });
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const PrintShackPage()),
+                                    );
+                                  },
                                   child: const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text('About')),
