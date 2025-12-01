@@ -24,6 +24,39 @@ class _HeaderState extends State<Header> {
   bool? _shopOpen = false;
   bool? _printOpen = false;
 
+  List<_NavItem> get _navItems => [
+        _NavItem(label: 'Home', onTap: _navigateToHome),
+        _NavItem.withChildren(label: 'Shop', children: [
+          _NavItem(
+            label: 'Clothing',
+            onTap: () => _navigateToPage(const ClothingPage()),
+          ),
+          _NavItem(label: 'Merchandise', onTap: _closeMenus),
+          _NavItem(label: 'Halloween', onTap: _closeMenus),
+          _NavItem(
+              label: 'Signature & Essential Range', onTap: _closeMenus),
+          _NavItem(
+              label: 'Portsmouth City Collection', onTap: _closeMenus),
+          _NavItem(label: 'Pride Collection', onTap: _closeMenus),
+          _NavItem(label: 'Graduation', onTap: _closeMenus),
+        ]),
+        _NavItem.withChildren(label: 'The Print Shack', children: [
+          _NavItem(
+            label: 'About',
+            onTap: () => _navigateToPage(const PrintShackPage()),
+          ),
+          _NavItem(
+            label: 'Personalisation',
+            onTap: () => _navigateToPage(const PersonalisationPage()),
+          ),
+        ]),
+        _NavItem(label: 'SALE!', onTap: () => _navigateToNamed('/sale')),
+        _NavItem(
+          label: 'About',
+          onTap: () => _navigateToPage(const AboutPage()),
+        ),
+      ];
+
   void _toggleMenu() {
     setState(() {
       final newVal = !(_menuOpen ?? false);
@@ -35,13 +68,136 @@ class _HeaderState extends State<Header> {
     });
   }
 
-  void _navigateToHome() {
+  void _closeMenus() {
     setState(() {
       _menuOpen = false;
       _shopOpen = false;
       _printOpen = false;
     });
+  }
+
+  void _navigateToHome() {
+    _closeMenus();
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+  }
+
+  void _navigateToPage(Widget page) {
+    _closeMenus();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => page),
+    );
+  }
+
+  void _navigateToNamed(String route) {
+    _closeMenus();
+    Navigator.pushNamed(context, route);
+  }
+
+  List<Widget> _buildDesktopNavItems() {
+    final items = <Widget>[];
+    final navItems = _navItems;
+    for (var i = 0; i < navItems.length; i++) {
+      items.add(_buildDesktopNavItem(navItems[i]));
+      if (i != navItems.length - 1) {
+        items.add(const SizedBox(width: 8));
+      }
+    }
+    return items;
+  }
+
+  Widget _buildDesktopNavItem(_NavItem item) {
+    if (item.children.isEmpty) {
+      return _NavButton(label: item.label, onPressed: item.onTap);
+    }
+
+    return PopupMenuButton<_NavItem>(
+      offset: const Offset(0, 40),
+      itemBuilder: (ctx) => item.children
+          .map(
+            (child) => PopupMenuItem<_NavItem>(
+              value: child,
+              child: Text(child.label),
+            ),
+          )
+          .toList(),
+      onSelected: (value) => value.onTap(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Text(
+          item.label,
+          style: const TextStyle(
+              color: Color(0xFF4d2963),
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildMobileNavItems() {
+    return _navItems
+        .map((item) => item.children.isEmpty
+            ? _buildMobileButton(item)
+            : _buildMobileSubmenu(item))
+        .toList();
+  }
+
+  Widget _buildMobileButton(_NavItem item) {
+    return TextButton(
+      onPressed: item.onTap,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(item.label),
+      ),
+    );
+  }
+
+  Widget _buildMobileSubmenu(_NavItem item) {
+    final isOpen = _isExpanded(item);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextButton(
+          onPressed: () => _toggleSubmenu(item),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(item.label),
+              Icon(isOpen ? Icons.expand_less : Icons.expand_more),
+            ],
+          ),
+        ),
+        if (isOpen)
+          Padding(
+            padding: const EdgeInsets.only(left: 12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children:
+                  item.children.map((child) => _buildMobileButton(child)).toList(),
+            ),
+          ),
+      ],
+    );
+  }
+
+  bool _isExpanded(_NavItem item) {
+    switch (item.label) {
+      case 'Shop':
+        return _shopOpen ?? false;
+      case 'The Print Shack':
+        return _printOpen ?? false;
+      default:
+        return false;
+    }
+  }
+
+  void _toggleSubmenu(_NavItem item) {
+    setState(() {
+      final newVal = !_isExpanded(item);
+      _shopOpen = item.label == 'Shop' ? newVal : false;
+      _printOpen = item.label == 'The Print Shack' ? newVal : false;
+    });
   }
 
   @override
@@ -97,114 +253,7 @@ class _HeaderState extends State<Header> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _NavButton(
-                                    label: 'Home',
-                                    onPressed: () => _navigateToHome()),
-                                const SizedBox(width: 8),
-                                // Shop with desktop popup submenu
-                                PopupMenuButton<int>(
-                                  offset: const Offset(0, 40),
-                                  itemBuilder: (ctx) => const [
-                                    PopupMenuItem(
-                                        value: 0, child: Text('Clothing')),
-                                    PopupMenuItem(
-                                        value: 1, child: Text('Merchandise')),
-                                    PopupMenuItem(
-                                        value: 2, child: Text('Halloween')),
-                                    PopupMenuItem(
-                                        value: 3,
-                                        child: Text(
-                                            'Signature & Essential Range')),
-                                    PopupMenuItem(
-                                        value: 4,
-                                        child:
-                                            Text('Portsmouth City Collection')),
-                                    PopupMenuItem(
-                                        value: 5,
-                                        child: Text('Pride Collection')),
-                                    PopupMenuItem(
-                                        value: 6, child: Text('Graduation')),
-                                  ],
-                                  onSelected: (value) {
-                                    // Only Clothing is wired for now; other values close the menu.
-                                    if (value == 0) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => ClothingPage()),
-                                      );
-                                    }
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
-                                    child: Text(
-                                      'Shop',
-                                      style: TextStyle(
-                                          color: Color(0xFF4d2963),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                // The Print Shack: desktop popup submenu
-                                PopupMenuButton<int>(
-                                  offset: const Offset(0, 40),
-                                  itemBuilder: (ctx) => const [
-                                    PopupMenuItem(
-                                        value: 0, child: Text('About')),
-                                    PopupMenuItem(
-                                        value: 1,
-                                        child: Text('Personalisation')),
-                                  ],
-                                  onSelected: (value) {
-                                    if (value == 0) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const PrintShackPage()),
-                                      );
-                                    } else if (value == 1) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const PersonalisationPage()),
-                                      );
-                                    }
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
-                                    child: Text(
-                                      'The Print Shack',
-                                      style: TextStyle(
-                                          color: Color(0xFF4d2963),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                _NavButton(
-                                    label: 'SALE!',
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, '/sale');
-                                    }),
-                                const SizedBox(width: 8),
-                                _NavButton(
-                                    label: 'About',
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => const AboutPage()),
-                                      );
-                                    }),
-                              ],
+                              children: _buildDesktopNavItems(),
                             ),
                           ),
                         ),
@@ -388,225 +437,7 @@ class _HeaderState extends State<Header> {
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextButton(
-                      onPressed: () => _navigateToHome(),
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Home'),
-                      ),
-                    ),
-                    // Shop entry with expandable submenu on mobile
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextButton(
-                          onPressed: () => setState(() {
-                            final newVal = !(_shopOpen ?? false);
-                            _shopOpen = newVal;
-                            if (newVal) _printOpen = false;
-                          }),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Shop'),
-                              Icon((_shopOpen ?? false)
-                                  ? Icons.expand_less
-                                  : Icons.expand_more),
-                            ],
-                          ),
-                        ),
-                        if ((_shopOpen ?? false)) ...[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _menuOpen = false;
-                                      _shopOpen = false;
-                                      _printOpen = false;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => ClothingPage()),
-                                    );
-                                  },
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Clothing')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Merchandise')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Halloween')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child:
-                                          Text('Signature & Essential Range')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child:
-                                          Text('Portsmouth City Collection')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Pride Collection')),
-                                ),
-                                TextButton(
-                                  onPressed: () => setState(() {
-                                    _menuOpen = false;
-                                    _shopOpen = false;
-                                    _printOpen = false;
-                                  }),
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Graduation')),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    // Mobile: Print Shack entry with expandable submenu
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextButton(
-                          onPressed: () => setState(() {
-                            final newVal = !(_printOpen ?? false);
-                            _printOpen = newVal;
-                            if (newVal) _shopOpen = false;
-                          }),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('The Print Shack'),
-                              Icon((_printOpen ?? false)
-                                  ? Icons.expand_less
-                                  : Icons.expand_more),
-                            ],
-                          ),
-                        ),
-                        if ((_printOpen ?? false)) ...[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _menuOpen = false;
-                                      _shopOpen = false;
-                                      _printOpen = false;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const PrintShackPage()),
-                                    );
-                                  },
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('About')),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _menuOpen = false;
-                                      _shopOpen = false;
-                                      _printOpen = false;
-                                    });
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const PersonalisationPage()),
-                                    );
-                                  },
-                                  child: const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('Personalisation')),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _menuOpen = false;
-                          _shopOpen = false;
-                          _printOpen = false;
-                        });
-                        Navigator.pushNamed(context, '/sale');
-                      },
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('SALE!'),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _menuOpen = false;
-                          _shopOpen = false;
-                          _printOpen = false;
-                        });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const AboutPage()),
-                        );
-                      },
-                      child: const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('About'),
-                      ),
-                    ),
-                  ],
+                  children: _buildMobileNavItems(),
                 ),
               );
             },
@@ -616,6 +447,19 @@ class _HeaderState extends State<Header> {
     );
   }
 }
+
+class _NavItem {
+  final String label;
+  final VoidCallback onTap;
+  final List<_NavItem> children;
+
+  _NavItem({required this.label, required this.onTap}) : children = const [];
+
+  _NavItem.withChildren({required this.label, required this.children})
+      : onTap = _noop;
+}
+
+void _noop() {}
 
 class _NavButton extends StatelessWidget {
   final String label;
