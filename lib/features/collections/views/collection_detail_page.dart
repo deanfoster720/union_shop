@@ -15,8 +15,8 @@ class CollectionDetailPage extends StatelessWidget {
     super.key,
     required this.collectionName,
     CollectionService? collectionService,
-  }) : collectionService =
-            collectionService ?? CollectionService(productRepository: ProductRepository.instance);
+  }) : collectionService = collectionService ??
+            CollectionService(productRepository: ProductRepository.instance);
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -24,9 +24,11 @@ class CollectionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsFuture = collectionService.loadProductsForCollection(collectionName);
+    final productsFuture =
+        collectionService.loadProductsForCollection(collectionName);
 
     return BaseScaffold(
+      scrollable: false,
       header: Header(
         onLogoTap: () => navigateToHome(context),
         onPlaceholderPressed: () {},
@@ -88,9 +90,7 @@ class CollectionDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-
             const SizedBox(height: 24),
-
             Expanded(
               child: FutureBuilder<List<Product>>(
                 future: productsFuture,
@@ -100,22 +100,26 @@ class CollectionDetailPage extends StatelessWidget {
                   }
 
                   if (snapshot.hasError) {
-                    return const Center(child: Text('Failed to load products.'));
+                    return const Center(
+                        child: Text('Failed to load products.'));
                   }
 
                   final products = snapshot.data ?? [];
 
                   if (products.isEmpty) {
                     return const Center(
-                      child: Text('No products are available for this collection.'),
+                      child: Text(
+                          'No products are available for this collection.'),
                     );
                   }
 
                   return GridView.count(
-                    crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 800 ? 3 : 1,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    children: products.map((p) => ProductCard(product: p)).toList(),
+                    children:
+                        products.map((p) => ProductCard(product: p)).toList(),
                   );
                 },
               ),

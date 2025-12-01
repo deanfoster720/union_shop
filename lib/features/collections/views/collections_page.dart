@@ -21,6 +21,7 @@ class CollectionsScreen extends StatelessWidget {
     }
 
     return BaseScaffold(
+      scrollable: false,
       header: Header(onLogoTap: navigateToHome, onPlaceholderPressed: () {}),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
