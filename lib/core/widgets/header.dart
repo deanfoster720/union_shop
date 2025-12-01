@@ -92,6 +92,17 @@ class _HeaderState extends State<Header> {
     Navigator.pushNamed(context, route);
   }
 
+  void _openSignIn() {
+    Navigator.pushNamed(context, '/sign_in');
+  }
+
+  void _openCart() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const CartPage()),
+    );
+  }
+
   List<Widget> _buildDesktopNavItems() {
     final items = <Widget>[];
     final navItems = _navItems;
@@ -261,52 +272,10 @@ class _HeaderState extends State<Header> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.search,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                constraints: const BoxConstraints(
-                                  minWidth: 32,
-                                  minHeight: 32,
-                                ),
-                                onPressed: widget.onPlaceholderPressed,
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.person_outline,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                constraints: const BoxConstraints(
-                                  minWidth: 32,
-                                  minHeight: 32,
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/sign_in');
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.shopping_bag_outlined,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                constraints: const BoxConstraints(
-                                  minWidth: 32,
-                                  minHeight: 32,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const CartPage()),
-                                  );
-                                },
+                              _IconRow(
+                                onSearch: widget.onPlaceholderPressed,
+                                onPerson: _openSignIn,
+                                onCart: _openCart,
                               ),
                               IconButton(
                                 icon: const Icon(
@@ -350,57 +319,10 @@ class _HeaderState extends State<Header> {
                       const Spacer(),
                       ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.search,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(
-                                minWidth: 32,
-                                minHeight: 32,
-                              ),
-                              onPressed: widget.onPlaceholderPressed,
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.person_outline,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(
-                                minWidth: 32,
-                                minHeight: 32,
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/sign_in');
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.shopping_bag_outlined,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(
-                                minWidth: 32,
-                                minHeight: 32,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => const CartPage()),
-                                );
-                              },
-                            ),
-                          ],
+                        child: _IconRow(
+                          onSearch: widget.onPlaceholderPressed,
+                          onPerson: _openSignIn,
+                          onCart: _openCart,
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -477,6 +399,67 @@ class _NavButton extends StatelessWidget {
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
       child: Text(label),
+    );
+  }
+}
+
+class _IconRow extends StatelessWidget {
+  final VoidCallback onSearch;
+  final VoidCallback onPerson;
+  final VoidCallback onCart;
+
+  const _IconRow({
+    Key? key,
+    required this.onSearch,
+    required this.onPerson,
+    required this.onCart,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: const Icon(
+            Icons.search,
+            size: 18,
+            color: Colors.grey,
+          ),
+          padding: const EdgeInsets.all(8),
+          constraints: const BoxConstraints(
+            minWidth: 32,
+            minHeight: 32,
+          ),
+          onPressed: onSearch,
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.person_outline,
+            size: 18,
+            color: Colors.grey,
+          ),
+          padding: const EdgeInsets.all(8),
+          constraints: const BoxConstraints(
+            minWidth: 32,
+            minHeight: 32,
+          ),
+          onPressed: onPerson,
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.shopping_bag_outlined,
+            size: 18,
+            color: Colors.grey,
+          ),
+          padding: const EdgeInsets.all(8),
+          constraints: const BoxConstraints(
+            minWidth: 32,
+            minHeight: 32,
+          ),
+          onPressed: onCart,
+        ),
+      ],
     );
   }
 }
