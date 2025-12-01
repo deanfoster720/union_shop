@@ -23,29 +23,29 @@ class _SalesScreenState extends State<SalesScreen> {
 
   List<Product> _applyFilterSort(
       Iterable<Product> items, String filter, String sort) {
-    return _productsService.filterDiscountedProducts(
-      items,
-      filter: filter,
-      sort: sort,
-    );
+    return _productsService
+        .filterAndSort(
+          items.cast<Product>(),
+          filter: filter,
+          sort: sort,
+        )
+        .cast<Product>();
   }
 
   Widget _buildShop(List<Product> products) {
     const filterOptions = [
       DropdownMenuItem(value: 'All', child: Text('All')),
-      DropdownMenuItem(value: 'Under £5', child: Text('Under £5')),
-      DropdownMenuItem(value: '£5 - £20', child: Text('£5 - £20')),
-      DropdownMenuItem(value: 'Over £20', child: Text('Over £20')),
+      DropdownMenuItem(value: 'Clothing', child: Text('Clothing')),
+      DropdownMenuItem(value: 'Merchandise', child: Text('Merchandise')),
+      DropdownMenuItem(value: 'Popular', child: Text('Popular')),
     ];
 
     const sortOptions = [
-      DropdownMenuItem(value: 'Default', child: Text('Default')),
+      DropdownMenuItem(value: 'None', child: Text('None')),
       DropdownMenuItem(
-          value: 'Price: Low → High', child: Text('Price: Low → High')),
+          value: 'Price: Low to High', child: Text('Price: Low → High')),
       DropdownMenuItem(
-          value: 'Price: High → Low', child: Text('Price: High → Low')),
-      DropdownMenuItem(value: 'Name: A → Z', child: Text('Name: A → Z')),
-      DropdownMenuItem(value: 'Name: Z → A', child: Text('Name: Z → A')),
+          value: 'Price: High to Low', child: Text('Price: High → Low')),
     ];
 
     return ShopSkeleton(
