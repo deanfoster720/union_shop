@@ -3,3 +3,6 @@ Define a single list/model of navigation items (including shop/print submenus) i
 
 Refactor the duplicated search/account/cart icon buttons into a shared helper widget and reuse it across desktop and mobile header sections to prevent parallel maintenance
 Extract the repeated search/account/cart icon buttons from `lib/core/widgets/header.dart` into a single helper (or stateless widget) that builds the icon row, and reuse it for both the desktop and mobile layouts to avoid parallel maintenance. The dropdown menu should only appear in mobile view. The list should only appear in desktop view.
+
+Add category field to products in ProductRepository for better organization:
+Add a `category` field to `Product` (e.g., enum or string) and populate it in `ProductRepository._products`. Update `ProductsService.filterAndSort` to use the explicit category rather than name-based keyword checks, adjusting the clothing page filter values to align with the new categories. File hints: `lib/features/products/models/product.dart`, `lib/features/products/repositories/product_repository.dart`, `lib/features/products/services/products_service.dart`, and `lib/features/products/views/clothing_page.dart`.
