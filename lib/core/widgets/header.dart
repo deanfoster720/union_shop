@@ -132,8 +132,7 @@ class _HeaderState extends State<Header> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) =>
-                                                const ClothingPage()),
+                                            builder: (_) => ClothingPage()),
                                       );
                                     }
                                   },
@@ -433,7 +432,7 @@ class _HeaderState extends State<Header> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => const ClothingPage()),
+                                          builder: (_) => ClothingPage()),
                                     );
                                   },
                                   child: const Align(

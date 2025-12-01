@@ -22,7 +22,7 @@ class UnionShopApp extends StatelessWidget {
       ),
       // Register app routes so pages like About are reachable by name
       routes: {
-        '/': (ctx) => const HomeScreen(),
+        '/': (ctx) => HomeScreen(),
         '/about': (ctx) => const AboutPage(),
         '/sign_in': (ctx) => const SignInPage(),
         '/collections': (ctx) => const CollectionsScreen(),
