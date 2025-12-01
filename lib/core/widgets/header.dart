@@ -173,7 +173,14 @@ class _HeaderState extends State<Header> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(item.label),
-              Icon(isOpen ? Icons.expand_less : Icons.expand_more),
+              Builder(
+                builder: (ctx) {
+                  final isMobile = MediaQuery.of(ctx).size.width < 600;
+                  return isMobile
+                      ? Icon(isOpen ? Icons.expand_less : Icons.expand_more)
+                      : const SizedBox.shrink();
+                },
+              ),
             ],
           ),
         ),
@@ -276,19 +283,6 @@ class _HeaderState extends State<Header> {
                                 onSearch: widget.onPlaceholderPressed,
                                 onPerson: _openSignIn,
                                 onCart: _openCart,
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.menu,
-                                  size: 18,
-                                  color: Colors.grey,
-                                ),
-                                padding: const EdgeInsets.all(8),
-                                constraints: const BoxConstraints(
-                                  minWidth: 32,
-                                  minHeight: 32,
-                                ),
-                                onPressed: widget.onPlaceholderPressed,
                               ),
                             ],
                           ),
