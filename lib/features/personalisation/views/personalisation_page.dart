@@ -103,6 +103,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
+      backgroundColor: Colors.white,
       header: Header(
           onLogoTap: () => Navigator.pop(context), onPlaceholderPressed: () {}),
       body: Padding(
