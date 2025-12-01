@@ -48,6 +48,12 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
   String _selectedFilter = 'All';
   String _selectedSort = 'Default';
 
+  int _calculateCrossAxisCount(double maxWidth) {
+    if (maxWidth < 600) return 1;
+    if (maxWidth < 900) return 2;
+    return 3;
+  }
+
   void _navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
@@ -166,24 +172,30 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
             ] else ...[
               const SizedBox(height: 36),
             ],
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 24,
-              mainAxisSpacing: 48,
-              children: () {
-                final display = _computeDisplayItems();
-                final itemList = display.toList();
-                return List.generate(itemList.length, (index) {
+            LayoutBuilder(builder: (context, constraints) {
+              final crossAxisCount =
+                  _calculateCrossAxisCount(constraints.maxWidth);
+              final display = _computeDisplayItems();
+              final itemList = display.toList();
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 24,
+                  mainAxisSpacing: 48,
+                ),
+                itemCount: itemList.length,
+                itemBuilder: (context, index) {
                   final item = itemList[index];
                   if (item is Product) {
                     return _GridProductCard(product: item);
                   }
                   return _TextCard(name: item?.toString() ?? '');
-                });
-              }(),
-            ),
+                },
+              );
+            }),
           ],
         ),
       ),
