@@ -77,7 +77,15 @@ class CollectionsScreen extends StatelessWidget {
                         child: Stack(
                           children: [
                             Positioned.fill(
-                              child: Container(color: Colors.grey[200]),
+                              child: c.imageUrl != null
+                                  ? Image.asset(
+                                      c.imageUrl!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Container(color: Colors.grey[200]),
+                                    )
+                                  : Container(color: Colors.grey[200]),
                             ),
                             Positioned.fill(
                               child: Container(

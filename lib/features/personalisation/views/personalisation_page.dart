@@ -125,7 +125,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                   width: double.infinity,
                   color: Colors.grey[200],
                   child: Image.asset(
-                    'Assets/personalised_image.png',
+                    'Assets/product_images/personalised_image.png',
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Center(
                         child: Icon(Icons.broken_image,
