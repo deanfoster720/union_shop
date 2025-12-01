@@ -6,6 +6,7 @@ class Product {
   final String description;
   final String? imageUrl;
   final List<String> categories;
+  final List<String> collectionIds;
 
   const Product({
     required this.id,
@@ -15,6 +16,7 @@ class Product {
     required this.description,
     this.imageUrl,
     required this.categories,
+    this.collectionIds = const [],
   });
 
   String get displayPrice {
