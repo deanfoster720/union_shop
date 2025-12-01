@@ -5,6 +5,7 @@ class BaseScaffold extends StatelessWidget {
   final Widget? header;
   final Widget? footer;
   final bool scrollable;
+  final Color? backgroundColor;
 
   const BaseScaffold({
     Key? key,
@@ -12,11 +13,13 @@ class BaseScaffold extends StatelessWidget {
     this.header,
     this.footer,
     this.scrollable = true,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Column(

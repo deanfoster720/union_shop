@@ -15,6 +15,7 @@ class AboutPage extends StatelessWidget {
     }
 
     return BaseScaffold(
+      backgroundColor: Colors.white,
       header: Header(
         onLogoTap: navigateToHome,
         onPlaceholderPressed: () {},
@@ -26,7 +27,11 @@ class AboutPage extends StatelessWidget {
           children: [
             const Text(
               'Welcome to the Union Shop!',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 12),
             Text.rich(
@@ -56,27 +61,34 @@ class AboutPage extends StatelessWidget {
                 ],
               ),
               style: const TextStyle(
-                  fontSize: 16, color: Colors.grey, height: 1.5),
+                fontSize: 16,
+                color: Colors.black,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 12),
             const Text(
               'All online purchases are available for delivery or instore collection!',
-              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              style: TextStyle(fontSize: 16, color: Colors.black, height: 1.5),
             ),
             const SizedBox(height: 12),
             const Text(
               'We hope you enjoy our products as much as we enjoy offering them to you. If you have any questions or comments, please don’t hesitate to contact us at hello@upsu.net.',
-              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              style: TextStyle(fontSize: 16, color: Colors.black, height: 1.5),
             ),
             const SizedBox(height: 12),
             const Text(
               'Happy shopping!',
-              style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              style: TextStyle(fontSize: 16, color: Colors.black, height: 1.5),
             ),
             const SizedBox(height: 16),
             const Text(
               'The Union Shop & Reception Team',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
