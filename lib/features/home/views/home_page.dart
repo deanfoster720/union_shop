@@ -26,69 +26,94 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final heroSection = SizedBox(
-      height: 400,
-      width: double.infinity,
-      child: Stack(
-        children: [
-          // Background image
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561',
+    final heroSection = LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        final bool isCompact = screenWidth < 600;
+
+        final double height = isCompact ? 320 : 420;
+        final double titleSize = isCompact ? 26 : 32;
+        final double bodySize = isCompact ? 18 : 20;
+        final EdgeInsets contentPadding = EdgeInsets.symmetric(
+          horizontal: isCompact ? 16 : 24,
+          vertical: isCompact ? 24 : 40,
+        );
+
+        return SizedBox(
+          width: double.infinity,
+          height: height,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Background image
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561',
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
+                    color: Colors.black.withOpacity(0.7),
+                  ),
                 ),
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  // ignore: deprecated_member_use
-                  color: Colors.black.withOpacity(0.7),
+              // Content overlay
+              Padding(
+                padding: contentPadding,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 700),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Essential Range - Over 20% OFF!',
+                          style: TextStyle(
+                            fontSize: titleSize,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.2,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: isCompact ? 12 : 16),
+                        Text(
+                          "Over 20% off of our Essential Range. Come and grab yours while stock lasts!",
+                          style: TextStyle(
+                            fontSize: bodySize,
+                            color: Colors.white,
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: isCompact ? 20 : 32),
+                        ElevatedButton(
+                          onPressed: null,
+                          style: ButtonStyle(
+                            padding: MaterialStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                horizontal: isCompact ? 20 : 24,
+                                vertical: isCompact ? 12 : 14,
+                              ),
+                            ),
+                          ),
+                          child: const Text('BROWSE PRODUCTS'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-          // Content overlay
-          const Positioned(
-            left: 24,
-            right: 24,
-            top: 80,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Essential Range - Over 20% OFF!',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: 1.2,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  "Over 20% off of our Essential Range. Come and grab yours while stock lasts!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    height: 1.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: null,
-                  style: ButtonStyle(),
-                  child: Text('BROWSE PRODUCTS'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
 
     final productsSection = Container(
