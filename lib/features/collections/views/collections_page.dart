@@ -21,7 +21,6 @@ class CollectionsScreen extends StatelessWidget {
     }
 
     return BaseScaffold(
-      scrollable: false,
       header: Header(onLogoTap: navigateToHome, onPlaceholderPressed: () {}),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -34,74 +33,74 @@ class CollectionsScreen extends StatelessWidget {
             const Text('Browse curated collections of items',
                 style: TextStyle(fontSize: 16, color: Colors.grey)),
             const SizedBox(height: 24),
-            Expanded(
-              child: FutureBuilder<List<Collection>>(
-                future: collectionsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+            FutureBuilder<List<Collection>>(
+              future: collectionsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                  if (snapshot.hasError) {
-                    return const Center(
-                        child: Text('Failed to load collections.'));
-                  }
+                if (snapshot.hasError) {
+                  return const Center(
+                      child: Text('Failed to load collections.'));
+                }
 
-                  final collections = snapshot.data ?? [];
+                final collections = snapshot.data ?? [];
 
-                  if (collections.isEmpty) {
-                    return const Center(
-                        child: Text('No collections available.'));
-                  }
+                if (collections.isEmpty) {
+                  return const Center(
+                      child: Text('No collections available.'));
+                }
 
-                  return GridView.count(
-                    crossAxisCount:
-                        MediaQuery.of(context).size.width > 800 ? 3 : 1,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    children: collections.map((c) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => CollectionDetailPage(
-                                collectionName: c.name,
-                                collectionService: collectionService,
-                              ),
+                return GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount:
+                      MediaQuery.of(context).size.width > 800 ? 3 : 1,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  children: collections.map((c) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CollectionDetailPage(
+                              collectionName: c.name,
+                              collectionService: collectionService,
                             ),
-                          );
-                        },
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Container(color: Colors.grey[200]),
-                              ),
-                              Positioned.fill(
-                                child: Container(
-                                    color: const Color.fromRGBO(0, 0, 0, 0.35)),
-                              ),
-                              Center(
-                                child: Text(
-                                  c.name,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                          ),
+                        );
+                      },
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Container(color: Colors.grey[200]),
+                            ),
+                            Positioned.fill(
+                              child: Container(
+                                  color: const Color.fromRGBO(0, 0, 0, 0.35)),
+                            ),
+                            Center(
+                              child: Text(
+                                c.name,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    }).toList(),
-                  );
-                },
-              ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
             ),
           ],
         ),
