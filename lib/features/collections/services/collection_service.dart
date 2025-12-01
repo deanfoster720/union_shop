@@ -1,10 +1,20 @@
 import 'package:union_shop/features/products/models/product.dart';
 import 'package:union_shop/features/products/repositories/product_repository.dart';
+import '../repositories/collection_repository.dart';
+import '../models/collection.dart';
 
 class CollectionService {
-  CollectionService({required this.productRepository});
+  CollectionService({
+    required this.productRepository,
+    CollectionRepository? collectionRepository,
+  }) : collectionRepository =
+            collectionRepository ?? CollectionRepository.instance;
 
   final ProductRepository productRepository;
+  final CollectionRepository collectionRepository;
+
+  Future<List<Collection>> getCollections() =>
+      collectionRepository.fetchAllAsync();
 
   Future<List<Product>> loadProductsForCollection(
     String collectionName, {
@@ -12,8 +22,31 @@ class CollectionService {
   }) async {
     final products = await productRepository.fetchAllAsync();
 
-    final filteredIds =
-        _collectionProductIds[collectionId ?? _normalizeCollectionKey(collectionName)];
+    final collections = await collectionRepository.fetchAllAsync();
+
+    Collection? coll;
+    if (collectionId != null) {
+      for (final c in collections) {
+        if (c.id == collectionId) {
+          coll = c;
+          break;
+        }
+      }
+    }
+
+    if (coll == null) {
+      // try to match by name or normalized key
+      final key = _normalizeCollectionKey(collectionName);
+      for (final c in collections) {
+        if (c.id == key ||
+            c.name.toLowerCase() == collectionName.toLowerCase()) {
+          coll = c;
+          break;
+        }
+      }
+    }
+
+    final filteredIds = coll?.productIds;
 
     if (filteredIds == null) {
       return products;
@@ -24,16 +57,9 @@ class CollectionService {
   }
 
   String _normalizeCollectionKey(String value) {
-    final normalized = value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-');
+    final normalized =
+        value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-');
     final collapsed = normalized.replaceAll(RegExp(r'-+'), '-');
     return collapsed.replaceAll(RegExp(r'^-|-$'), '');
   }
-
-  static const Map<String, List<String>> _collectionProductIds = {
-    'autumn-favourites': ['1', '3', '8'],
-    'black-friday-clothing': ['1', '2', '3', '4'],
-    'clothing-original': ['3', '4'],
-    'elections-discounts': ['2', '5', '6'],
-    'essential-range': ['2', '5', '7', '8'],
-  };
 }
