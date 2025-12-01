@@ -10,6 +10,7 @@ void main() {
     name: 'Widget Product',
     price: 5.0,
     description: 'desc',
+    categories: [],
   );
 
   setUp(() {

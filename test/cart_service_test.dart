@@ -8,6 +8,7 @@ void main() {
     name: 'Test Product',
     price: 10.0,
     description: 'desc',
+    categories: [],
   );
 
   setUp(() {
