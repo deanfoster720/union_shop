@@ -17,8 +17,20 @@ class PrintShackPage extends StatelessWidget {
         onLogoTap: navigateToHome,
         onPlaceholderPressed: () {},
       ),
-      body: const Center(
-        child: Text('The Union Print Shack'),
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'The Union Print Shack',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 12),
+            ],
+          ),
+        ),
       ),
       footer: const Footer(),
     );
