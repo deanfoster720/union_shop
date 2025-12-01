@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/features/products/models/product.dart';
-import 'package:union_shop/features/products/repositories/product_repository.dart';
-import 'package:union_shop/features/products/widgets/product_card.dart';
 import 'package:union_shop/core/widgets/base_scaffold.dart';
 import 'package:union_shop/core/widgets/footer.dart';
 import 'package:union_shop/core/widgets/header.dart';
+import 'package:union_shop/features/home/services/home_service.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/widgets/product_card.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key, HomeService? homeService})
+      : _homeService = homeService ?? HomeService();
+
+  final HomeService _homeService;
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -88,9 +91,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
 
-    final products = ProductRepository.instance.fetchAll();
-
-    // Only show the first 6 products on the home page (same as previous hardcoded view)
     final productsSection = Container(
       color: Colors.white,
       child: Padding(
@@ -106,15 +106,31 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 48),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: MediaQuery.of(context).size.width > 600 ? 2 : 1,
-              crossAxisSpacing: 24,
-              mainAxisSpacing: 48,
-              children: products.take(6).map((Product product) {
-                return ProductCard(product: product);
-              }).toList(),
+            FutureBuilder<List<Product>>(
+              future: _homeService.fetchFeaturedProducts(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return const Text('Failed to load products');
+                }
+
+                final products = snapshot.data ?? [];
+
+                return GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount:
+                      MediaQuery.of(context).size.width > 600 ? 2 : 1,
+                  crossAxisSpacing: 24,
+                  mainAxisSpacing: 48,
+                  children: products
+                      .map((Product product) => ProductCard(product: product))
+                      .toList(),
+                );
+              },
             ),
           ],
         ),
