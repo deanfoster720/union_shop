@@ -89,7 +89,7 @@ class ProductRepository {
         price: 12.99,
         description:
             'Structured cap with embroidered Union logo — adjustable fit.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/union_cap.png',
         categories: ['Clothing'],
         collectionIds: ['clothing-original']),
     Product(
@@ -98,7 +98,7 @@ class ProductRepository {
         price: 9.99,
         description:
             'Knitted beanie with a folded cuff and Union patch — warm and soft.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/union_beanie.png',
         categories: ['Clothing'],
         collectionIds: ['clothing-original']),
     Product(
@@ -107,7 +107,7 @@ class ProductRepository {
         price: 4.99,
         description:
             'Comfortable cotton blend socks with subtle Union branding.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/union_socks.png',
         categories: ['Clothing'],
         collectionIds: ['clothing-original']),
     Product(
@@ -115,7 +115,7 @@ class ProductRepository {
         name: 'Campus Mug',
         price: 7.50,
         description: 'Ceramic mug with Union crest — dishwasher safe.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/campus_mug.png',
         categories: ['Merchandise'],
         collectionIds: ['clothing-original']),
     Product(
@@ -124,7 +124,7 @@ class ProductRepository {
         price: 8.99,
         description:
             'Reusable cotton tote bag with large Union print — perfect for shopping.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/union_tote_bag.png',
         categories: ['Merchandise'],
         collectionIds: ['elections-discounts']),
     Product(
@@ -133,7 +133,7 @@ class ProductRepository {
         price: 15.00,
         description:
             'A2 limited edition poster — high-quality print, numbered run.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/limited_edition_poster.png',
         categories: ['Merchandise'],
         collectionIds: ['elections-discounts']),
     Product(
@@ -141,7 +141,7 @@ class ProductRepository {
         name: 'Graduation Scarf',
         price: 19.99,
         description: 'Commemorative scarf with graduation year embroidery.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/graduation_scarf.png',
         categories: ['Clothing'],
         collectionIds: ['elections-discounts']),
     Product(
@@ -150,7 +150,7 @@ class ProductRepository {
         price: 3.99,
         description:
             'Set of 5 enamel badges celebrating Pride — limited stock.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/pride_badge_pack.png',
         categories: ['Merchandise'],
         collectionIds: ['elections-discounts']),
     Product(
@@ -158,7 +158,7 @@ class ProductRepository {
         name: 'Halloween Mask',
         price: 6.49,
         description: 'Reusable face mask with Halloween-themed print.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/halloween_mask.png',
         categories: ['Merchandise'],
         collectionIds: ['essential-range']),
     Product(
@@ -167,7 +167,7 @@ class ProductRepository {
         price: 22.00,
         description:
             'Compact LED desk lamp with adjustable brightness and USB power.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/study_desk_lamp.png',
         categories: ['Merchandise'],
         collectionIds: ['essential-range']),
     Product(
@@ -176,7 +176,7 @@ class ProductRepository {
         price: 42.00,
         discountedPrice: 29.99,
         description: 'Unisex campus hoodie with screen-printed Union artwork.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/campus_hoodie_unisex.png',
         categories: ['Popular', 'Clothing'],
         collectionIds: ['essential-range']),
     Product(
@@ -184,7 +184,7 @@ class ProductRepository {
         name: 'Water Bottle',
         price: 10.99,
         description: 'Insulated stainless steel water bottle with Union logo.',
-        imageUrl: 'Assets/product_images/essential_tshirt.png',
+        imageUrl: 'Assets/product_images/water_bottle.png',
         categories: ['Merchandise'],
         collectionIds: ['essential-range']),
   ];

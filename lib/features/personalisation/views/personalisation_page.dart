@@ -125,7 +125,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                   width: double.infinity,
                   color: Colors.grey[200],
                   child: Image.asset(
-                    'Assets/product_images/personalised_image.png',
+                    'Assets/personalisation_images/personalised_image.png',
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => const Center(
                         child: Icon(Icons.broken_image,
@@ -275,8 +275,9 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                             ),
                             Text('$_qty'),
                             Builder(builder: (context) {
-                              final remaining = _service
-                                  .remainingQtyForSelection(_currentSelection());
+                              final remaining =
+                                  _service.remainingQtyForSelection(
+                                      _currentSelection());
                               final canIncrement =
                                   remaining > 0 && _qty < remaining;
                               return IconButton(
@@ -306,8 +307,8 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                             ),
                             const Text(
                               'Price updates as you change options.',
-                              style:
-                                  TextStyle(color: Colors.black54, fontSize: 12),
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 12),
                             ),
                           ],
                         ),
