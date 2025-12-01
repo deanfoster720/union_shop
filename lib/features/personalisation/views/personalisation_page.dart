@@ -149,17 +149,15 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               const Text('Per Line',
                   style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: Text(
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isNarrow = constraints.maxWidth < 680;
+                  final helper = Text(
                     _selectedOption.helper,
                     style: const TextStyle(color: Colors.black54),
-                  )),
-                  const SizedBox(width: 12),
-                  SizedBox(
-                    width: 240,
+                  );
+                  final dropdown = ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 360),
                     child: DropdownButtonFormField<String>(
                       initialValue: _selectedOption.id,
                       items: PersonalisationService.options
@@ -177,8 +175,28 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                             'Options change required fields and pricing automatically.',
                       ),
                     ),
-                  ),
-                ],
+                  );
+
+                  if (isNarrow) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        helper,
+                        const SizedBox(height: 8),
+                        dropdown,
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: helper),
+                      const SizedBox(width: 12),
+                      dropdown,
+                    ],
+                  );
+                },
               ),
 
               if (_selectedOption.textLines > 0) ...[
@@ -224,62 +242,82 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
               ],
 
               const SizedBox(height: 12),
-              Row(
-                children: [
-                  const Text('Quantity',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(width: 12),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.remove),
-                          onPressed: _qty > 1
-                              ? () {
-                                  setState(() => _qty--);
-                                }
-                              : null,
-                        ),
-                        Text('$_qty'),
-                        Builder(builder: (context) {
-                          final remaining = _service
-                              .remainingQtyForSelection(_currentSelection());
-                          final canIncrement =
-                              remaining > 0 && _qty < remaining;
-                          return IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: canIncrement
-                                ? () {
-                                    setState(() => _qty++);
-                                  }
-                                : null,
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isCompact = constraints.maxWidth < 640;
+
+                  return Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
-                      Text(
-                        'Total: £${_totalPrice.toStringAsFixed(2)}',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      const Padding(
+                        padding: EdgeInsets.only(right: 4),
+                        child: Text('Quantity',
+                            style: TextStyle(fontWeight: FontWeight.w600)),
                       ),
-                      const Text(
-                        'Price updates as you change options.',
-                        style: TextStyle(color: Colors.black54, fontSize: 12),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove),
+                              onPressed: _qty > 1
+                                  ? () {
+                                      setState(() => _qty--);
+                                    }
+                                  : null,
+                            ),
+                            Text('$_qty'),
+                            Builder(builder: (context) {
+                              final remaining = _service
+                                  .remainingQtyForSelection(_currentSelection());
+                              final canIncrement =
+                                  remaining > 0 && _qty < remaining;
+                              return IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: canIncrement
+                                    ? () {
+                                        setState(() => _qty++);
+                                      }
+                                    : null,
+                              );
+                            }),
+                          ],
+                        ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: isCompact ? 0 : 4,
+                          top: isCompact ? 4 : 0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Total: £${_totalPrice.toStringAsFixed(2)}',
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                            const Text(
+                              'Price updates as you change options.',
+                              style:
+                                  TextStyle(color: Colors.black54, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: _addToCart,
+                          child: const Text('ADD TO CART')),
                     ],
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                      onPressed: _addToCart, child: const Text('ADD TO CART')),
-                ],
+                  );
+                },
               ),
             ],
           ),
