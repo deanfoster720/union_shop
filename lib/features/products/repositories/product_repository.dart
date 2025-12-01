@@ -17,7 +17,8 @@ class ProductRepository {
         description:
             'Limited edition zip-up hoodie with embroidered Union logo. Midweight fleece for warmth and durability.',
         imageUrl: 'Assets/limited_edition_hoodie.png',
-        categories: ['Popular', 'Clothing']),
+        categories: ['Popular', 'Clothing'],
+        collectionIds: ['autumn-favourites']),
     Product(
         id: '2',
         name: 'Essential T-shirt',
@@ -26,7 +27,8 @@ class ProductRepository {
         description:
             'Soft 100% cotton essential tee with a subtle Union print. Breathable and easy to wear every day.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Popular', 'Clothing']),
+        categories: ['Popular', 'Clothing'],
+        collectionIds: ['autumn-favourites']),
     Product(
         id: '3',
         name: 'Signature Hoodie',
@@ -34,7 +36,8 @@ class ProductRepository {
         description:
             'Classic pullover hoodie with a soft brushed interior and bold Signature logo.',
         imageUrl: 'Assets/signature_hoodie.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['autumn-favourites']),
     Product(
         id: '4',
         name: 'Signature T-shirt',
@@ -42,7 +45,8 @@ class ProductRepository {
         description:
             'Premium cotton tee featuring the Signature design — comfortable and hard-wearing.',
         imageUrl: 'Assets/signature_tshirt.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['autumn-favourites']),
     Product(
         id: '5',
         name: 'Portsmouth City Postcard',
@@ -50,7 +54,8 @@ class ProductRepository {
         description:
             'High-quality postcard featuring a scenic shot of Portsmouth — perfect as a keepsake or gift.',
         imageUrl: 'Assets/portsmouth_postcard.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['black-friday-clothing']),
     Product(
         id: '6',
         name: 'Portsmouth City Magnet',
@@ -58,7 +63,8 @@ class ProductRepository {
         description:
             'Small enamel magnet with Portsmouth landmark artwork — ideal for fridges and lockers.',
         imageUrl: 'Assets/portsmouth_magnet.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['black-friday-clothing']),
     Product(
         id: '7',
         name: 'Portsmouth City Bookmark',
@@ -66,7 +72,8 @@ class ProductRepository {
         description:
             'Durable cardstock bookmark featuring Portsmouth illustrations.',
         imageUrl: 'Assets/portsmouth_bookmark.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['black-friday-clothing']),
     Product(
         id: '8',
         name: 'Portsmouth City Notebook',
@@ -74,7 +81,8 @@ class ProductRepository {
         description:
             'A5 notebook with lined pages and a Portsmouth cover design — great for notes and sketches.',
         imageUrl: 'Assets/portsmouth_city_notebook.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['black-friday-clothing']),
     Product(
         id: '9',
         name: 'Union Cap',
@@ -82,7 +90,8 @@ class ProductRepository {
         description:
             'Structured cap with embroidered Union logo — adjustable fit.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['clothing-original']),
     Product(
         id: '10',
         name: 'Union Beanie',
@@ -90,7 +99,8 @@ class ProductRepository {
         description:
             'Knitted beanie with a folded cuff and Union patch — warm and soft.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['clothing-original']),
     Product(
         id: '11',
         name: 'Union Socks (Pair)',
@@ -98,14 +108,16 @@ class ProductRepository {
         description:
             'Comfortable cotton blend socks with subtle Union branding.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['clothing-original']),
     Product(
         id: '12',
         name: 'Campus Mug',
         price: 7.50,
         description: 'Ceramic mug with Union crest — dishwasher safe.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['clothing-original']),
     Product(
         id: '13',
         name: 'Union Tote Bag',
@@ -113,7 +125,8 @@ class ProductRepository {
         description:
             'Reusable cotton tote bag with large Union print — perfect for shopping.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['elections-discounts']),
     Product(
         id: '14',
         name: 'Limited Edition Poster',
@@ -121,14 +134,16 @@ class ProductRepository {
         description:
             'A2 limited edition poster — high-quality print, numbered run.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['elections-discounts']),
     Product(
         id: '15',
         name: 'Graduation Scarf',
         price: 19.99,
         description: 'Commemorative scarf with graduation year embroidery.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Clothing']),
+        categories: ['Clothing'],
+        collectionIds: ['elections-discounts']),
     Product(
         id: '16',
         name: 'Pride Badge Pack',
@@ -136,14 +151,16 @@ class ProductRepository {
         description:
             'Set of 5 enamel badges celebrating Pride — limited stock.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['elections-discounts']),
     Product(
         id: '17',
         name: 'Halloween Mask',
         price: 6.49,
         description: 'Reusable face mask with Halloween-themed print.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['essential-range']),
     Product(
         id: '18',
         name: 'Study Desk Lamp',
@@ -151,7 +168,8 @@ class ProductRepository {
         description:
             'Compact LED desk lamp with adjustable brightness and USB power.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['essential-range']),
     Product(
         id: '19',
         name: 'Campus Hoodie (Unisex)',
@@ -159,13 +177,15 @@ class ProductRepository {
         discountedPrice: 29.99,
         description: 'Unisex campus hoodie with screen-printed Union artwork.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Popular', 'Clothing']),
+        categories: ['Popular', 'Clothing'],
+        collectionIds: ['essential-range']),
     Product(
         id: '20',
         name: 'Water Bottle',
         price: 10.99,
         description: 'Insulated stainless steel water bottle with Union logo.',
         imageUrl: 'Assets/essential_tshirt.png',
-        categories: ['Merchandise']),
+        categories: ['Merchandise'],
+        collectionIds: ['essential-range']),
   ];
 }
