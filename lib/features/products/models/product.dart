@@ -5,6 +5,7 @@ class Product {
   final double? discountedPrice;
   final String description;
   final String? imageUrl;
+  final String category;
 
   const Product({
     required this.id,
@@ -13,6 +14,7 @@ class Product {
     this.discountedPrice,
     required this.description,
     this.imageUrl,
+    required this.category,
   });
 
   String get displayPrice {

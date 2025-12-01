@@ -222,6 +222,7 @@ class PersonalisationService {
       name: 'Personalisation - ${selection.option.label}',
       price: optionPrice(selection.option, includeUpload: selection.includeUpload),
       description: productDescription(selection),
+      category: 'Personalisation',
     );
 
     final allowed = remainingQtyForSelection(selection);

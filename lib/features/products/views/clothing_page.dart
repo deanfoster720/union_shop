@@ -41,7 +41,7 @@ class _ClothingPageState extends State<ClothingPage> {
     const filterOptions = [
       DropdownMenuItem(value: 'All', child: Text('All')),
       DropdownMenuItem(value: 'Clothing', child: Text('Clothing')),
-      DropdownMenuItem(value: 'Merchandise', child: Text('Merch')),
+      DropdownMenuItem(value: 'Merchandise', child: Text('Merchandise')),
       DropdownMenuItem(value: 'Popular', child: Text('Popular')),
     ];
 
