@@ -31,7 +31,8 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
   List<TextEditingController> get _activeLineControllers =>
       _lineControllers.take(_selectedOption.textLines).toList();
 
-  PersonalisationSelection _currentSelection({int? qty}) => PersonalisationSelection(
+  PersonalisationSelection _currentSelection({int? qty}) =>
+      PersonalisationSelection(
         option: _selectedOption,
         includeUpload: _includeUpload,
         lines: _currentLines(),
@@ -160,7 +161,7 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                   SizedBox(
                     width: 240,
                     child: DropdownButtonFormField<String>(
-                      value: _selectedOption.id,
+                      initialValue: _selectedOption.id,
                       items: PersonalisationService.options
                           .map((option) => DropdownMenuItem(
                                 value: option.id,
@@ -247,7 +248,8 @@ class _PersonalisationPageState extends State<PersonalisationPage> {
                         Builder(builder: (context) {
                           final remaining = _service
                               .remainingQtyForSelection(_currentSelection());
-                          final canIncrement = remaining > 0 && _qty < remaining;
+                          final canIncrement =
+                              remaining > 0 && _qty < remaining;
                           return IconButton(
                             icon: const Icon(Icons.add),
                             onPressed: canIncrement
