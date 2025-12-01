@@ -144,16 +144,26 @@ class HomeScreen extends StatelessWidget {
 
                 final products = snapshot.data ?? [];
 
-                return GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount:
-                      MediaQuery.of(context).size.width > 600 ? 2 : 1,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 48,
-                  children: products
-                      .map((Product product) => ProductCard(product: product))
-                      .toList(),
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final bool isWide = constraints.maxWidth > 600;
+                    final double childAspectRatio = isWide ? 1.3 : 1.0;
+                    final int crossAxisCount = isWide ? 2 : 1;
+
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 24,
+                        mainAxisSpacing: 48,
+                        childAspectRatio: childAspectRatio,
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) =>
+                          ProductCard(product: products[index]),
+                    );
+                  },
                 );
               },
             ),
