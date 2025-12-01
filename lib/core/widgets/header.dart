@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/features/about/views/about_page.dart';
 import 'package:union_shop/features/about/views/about_print_shack_page.dart';
 import 'package:union_shop/features/cart/views/cart_page.dart';
-import 'package:union_shop/features/products/views/clothing_page.dart';
+import 'package:union_shop/features/products/views/shop_page.dart';
 import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
 
 class Header extends StatefulWidget {
@@ -26,18 +26,7 @@ class _HeaderState extends State<Header> {
 
   List<_NavItem> get _navItems => [
         _NavItem(label: 'Home', onTap: _navigateToHome),
-        _NavItem.withChildren(label: 'Shop', children: [
-          _NavItem(
-            label: 'Clothing',
-            onTap: () => _navigateToPage(ClothingPage()),
-          ),
-          _NavItem(label: 'Merchandise', onTap: _closeMenus),
-          _NavItem(label: 'Halloween', onTap: _closeMenus),
-          _NavItem(label: 'Signature & Essential Range', onTap: _closeMenus),
-          _NavItem(label: 'Portsmouth City Collection', onTap: _closeMenus),
-          _NavItem(label: 'Pride Collection', onTap: _closeMenus),
-          _NavItem(label: 'Graduation', onTap: _closeMenus),
-        ]),
+        _NavItem(label: 'Shop', onTap: () => _navigateToPage(ShopPage())),
         _NavItem.withChildren(label: 'The Print Shack', children: [
           _NavItem(
             label: 'About',
