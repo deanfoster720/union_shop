@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/features/products/repositories/product_repository.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/services/products_service.dart';
 
 import 'shop_skeleton.dart';
 
@@ -11,43 +12,25 @@ class SalesScreen extends StatefulWidget {
 }
 
 class _SalesScreenState extends State<SalesScreen> {
-  // ShopSkeleton will manage selected filter/sort values; this function
-  // applies the selected values to the provided items and returns the list
-  // to display.
-  List<dynamic> _applyFilterSort(
-      Iterable<dynamic> items, String filter, String sort) {
-    var list =
-        items.cast<dynamic>().where((p) => p.discountedPrice != null).toList();
-
-    // Apply filter
-    if (filter == 'Under £5') {
-      list = list.where((p) => p.discountedPrice! < 5.0).toList();
-    } else if (filter == '£5 - £20') {
-      list = list
-          .where((p) => p.discountedPrice! >= 5.0 && p.discountedPrice! <= 20.0)
-          .toList();
-    } else if (filter == 'Over £20') {
-      list = list.where((p) => p.discountedPrice! > 20.0).toList();
-    }
-
-    // Apply sort
-    if (sort == 'Price: Low → High') {
-      list.sort((a, b) => a.discountedPrice!.compareTo(b.discountedPrice!));
-    } else if (sort == 'Price: High → Low') {
-      list.sort((a, b) => b.discountedPrice!.compareTo(a.discountedPrice!));
-    } else if (sort == 'Name: A → Z') {
-      list.sort((a, b) => a.name.compareTo(b.name));
-    } else if (sort == 'Name: Z → A') {
-      list.sort((a, b) => b.name.compareTo(a.name));
-    }
-
-    return list;
-  }
+  final ProductsService _productsService = ProductsService();
+  late Future<List<Product>> _discountedProducts;
 
   @override
-  Widget build(BuildContext context) {
-    final all = ProductRepository.instance.fetchAll();
+  void initState() {
+    super.initState();
+    _discountedProducts = _productsService.loadDiscountedProducts();
+  }
 
+  List<Product> _applyFilterSort(
+      Iterable<Product> items, String filter, String sort) {
+    return _productsService.filterDiscountedProducts(
+      items,
+      filter: filter,
+      sort: sort,
+    );
+  }
+
+  Widget _buildShop(List<Product> products) {
     const filterOptions = [
       DropdownMenuItem(value: 'All', child: Text('All')),
       DropdownMenuItem(value: 'Under £5', child: Text('Under £5')),
@@ -75,12 +58,31 @@ class _SalesScreenState extends State<SalesScreen> {
           Text("All prices shown are inclusive of the discount"),
         ],
       ),
-      items: all,
+      items: products,
       enableFilterSort: true,
       filterOptions: filterOptions,
       sortOptions: sortOptions,
       applyFilterSort: (items, filter, sort) =>
-          _applyFilterSort(items, filter, sort),
+          _applyFilterSort(items.cast<Product>(), filter, sort),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Product>>(
+      future: _discountedProducts,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return const Center(child: Text('Failed to load sale items'));
+        }
+
+        final products = snapshot.data ?? <Product>[];
+        return _buildShop(products);
+      },
     );
   }
 }
