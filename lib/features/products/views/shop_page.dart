@@ -47,8 +47,10 @@ class _ShopPageState extends State<ShopPage> {
 
     const sortOptions = [
       DropdownMenuItem(value: 'None', child: Text('None')),
-      DropdownMenuItem(value: 'Price: Low to High', child: Text('Low → High')),
-      DropdownMenuItem(value: 'Price: High to Low', child: Text('High → Low')),
+      DropdownMenuItem(
+          value: 'Price: Low to High', child: Text('Price: Low → High')),
+      DropdownMenuItem(
+          value: 'Price: High to Low', child: Text('Price: High → Low')),
     ];
 
     return FutureBuilder<List<Product>>(
