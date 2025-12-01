@@ -17,17 +17,48 @@ class PrintShackPage extends StatelessWidget {
         onLogoTap: navigateToHome,
         onPlaceholderPressed: () {},
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'The Union Print Shack',
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+
+              // Temporary image
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80&auto=format&fit=crop',
+                    height: 180,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (ctx, err, st) => Container(
+                      height: 180,
+                      color: Colors.grey[300],
+                      child: const Center(child: Icon(Icons.image)),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              const Text(
+                'Make It Yours at The Union Print Shack',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Want to add a personal touch? We’ve got you covered with heat-pressed customisation on all our clothing. '
+                'Swing by the shop - our team’s always happy to help you pick the right gear and answer any questions.',
+                style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+              ),
             ],
           ),
         ),
