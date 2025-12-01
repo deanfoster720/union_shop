@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/features/products/repositories/product_repository.dart';
+import 'package:union_shop/features/collections/services/collection_service.dart';
 import 'package:union_shop/features/products/widgets/product_card.dart';
 import 'package:union_shop/core/widgets/base_scaffold.dart';
 import 'package:union_shop/core/widgets/footer.dart';
 import 'package:union_shop/core/widgets/header.dart';
+import 'package:union_shop/features/products/models/product.dart';
+import 'package:union_shop/features/products/repositories/product_repository.dart';
 
 class CollectionDetailPage extends StatelessWidget {
   final String collectionName;
+  final CollectionService collectionService;
 
-  const CollectionDetailPage({super.key, required this.collectionName});
+  CollectionDetailPage({
+    super.key,
+    required this.collectionName,
+    CollectionService? collectionService,
+  }) : collectionService =
+            collectionService ?? CollectionService(productRepository: ProductRepository.instance);
 
   void navigateToHome(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
@@ -16,10 +24,7 @@ class CollectionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // For this basic implementation we'll simply show all products
-    // and treat this page as the detail view for the selected collection.
-    // In a fuller implementation you might filter by collection membership.
-    final products = ProductRepository.instance.fetchAll();
+    final productsFuture = collectionService.loadProductsForCollection(collectionName);
 
     return BaseScaffold(
       header: Header(
@@ -86,13 +91,33 @@ class CollectionDetailPage extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            // Product grid
             Expanded(
-              child: GridView.count(
-                crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: products.map((p) => ProductCard(product: p)).toList(),
+              child: FutureBuilder<List<Product>>(
+                future: productsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return const Center(child: Text('Failed to load products.'));
+                  }
+
+                  final products = snapshot.data ?? [];
+
+                  if (products.isEmpty) {
+                    return const Center(
+                      child: Text('No products are available for this collection.'),
+                    );
+                  }
+
+                  return GridView.count(
+                    crossAxisCount: MediaQuery.of(context).size.width > 800 ? 3 : 1,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    children: products.map((p) => ProductCard(product: p)).toList(),
+                  );
+                },
               ),
             ),
           ],
