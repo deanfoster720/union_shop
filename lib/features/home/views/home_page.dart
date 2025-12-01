@@ -123,14 +123,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const Text(
-              'PRODUCTS SECTION',
+              'PRODUCTS',
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.black,
                 letterSpacing: 1,
               ),
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 12),
             FutureBuilder<List<Product>>(
               future: _homeService.fetchFeaturedProducts(),
               builder: (context, snapshot) {
@@ -142,29 +142,31 @@ class HomeScreen extends StatelessWidget {
                   return const Text('Failed to load products');
                 }
 
-                final products = snapshot.data ?? [];
+                final products = (snapshot.data ?? []).take(6).toList();
 
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    final bool isWide = constraints.maxWidth > 600;
-                    final double childAspectRatio = isWide ? 1.3 : 1.0;
-                    final int crossAxisCount = isWide ? 2 : 1;
+                return LayoutBuilder(builder: (context, constraints) {
+                  int calculateCrossAxisCount(double maxWidth) {
+                    if (maxWidth < 600) return 1;
+                    if (maxWidth < 900) return 2;
+                    return 3;
+                  }
 
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 24,
-                        mainAxisSpacing: 48,
-                        childAspectRatio: childAspectRatio,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) =>
-                          ProductCard(product: products[index]),
-                    );
-                  },
-                );
+                  final crossAxisCount =
+                      calculateCrossAxisCount(constraints.maxWidth);
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 48,
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) =>
+                        ProductCard(product: products[index]),
+                  );
+                });
               },
             ),
           ],
