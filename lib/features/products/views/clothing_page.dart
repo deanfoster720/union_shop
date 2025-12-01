@@ -5,7 +5,7 @@ import 'package:union_shop/features/products/services/products_service.dart';
 import 'shop_skeleton.dart';
 
 class ClothingPage extends StatefulWidget {
-  const ClothingPage({Key? key, ProductsService? productsService})
+  ClothingPage({Key? key, ProductsService? productsService})
       : _productsService = productsService ?? ProductsService(),
         super(key: key);
 
