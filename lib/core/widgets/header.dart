@@ -29,14 +29,12 @@ class _HeaderState extends State<Header> {
         _NavItem.withChildren(label: 'Shop', children: [
           _NavItem(
             label: 'Clothing',
-            onTap: () => _navigateToPage(const ClothingPage()),
+            onTap: () => _navigateToPage(ClothingPage()),
           ),
           _NavItem(label: 'Merchandise', onTap: _closeMenus),
           _NavItem(label: 'Halloween', onTap: _closeMenus),
-          _NavItem(
-              label: 'Signature & Essential Range', onTap: _closeMenus),
-          _NavItem(
-              label: 'Portsmouth City Collection', onTap: _closeMenus),
+          _NavItem(label: 'Signature & Essential Range', onTap: _closeMenus),
+          _NavItem(label: 'Portsmouth City Collection', onTap: _closeMenus),
           _NavItem(label: 'Pride Collection', onTap: _closeMenus),
           _NavItem(label: 'Graduation', onTap: _closeMenus),
         ]),
@@ -173,8 +171,9 @@ class _HeaderState extends State<Header> {
             padding: const EdgeInsets.only(left: 12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children:
-                  item.children.map((child) => _buildMobileButton(child)).toList(),
+              children: item.children
+                  .map((child) => _buildMobileButton(child))
+                  .toList(),
             ),
           ),
       ],
