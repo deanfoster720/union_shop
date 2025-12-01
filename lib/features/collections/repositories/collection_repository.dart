@@ -23,26 +23,31 @@ const List<Collection> _collections = [
   Collection(
     id: 'autumn-favourites',
     name: 'Autumn Favourites',
-    productIds: ['1', '3', '8'],
+    // Products 1-4
+    productIds: ['1', '2', '3', '4'],
   ),
   Collection(
     id: 'black-friday-clothing',
     name: 'Black Friday Clothing',
-    productIds: ['1', '2', '3', '4'],
+    // Products 5-8
+    productIds: ['5', '6', '7', '8'],
   ),
   Collection(
     id: 'clothing-original',
     name: 'Clothing - Original',
-    productIds: ['3', '4'],
+    // Products 9-12
+    productIds: ['9', '10', '11', '12'],
   ),
   Collection(
     id: 'elections-discounts',
     name: 'Elections Discounts',
-    productIds: ['2', '5', '6'],
+    // Products 13-16
+    productIds: ['13', '14', '15', '16'],
   ),
   Collection(
     id: 'essential-range',
     name: 'Essential Range',
-    productIds: ['2', '5', '7', '8'],
+    // Products 17-20
+    productIds: ['17', '18', '19', '20'],
   ),
 ];
