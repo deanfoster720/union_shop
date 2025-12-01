@@ -27,7 +27,7 @@ class ProductsService {
   }) {
     final filtered = filter == 'All'
         ? List<Product>.from(products)
-        : products.where((p) => p.category == filter).toList();
+        : products.where((p) => p.categories.contains(filter)).toList();
 
     if (sort == 'Price: Low to High') {
       filtered.sort((a, b) => _priceOf(a).compareTo(_priceOf(b)));
@@ -43,17 +43,14 @@ class ProductsService {
     required String filter,
     required String sort,
   }) {
-    var list = products
-        .where((p) => p.discountedPrice != null)
-        .map((p) => p)
-        .toList();
+    var list =
+        products.where((p) => p.discountedPrice != null).map((p) => p).toList();
 
     if (filter == 'Under £5') {
       list = list.where((p) => p.discountedPrice! < 5.0).toList();
     } else if (filter == '£5 - £20') {
       list = list
-          .where((p) =>
-              p.discountedPrice! >= 5.0 && p.discountedPrice! <= 20.0)
+          .where((p) => p.discountedPrice! >= 5.0 && p.discountedPrice! <= 20.0)
           .toList();
     } else if (filter == 'Over £20') {
       list = list.where((p) => p.discountedPrice! > 20.0).toList();

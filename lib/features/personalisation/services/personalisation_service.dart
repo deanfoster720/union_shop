@@ -121,9 +121,8 @@ class PersonalisationService {
   }) {
     final extraLineCount = option.textLines > 1 ? option.textLines - 1 : 0;
     final lineCost = extraLineCount * option.extraLineCost;
-    final uploadCost = option.supportsUpload && includeUpload
-        ? option.uploadSurcharge
-        : 0;
+    final uploadCost =
+        option.supportsUpload && includeUpload ? option.uploadSurcharge : 0;
     return option.basePrice + lineCost + uploadCost;
   }
 
@@ -142,7 +141,8 @@ class PersonalisationService {
       parts.add('$count extra line(s) +£${total.toStringAsFixed(2)}');
     }
     if (option.supportsUpload && includeUpload) {
-      parts.add('Artwork upload +£${option.uploadSurcharge.toStringAsFixed(2)}');
+      parts
+          .add('Artwork upload +£${option.uploadSurcharge.toStringAsFixed(2)}');
     }
     return parts.join(' • ');
   }
@@ -220,16 +220,18 @@ class PersonalisationService {
     final product = Product(
       id: productId(selection),
       name: 'Personalisation - ${selection.option.label}',
-      price: optionPrice(selection.option, includeUpload: selection.includeUpload),
+      price:
+          optionPrice(selection.option, includeUpload: selection.includeUpload),
       description: productDescription(selection),
-      category: 'Personalisation',
+      categories: ['Personalisation'],
     );
 
     final allowed = remainingQtyForSelection(selection);
     if (allowed <= 0) {
       return const AddToCartResult(
         success: false,
-        message: 'You already have the maximum personalisation items in your cart.',
+        message:
+            'You already have the maximum personalisation items in your cart.',
         addedQty: 0,
       );
     }
