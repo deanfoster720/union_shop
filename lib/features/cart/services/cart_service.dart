@@ -20,6 +20,12 @@ class CartService extends ChangeNotifier {
 
   bool _loaded = false;
 
+  @visibleForTesting
+  void resetForTest() {
+    _items.clear();
+    _loaded = false;
+  }
+
   /// Trigger async load on creation
   void _ensureLoaded() {
     if (_loaded) return;
