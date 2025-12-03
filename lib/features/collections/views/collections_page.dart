@@ -48,8 +48,7 @@ class CollectionsScreen extends StatelessWidget {
                 final collections = snapshot.data ?? [];
 
                 if (collections.isEmpty) {
-                  return const Center(
-                      child: Text('No collections available.'));
+                  return const Center(child: Text('No collections available.'));
                 }
 
                 return GridView.count(
@@ -81,9 +80,9 @@ class CollectionsScreen extends StatelessWidget {
                                   ? Image.asset(
                                       c.imageUrl!,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Container(color: Colors.grey[200]),
+                                      errorBuilder: (context, error,
+                                              stackTrace) =>
+                                          Container(color: Colors.grey[200]),
                                     )
                                   : Container(color: Colors.grey[200]),
                             ),
