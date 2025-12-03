@@ -27,11 +27,19 @@ class CollectionsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Collections',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            const Text('Browse curated collections of items',
-                style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Collections',
+                      style:
+                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 8),
+                  Text('Browse curated collections of items',
+                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+                ],
+              ),
+            ),
             const SizedBox(height: 24),
             FutureBuilder<List<Collection>>(
               future: collectionsFuture,
