@@ -15,7 +15,8 @@ void main() {
             description: 'A product for testing.',
             categories: ['Test'],
           ),
-          quantity: 2,
+          qty: 2,
+          unitPrice: 10.0,
         ),
       ];
 
