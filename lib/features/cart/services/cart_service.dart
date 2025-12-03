@@ -105,6 +105,9 @@ class CartService extends ChangeNotifier {
     }
   }
 
+  /// Public save wrapper
+  Future<void> save() async => _saveToPrefs();
+
   Future<void> _loadFromPrefs() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -128,14 +131,59 @@ class CartService extends ChangeNotifier {
               ? item['qty'] as int
               : (int.tryParse(item['qty']?.toString() ?? '') ?? 1);
           if (pid == null || unit == null) continue;
-          final product = productMap[pid];
+
+          Product? product = productMap[pid];
+
+          // If product not in repository, try to reconstruct from snapshot
+          if (product == null && item.containsKey('product')) {
+            try {
+              final p = item['product'];
+              final discounted = p['discountedPrice'] is num
+                  ? (p['discountedPrice'] as num).toDouble()
+                  : null;
+              final categories = (p['categories'] as List?)
+                      ?.map((e) => e.toString())
+                      .toList() ??
+                  <String>[];
+              final collectionIds = (p['collectionIds'] as List?)
+                      ?.map((e) => e.toString())
+                      .toList() ??
+                  <String>[];
+
+              product = Product(
+                id: p['id']?.toString() ?? pid,
+                name: p['name']?.toString() ?? 'Unknown',
+                price:
+                    (p['price'] is num) ? (p['price'] as num).toDouble() : 0.0,
+                discountedPrice: discounted,
+                description: p['description']?.toString() ?? '',
+                imageUrl: p['imageUrl']?.toString(),
+                categories: categories,
+                collectionIds: collectionIds,
+              );
+            } catch (_) {
+              product = null;
+            }
+          }
+
           if (product == null) continue;
+
           _items[pid] = CartItem(product: product, unitPrice: unit, qty: qty);
         }
       }
       notifyListeners();
     } catch (e) {
       // ignore load errors
+    }
+  }
+
+  /// Debug helper: returns the raw saved JSON (or null) from shared prefs.
+  Future<String?> debugDumpSavedCart() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_prefsKey);
+    } catch (_) {
+      return null;
     }
   }
 }

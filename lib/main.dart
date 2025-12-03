@@ -15,8 +15,36 @@ Future<void> main() async {
   runApp(const UnionShopApp());
 }
 
-class UnionShopApp extends StatelessWidget {
+class UnionShopApp extends StatefulWidget {
   const UnionShopApp({super.key});
+
+  @override
+  State<UnionShopApp> createState() => _UnionShopAppState();
+}
+
+class _UnionShopAppState extends State<UnionShopApp>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    // Save cart on pause/detached to increase likelihood of persistence
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      CartService.instance.save();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

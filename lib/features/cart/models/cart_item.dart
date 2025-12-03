@@ -17,6 +17,16 @@ class CartItem {
         'productId': product.id,
         'unitPrice': unitPrice,
         'qty': qty,
+        'product': {
+          'id': product.id,
+          'name': product.name,
+          'price': product.price,
+          'discountedPrice': product.discountedPrice,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'categories': product.categories,
+          'collectionIds': product.collectionIds,
+        },
       };
 
   @override
