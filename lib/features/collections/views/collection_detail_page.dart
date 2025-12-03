@@ -78,7 +78,7 @@ class CollectionDetailPage extends StatelessWidget {
           ...categorySet.map((c) => DropdownMenuItem(value: c, child: Text(c)))
         ];
 
-        final sortOptions = const [
+        const sortOptions = [
           DropdownMenuItem(value: 'None', child: Text('None')),
           DropdownMenuItem(
               value: 'Price: Low to High', child: Text('Price: Low → High')),
