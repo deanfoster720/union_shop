@@ -310,7 +310,7 @@ class _GridProductCard extends StatelessWidget {
         children: [
           Expanded(
             child: product.imageUrl != null
-                ? Image.network(
+                ? Image.asset(
                     product.imageUrl!,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {

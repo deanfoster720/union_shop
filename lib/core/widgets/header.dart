@@ -239,8 +239,8 @@ class _HeaderState extends State<Header> {
                       children: [
                         GestureDetector(
                           onTap: widget.onLogoTap,
-                          child: Image.network(
-                            'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                          child: Image.asset(
+                            'Assets/upsu_logo.png',
                             height: 18,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
@@ -285,8 +285,8 @@ class _HeaderState extends State<Header> {
                     children: [
                       GestureDetector(
                         onTap: widget.onLogoTap,
-                        child: Image.network(
-                          'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                        child: Image.asset(
+                          'Assets/upsu_logo.png',
                           height: 18,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {

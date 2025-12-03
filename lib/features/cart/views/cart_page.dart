@@ -109,7 +109,7 @@ class _CartPageState extends State<CartPage> {
                           height: 80,
                           color: Colors.grey[200],
                           child: item.product.imageUrl != null
-                              ? Image.network(
+                              ? Image.asset(
                                   item.product.imageUrl!,
                                   fit: BoxFit.cover,
                                 )

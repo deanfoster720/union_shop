@@ -38,8 +38,8 @@ class PrintShackPage extends StatelessWidget {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=80&auto=format&fit=crop',
+                  child: Image.asset(
+                    'Assets/personalisation_images/personalised_image.png',
                     height: 180,
                     width: double.infinity,
                     fit: BoxFit.cover,
