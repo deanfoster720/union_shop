@@ -47,6 +47,9 @@ class ShopSkeleton extends StatefulWidget {
 class _ShopSkeletonState extends State<ShopSkeleton> {
   String _selectedFilter = 'All';
   String _selectedSort = 'Default';
+  // Pagination state: current page index (0-based)
+  int _currentPage = 0;
+  static const int _itemsPerPage = 6;
 
   int _calculateCrossAxisCount(double maxWidth) {
     if (maxWidth < 600) return 1;
@@ -178,22 +181,62 @@ class _ShopSkeletonState extends State<ShopSkeleton> {
               final display = _computeDisplayItems();
               final itemList = display.toList();
 
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 24,
-                  mainAxisSpacing: 48,
-                ),
-                itemCount: itemList.length,
-                itemBuilder: (context, index) {
-                  final item = itemList[index];
-                  if (item is Product) {
-                    return _GridProductCard(product: item);
-                  }
-                  return _TextCard(name: item?.toString() ?? '');
-                },
+              // Pagination: compute total pages and clamp current page
+              final int totalPages =
+                  (itemList.length / _itemsPerPage).ceil().clamp(1, 9999);
+              if (_currentPage >= totalPages) {
+                _currentPage = totalPages - 1;
+              }
+
+              final int startIndex = _currentPage * _itemsPerPage;
+              int endIndex = startIndex + _itemsPerPage;
+              if (endIndex > itemList.length) endIndex = itemList.length;
+              final pageItems = (startIndex < endIndex)
+                  ? itemList.sublist(startIndex, endIndex)
+                  : <dynamic>[];
+
+              return Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 48,
+                    ),
+                    itemCount: pageItems.length,
+                    itemBuilder: (context, index) {
+                      final item = pageItems[index];
+                      if (item is Product) {
+                        return _GridProductCard(product: item);
+                      }
+                      return _TextCard(name: item?.toString() ?? '');
+                    },
+                  ),
+                  // Pagination controls
+                  if (totalPages > 1) ...[
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.chevron_left),
+                          onPressed: _currentPage > 0
+                              ? () => setState(() => _currentPage -= 1)
+                              : null,
+                        ),
+                        Text('Page ${_currentPage + 1} of $totalPages'),
+                        IconButton(
+                          icon: const Icon(Icons.chevron_right),
+                          onPressed: _currentPage < totalPages - 1
+                              ? () => setState(() => _currentPage += 1)
+                              : null,
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               );
             }),
           ],
