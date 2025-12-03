@@ -81,4 +81,21 @@ void main() {
       'personalisation-two-lines:upload:Alice:Team Lead',
     );
   });
+
+  test('returns descriptive summary for trimmed lines', () {
+    final option = PersonalisationService.options
+        .firstWhere((element) => element.id == 'one-line');
+    final selection = PersonalisationSelection(
+      option: option,
+      includeUpload: false,
+      lines: const ['  Hello World  '],
+    );
+
+    final validation = service.validateSelection(selection);
+    expect(validation.isValid, isTrue);
+    expect(
+      service.productDescription(selection),
+      'Option: One Line of Text • Upload: no • Lines: Hello World',
+    );
+  });
 }
