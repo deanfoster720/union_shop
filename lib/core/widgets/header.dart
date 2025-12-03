@@ -239,8 +239,8 @@ class _HeaderState extends State<Header> {
                       children: [
                         GestureDetector(
                           onTap: widget.onLogoTap,
-                          child: Image.asset(
-                            'Assets/upsu_logo.png',
+                          child: Image.network(
+                            'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
                             height: 18,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
