@@ -7,8 +7,11 @@ import 'package:union_shop/features/products/views/sales_page.dart';
 import 'package:union_shop/features/products/views/shop_page.dart';
 import 'package:union_shop/features/about/views/about_print_shack_page.dart';
 import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
+import 'package:union_shop/features/cart/services/cart_service.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CartService.instance.initialize();
   runApp(const UnionShopApp());
 }
 
