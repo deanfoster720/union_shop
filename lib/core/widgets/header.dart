@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/features/about/views/about_page.dart';
 import 'package:union_shop/features/about/views/about_print_shack_page.dart';
 import 'package:union_shop/features/cart/views/cart_page.dart';
+import 'package:union_shop/features/collections/views/collections_page.dart'
+    as collections_page;
 import 'package:union_shop/features/products/views/shop_page.dart';
 import 'package:union_shop/features/personalisation/views/personalisation_page.dart';
 
@@ -27,6 +29,10 @@ class _HeaderState extends State<Header> {
   List<_NavItem> get _navItems => [
         _NavItem(label: 'Home', onTap: _navigateToHome),
         _NavItem(label: 'Shop', onTap: () => _navigateToPage(ShopPage())),
+        _NavItem(
+            label: 'Collections',
+            onTap: () =>
+                _navigateToPage(const collections_page.CollectionsScreen())),
         _NavItem.withChildren(label: 'The Print Shack', children: [
           _NavItem(
             label: 'About',
